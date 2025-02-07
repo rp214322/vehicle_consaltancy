@@ -22,13 +22,13 @@
             <lable>Name</lable>
             <input type="text" name="name" class="form-control" placeholder="Name" required value="{!! $vehical_model->name !!}">
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <lable>Status</lable>
             <select name="status" class="form-control">
               <option value="0">InActive</option>
               <option value="1">Active</option>
             </select>
-        </div>
+        </div> --}}
         </div>
     </div>
     <div class="modal-footer">

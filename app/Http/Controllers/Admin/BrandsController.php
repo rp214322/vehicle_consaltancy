@@ -117,12 +117,10 @@ class BrandsController extends Controller
             $rules = array(
                 'name' => 'required',
                 'category_id' => 'required',
-                'status' => 'required'
             );
             $messages = [
                 'name.required' => 'Please enter brand name.',
                 'category_id.required' => 'Please enter category id.',
-                'status' => 'Please enter status.',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
@@ -131,7 +129,6 @@ class BrandsController extends Controller
             try {
                 $brand->name = $request->get('name');
                 $brand->category_id = $request->get('category_id');
-                $brand->status = $request->get('status');
                 $brand->save();
                 return response()->json(['success', 'Brand updated successfully.'], 200);
             } catch (\Exception $e) {

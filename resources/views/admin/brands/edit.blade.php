@@ -22,13 +22,13 @@
           <lable>Name</lable>
           <input type="text" name="name" class="form-control" placeholder="Brand Name" value="{!! $brand->name !!}" required>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
           <lable>Status</lable>
           <select name="status" class="form-control">
             <option value="0" {!! !$brand->status ? 'selected' : '' !!}>InActive</option>
             <option value="1" {!! $brand->status ? 'selected' : '' !!}>Active</option>
           </select>
-        </div>
+        </div> --}}
       </div>
     </div>
     <div class="modal-footer">

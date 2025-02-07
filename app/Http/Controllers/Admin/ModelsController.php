@@ -19,18 +19,14 @@ class ModelsController extends Controller
     {
         if($request->ajax())
         {
-            $vehical_models = $vehical_models->orderBy('id','ASC');
+            $vehical_models = $vehical_models->with(['brand'])->orderBy('id','DESC');
             return DataTables::eloquent($vehical_models)
-                        ->editColumn('brand', function ($vehical_model) {
-                            return $vehical_model->brand->name;
-                        })
                         ->editColumn('name', function ($vehical_model) {
                             return $vehical_model->name;
                         })
-                        ->editColumn('status', function ($vehical_model) {
-                            return $vehical_model->status ? "Active" : "InActive";
+                        ->editColumn('brand', function ($vehical_model) {
+                            return $vehical_model->brand->name;
                         })
-
                        ->addColumn('action', function (VehicalModel $vehical_model) {
 
                             $editBtn = '<div class="dropdown"><a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -69,13 +65,11 @@ class ModelsController extends Controller
         $rules = array(
             'brand_id' => 'required',
             'name' => 'required',
-            'status' => 'required'
 
             );
         $messages = [
-            'brand_id.required' => 'Please enter brand id.',
+            'brand_id.required' => 'Please select brand.',
             'name.required' => 'Please enter vehical_model name.',
-            'status.required' => 'Please enter status.'
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails())
@@ -86,7 +80,6 @@ class ModelsController extends Controller
                 $vehical_model=New VehicalModel();
                 $vehical_model->brand_id=$request->get('brand_id');
                 $vehical_model->name=$request->get('name');
-                $vehical_model->status=$request->get('status');
                 $vehical_model->save();
                 return response()->json(['success','Vehical_model created successfully.'], 200);
             }
@@ -132,12 +125,10 @@ class ModelsController extends Controller
         $rules = array(
             'brand_id' => 'required',
             'name' => 'required',
-            'status' => 'required'
             );
             $messages = [
                 'brand_id.required' => 'Please enter brand id.',
                 'name.required' => 'Please enter vehical_model name.',
-                'status.required' => 'Please enter status.'
             ];
                 $validator = Validator::make($request->all(), $rules, $messages);
                 if ($validator->fails())
@@ -148,7 +139,6 @@ class ModelsController extends Controller
                     $vehical_model = VehicalModel::find($id);
                     $vehical_model->brand_id=$request->get('brand_id');
                     $vehical_model->name=$request->get('name');
-                    $vehical_model->status=$request->get('status');
                   $vehical_model->save();
                     return response()->json(['success','Vehical_model created successfully.'], 200);
                 }
