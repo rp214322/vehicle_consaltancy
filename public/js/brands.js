@@ -4,13 +4,14 @@ var brandsTable = $("#BrandsTable").DataTable({
     serverSide: true,
     pageLength: 10, // Default page length
     lengthMenu: [5, 10, 25, 50, 100, 500], // Pagination options
+    scrollY: "60vh", // Set max height to 60% of viewport height
+    scrollCollapse: true, // Allow table height to shrink when less data is shown
     ajax: list,
 
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
-        { data: "category", name: "category", orderable: true },
         { data: "name", name: "name", orderable: true },
-        { data: "status", name: "status", orderable: true },
+        { data: "category", name: "category.name", orderable: true },
         { data: "action", name: "action", orderable: false, width: "10%" },
     ],
     language: {

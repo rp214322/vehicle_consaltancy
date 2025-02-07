@@ -18,31 +18,25 @@ class BrandsController extends Controller
      */
     public function index(Request $request, Brand $brands)
     {
-        if($request->ajax())
-        {
-            $brands = $brands->orderBy('id','ASC');
+        if ($request->ajax()) {
+            $brands = $brands->with(['category'])->orderBy('id', 'ASC');
             return DataTables::eloquent($brands)
-                        ->editColumn('category', function ($brand) {
-                            return $brand->category->name;
-                        })
-                        ->editColumn('name', function ($brand) {
-                            return $brand->name;
-                        })
-                        ->editColumn('status', function ($brand) {
-                            return $brand->status ? "Active" : "InActive";
-                        })
-                        ->addColumn('action', function (brand $brand) {
+                ->editColumn('name', function ($brand) {
+                    return $brand->name;
+                })
+                ->editColumn('category', function ($brand) {
+                    return $brand->category->name;
+                })
+                ->addColumn('action', function (brand $brand) {
 
-                            $editBtn = '<div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                    $editBtn = '<div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                         <i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">';
-                            $editBtn .= '<a href="javascript:;" class="dropdown-item fill_data" data-url="'.route('admin.brands.edit',$brand->id).'" data-method="get"><i class="dw dw-edit2"></i> Edit</a>';
-                            $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="'.route('admin.brands.destroy',$brand->id).'" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
-                            return $editBtn;
-
-                        })
-                        ->toJson();
-        }
-        else {
+                    $editBtn .= '<a href="javascript:;" class="dropdown-item fill_data" data-url="' . route('admin.brands.edit', $brand->id) . '" data-method="get"><i class="dw dw-edit2"></i> Edit</a>';
+                    $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.brands.destroy', $brand->id) . '" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
+                    return $editBtn;
+                })
+                ->toJson();
+        } else {
             return view()->make('admin.brands.index');
         }
     }
@@ -54,7 +48,7 @@ class BrandsController extends Controller
      */
     public function create(Request $request)
     {
-        return view()->make('admin.brands.add',compact('request'));
+        return view()->make('admin.brands.add', compact('request'));
     }
 
     /**
@@ -65,35 +59,28 @@ class BrandsController extends Controller
      */
     public function store(Request $request)
     {
-    $rules = array(
-        'name' => 'required',
-        'category_id' => 'required',
-        'status' => 'required'
+        $rules = array(
+            'name' => 'required',
+            'category_id' => 'required',
         );
-    $messages = [
-        'name.required' => 'Please enter brand name.',
-        'category_id.required' => 'Please enter category id.',
-        'status' => 'Please enter status.',
+        $messages = [
+            'name.required' => 'Please enter brand name.',
+            'category_id.required' => 'Please enter category',
         ];
-    $validator = Validator::make($request->all(), $rules, $messages);
-    if ($validator->fails()) {
-        return response()->json($validator->getMessageBag()->toArray(), 422);
-    }
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json($validator->getMessageBag()->toArray(), 422);
+        }
 
-    try
-    {
-        $brand = new Brand;
-        $brand->category_id=$request->get('category_id');
-        $brand->name=$request->get('name');
-        $brand->status=$request->get('status');
-        $brand->save();
-        return response()->json(['success','Brand updated successfully.'], 200);
-    }
-    catch(\Exception $e)
-    {
-        return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
-    }
-
+        try {
+            $brand = new Brand;
+            $brand->category_id = $request->get('category_id');
+            $brand->name = $request->get('name');
+            $brand->save();
+            return response()->json(['success', 'Brand updated successfully.'], 200);
+        } catch (\Exception $e) {
+            return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
+        }
     }
 
     /**
@@ -104,8 +91,7 @@ class BrandsController extends Controller
      */
     public function show(Brand $brand)
     {
-        return view()->make('admin.brands.show',compact('brand'));
-
+        return view()->make('admin.brands.show', compact('brand'));
     }
 
     /**
@@ -116,7 +102,7 @@ class BrandsController extends Controller
      */
     public function edit(Brand $brand)
     {
-        return view()->make('admin.brands.edit',compact('brand'));
+        return view()->make('admin.brands.edit', compact('brand'));
     }
 
     /**
@@ -127,33 +113,28 @@ class BrandsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Brand $brand)
-    {
-        {
+    { {
             $rules = array(
                 'name' => 'required',
                 'category_id' => 'required',
                 'status' => 'required'
-                );
+            );
             $messages = [
                 'name.required' => 'Please enter brand name.',
                 'category_id.required' => 'Please enter category id.',
                 'status' => 'Please enter status.',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
-            if ($validator->fails())
-            {
+            if ($validator->fails()) {
                 return response()->json($validator->getMessageBag()->toArray(), 422);
             }
-            try
-            {
-                $brand->name=$request->get('name');
-                $brand->category_id=$request->get('category_id');
-                $brand->status=$request->get('status');
+            try {
+                $brand->name = $request->get('name');
+                $brand->category_id = $request->get('category_id');
+                $brand->status = $request->get('status');
                 $brand->save();
-                return response()->json(['success','Brand updated successfully.'], 200);
-            }
-            catch(\Exception $e)
-            {
+                return response()->json(['success', 'Brand updated successfully.'], 200);
+            } catch (\Exception $e) {
                 return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
             }
         }
@@ -167,15 +148,11 @@ class BrandsController extends Controller
      */
     public function destroy(Brand $brand)
     {
-        try
-        {
+        try {
             $brand->delete();
-            return response()->json(['success','Brand deleted successfully'], 200);
-        }
-        catch(\Exception $e)
-        {
+            return response()->json(['success', 'Brand deleted successfully'], 200);
+        } catch (\Exception $e) {
             return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
         }
     }
 }
-

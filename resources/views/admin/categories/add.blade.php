@@ -10,7 +10,7 @@
   <div class="modal_form">
     <div class="form-group">
       <lable>Category</lable>
-      <input type="text" name="name" class="form-control" placeholder="Category" required>
+      <input type="text" name="name" class="form-control">
     </div>
   </div>
 </div>

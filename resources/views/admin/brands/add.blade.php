@@ -19,14 +19,7 @@
         </div>
         <div class="form-group">
           <lable>Name</lable>
-          <input type="text" name="name" class="form-control" placeholder="Brand Name" required>
-        </div>
-        <div class="form-group">
-          <lable>Status</lable>
-          <select name="status" class="form-control">
-            <option value="0">InActive</option>
-            <option value="1">Active</option>
-          </select>
+          <input type="text" name="name" class="form-control">
         </div>
     </div>
       </div>

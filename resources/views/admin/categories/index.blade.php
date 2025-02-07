@@ -19,7 +19,7 @@
                         <table class="data-table table stripe hover nowrap" id="CategoriesTable">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>ID</th>
                                     <th>Category</th>
                                     <th>Action</th>
                                 </tr>

@@ -20,7 +20,7 @@
                         <table class="data-table table stripe hover nowrap" id="UserTable">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th>ID</th>
                                     <th>Name</th>
                                     <th>Contact</th>
                                     <th>Email</th>

@@ -20,11 +20,10 @@
                         <table class="data-table table stripe hover nowrap" id="BrandsTable">
                             <thead>
                                 <tr>
-                                    <th class="table-plus datatable-nosort">No</th>
-                                    <th>Category</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th class="datatable-nosort">Action</th>
+                                    <th>ID</th>
+                                    <th>Brand Name</th>
+                                    <th>Category Name</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
