@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Hash;
-use Auth;
-use Cookie;
-use Former;
-use Validator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -20,6 +20,7 @@ class AuthController extends Controller
         } elseif (Cookie::get('auth_remember')) {
             $user_id = Crypter::decrypt(Cookie::get('auth_remember'));
             Auth::login($user_id);
+            Log::info('Admin login via remember cookie', ['admin_id' => $user_id]);
             return redirect()->route('admin.dashboard')->with('success', 'You have logged in successfully.');
         }
         return view('admin.auth.login');
@@ -30,23 +31,31 @@ class AuthController extends Controller
         $field = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'email';
         $value = $request->get('email');
         $credentials = array($field => $value, 'password' => $request->get('password'), 'role' => 'admin');
+
         if (Auth::attempt($credentials)) {
+            Log::info('Admin login successful', ['admin_id' => Auth::id(), 'email' => $value]);
             return redirect()->route('admin.dashboard')->with('success', 'You have logged in successfully.');
         } else {
+            Log::warning('Admin login failed', ['email' => $value]);
             return redirect()->back()->with('error', "Invalid email or password.")->withInput($request->except('password'));
         }
     }
 
     public function getLogout()
     {
+        $admin_id = Auth::id();
+        Log::info('Admin logout', ['admin_id' => $admin_id]);
+
         Auth::logout();
         return redirect()->route('admin.login');
     }
+
     public function getProfile()
     {
-        $user = Auth::user(); // Get the authenticated user
+        $user = Auth::user();
         return view('admin.auth.profile', compact('user'));
     }
+
     public function postProfile(Request $request)
     {
         $rules = [
@@ -56,46 +65,57 @@ class AuthController extends Controller
         $messages = [
             'name.required' => 'Please enter name',
             'email.required' => 'Please enter email',
-            'email.email' => 'Please enter valid email'
+            'email.email' => 'Please enter a valid email'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
-            Former::withErrors($validator);
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Please correct following errors');
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Please correct the following errors');
         }
+
         $user = Auth::user();
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->save();
+
+        Log::info('Admin profile updated', ['admin_id' => $user->id, 'email' => $user->email]);
+
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
+
     public function getPassword()
     {
         return view('admin.auth.forgot-password');
     }
+
     public function postPassword(Request $request)
     {
-        $rules = array(
-            'old_password'  => array('required'),
-            'password'  => array('required', 'min:6', 'max:20', 'confirmed', 'different:old_password'),
-            'password_confirmation' => array('required', 'alpha_num')
-        );
+        $rules = [
+            'old_password'  => ['required'],
+            'password'  => ['required', 'min:6', 'max:20', 'confirmed', 'different:old_password'],
+            'password_confirmation' => ['required', 'alpha_num']
+        ];
         $validation = Validator::make($request->all(), $rules);
 
         if ($validation->fails()) {
-            return redirect()->back()->withErrors($validation)->with('error', 'Please correct following errors');
+            return redirect()->back()->withErrors($validation)->with('error', 'Please correct the following errors');
+        }
+
+        $current_password = Auth::user()->password;
+        $old_password = $request->get('old_password');
+
+        if (Hash::check($old_password, $current_password)) {
+            $new_pass = Hash::make($request->get('password'));
+            $user = User::find(Auth::user()->id);
+            $user->password = $new_pass;
+            $user->save();
+
+            Log::info('Admin password changed', ['admin_id' => $user->id]);
+
+            return redirect()->back()->with('success', 'Your password was successfully changed');
         } else {
-            $current_password = Auth::user()->password;
-            $old_password = $request->get('old_password');
-            if (Hash::check($old_password, $current_password)) {
-                $new_pass = Hash::make($request->get('password'));
-                $user = User::find(Auth::user()->id);
-                $user->password = $new_pass;
-                $user->save();
-                return redirect()->back()->with('success', 'Your password successfully changed');
-            } else {
-                return redirect()->back()->with('error', 'Please enter correct old password');
-            }
+            Log::warning('Admin password change failed - Incorrect old password', ['admin_id' => Auth::id()]);
+
+            return redirect()->back()->with('error', 'Please enter the correct old password');
         }
     }
 }
