@@ -17,28 +17,47 @@ class FeedbacksController extends Controller
      */
     public function index(Request $request, Feedback $feedback)
     {
-        if($request->ajax())
-        {
-            $feedback = $feedback->orderBy('id','ASC');
+        if ($request->ajax()) {
+            $feedback = $feedback->with(['user'])->orderBy('id', 'DESC');
             return Datatables::eloquent($feedback)
-                        ->editColumn('user', function($inquiry){
-                            return $inquiry->user->first_name;
-                        })
-                        ->editColumn('rating', function ($feedback) {
-                            return $feedback->rating;
-                        })
-                        ->addColumn('action', function (Feedback $feedback) {
+                ->filterColumn('status', function ($query, $keyword) {
+                    if (strtolower($keyword) === 'active') {
+                        $query->where('status', 1);
+                    } elseif (strtolower($keyword) === 'inactive' || strtolower($keyword) === 'inactive') {
+                        $query->where('status', 0);
+                    }
+                })
+                ->editColumn('user', function ($inquiry) {
+                    return $inquiry->user->first_name;
+                })
+                ->editColumn('rating', function ($feedback) {
+                    return $feedback->rating;
+                })
+                ->addColumn('status', function ($feedback) {
+                    $statusText = $feedback->status == 1 ? 'Active' : 'Inactive';
+                    $statusClass = $feedback->status == 1 ? 'badge-success' : 'badge-secondary';
 
-                            $editBtn = '<div class="dropdown"><a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">';
-                            $editBtn .= '<a href="javascript:;" class="dropdown-item fill_data" data-url="'.route('admin.feedbacks.edit',$feedback->id).'" data-method="get"><i class="dw dw-edit2"></i> Edit</a>';
-                            $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="'.route('admin.feedbacks.destroy',$feedback->id).'" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
-                            return $editBtn;
-
-                        })
-                        ->toJson();
-        }
-        else {
+                    $status = '<span class="badge ' . $statusClass . '">' . $statusText . '</span>';
+                    $status .= ' <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Change Status
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $feedback->id . '" data-status="1">Active</a>
+                                        <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $feedback->id . '" data-status="0">Inactive</a>
+                                    </div>
+                                </div>';
+                    return $status;
+                })
+                ->addColumn('action', function (Feedback $feedback) {
+                    $actionBtn = '<a href="javascript:;" class="btn btn-user fill_data" data-url="' . route('admin.feedbacks.edit', $feedback->id) . '" data-method="get" title="View">
+                                    <i class="dw dw-eye font-24"></i>
+                                  </a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(["status", "action"])
+                ->make(true);
+        } else {
             return view()->make('admin.feedbacks.index');
         }
     }
@@ -107,7 +126,7 @@ class FeedbacksController extends Controller
      */
     public function edit(Feedback $feedback)
     {
-        return view()->make('admin.feedbacks.edit',compact('feedback'));
+        return view()->make('admin.feedbacks.edit', compact('feedback'));
     }
 
     /**
@@ -122,24 +141,21 @@ class FeedbacksController extends Controller
         $rules = array(
             'status' => 'required'
 
-            );
+        );
         $messages = [
             'status.required' => 'Please give Inquiry Status'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->getMessageBag()->toArray(), 422);
         }
-        try{
-            $feedback->status=$request->get('status');
+        try {
+            $feedback->status = $request->get('status');
 
             $feedback->save();
-            return response()->json(['success','feedback update successfully.'], 200);
-        }
-        catch(\Exception $e)
-        {
-          return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
+            return response()->json(['success', 'feedback update successfully.'], 200);
+        } catch (\Exception $e) {
+            return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
         }
     }
 
@@ -151,14 +167,22 @@ class FeedbacksController extends Controller
      */
     public function destroy($id)
     {
-        try
-        {
+        try {
             $feedback = Feedback::find($id);
             $feedback->delete();
-            return response()->json(['success','feedback deleted successfully'], 200);
+            return response()->json(['success', 'feedback deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
         }
-        catch(\Exception $e)
-        {
+    }
+    public function updateStatus(Request $request)
+    {
+        try {
+            $feedback = Feedback::find($request->id);
+            $feedback->status = $request->get('status');
+            $feedback->save();
+            return response()->json(['success', 'Feedback Status updated successfully'], 200);
+        } catch (\Exception $e) {
             return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
         }
     }

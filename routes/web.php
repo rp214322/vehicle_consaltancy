@@ -68,6 +68,8 @@ Route::middleware('admin')->prefix('admin')->namespace('\App\Http\Controllers\Ad
     Route::post('inquiries/status',[\App\Http\Controllers\Admin\InquiriesController::class,'updateStatus'])->name('inquiries.status');
 
     Route::resource('feedbacks',FeedbacksController::class);
+    Route::post('feedbacks/status',[\App\Http\Controllers\Admin\FeedbacksController::class,'updateStatus'])->name('feedbacks.status');
+
 
 
 	// Route for Logout

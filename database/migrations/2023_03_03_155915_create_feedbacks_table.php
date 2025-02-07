@@ -18,7 +18,7 @@ class CreateFeedbacksTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('description');
             $table->string('rating');
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

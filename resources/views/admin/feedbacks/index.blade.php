@@ -7,7 +7,7 @@
                 <div class="pd-20 card-box mb-30">
                     <div class="clearfix mb-20">
                         <div class="pull-left">
-                            <h4 class="text-black h4">List Feedback</h4>
+                            <h4 class="text-black h4">Customer Review</h4>
                         </div>
                         <div class="pull-right">
                         </div>
@@ -16,10 +16,11 @@
                         <table class="data-table table stripe hover nowrap" id="FeedbackTable">
                             <thead>
                                 <tr>
-                                    <th class="table-plus datatable-nosort">No</th>
-                                    <th>User</th>
-                                    <th>rating</th>
-                                    <th class="datatable-nosort">Action</th>
+                                    <th>No</th>
+                                    <th>Customer Name</th>
+                                    <th>Rating</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -40,6 +41,7 @@
 @section('scripts')
 <script type="text/javascript">
     window.list = "{{ route('admin.feedbacks.index') }}";
+    window.updateStatus = "{{ route('admin.feedbacks.status') }}";
 </script>
 <script src="{{ asset('js/feedbacks.js') }}" type="text/javascript"></script>
 @endsection

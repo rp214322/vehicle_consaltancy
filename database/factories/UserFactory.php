@@ -22,6 +22,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // Default password
             'remember_token' => Str::random(10),
+            'status' => $this->faker->randomElement([0, 1]), // Random status (0 or 1)
         ];
     }
 

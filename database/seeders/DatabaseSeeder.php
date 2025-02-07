@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\User;
 use App\Models\Vehical;
 use App\Models\VehicalModel;
@@ -50,7 +51,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ]);
-        User::factory(10)->create();
+        User::factory(33)->create();
         Category::create([
         	'name' => '2 Wheels',
         ]);
@@ -98,5 +99,6 @@ class DatabaseSeeder extends Seeder
             'description'=> 'Auto+CNG, Sun Roof',
             'status'=>0,
         ]);
+        Feedback::factory(18)->create();
     }
 }
