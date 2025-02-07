@@ -46,6 +46,7 @@
 @section('scripts')
 <script type="text/javascript">
     window.list = "{!! route('admin.users.index') !!}";
+    window.updateStatus = "{!! route('admin.users.status') !!}";
 </script>
 <script src="{!! asset('js/users.js') !!}" type="text/javascript"></script>
 @endsection

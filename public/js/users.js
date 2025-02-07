@@ -148,4 +148,31 @@ jQuery(function () {
 
     users.init();
     model.init();
+    // Status Update Handler
+    $(document).on("click", ".change_status", function () {
+        var status = $(this).data("status");
+        var id = $(this).data("id");
+
+        $.ajax({
+            url: updateStatus,
+            type: "POST",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": jQuery('meta[name="csrf-token"]').attr(
+                    "content"
+                ),
+            },
+            data: {
+                id: id,
+                status: status,
+            },
+            success: function (response) {
+                // Reload DataTable to reflect changes
+                userTable.ajax.reload(null, false);
+            },
+            error: function (xhr) {
+                alert("Failed to update status: " + xhr.responseText);
+            },
+        });
+    });
 });

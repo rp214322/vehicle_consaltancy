@@ -21,9 +21,9 @@ class UsersController extends Controller
         if ($request->ajax()) {
             $users = $users->where('role', 'customer')->orderBy('id', 'DESC');
             return Datatables::eloquent($users)
-            ->editColumn('first_name', function ($user) {
-                return $user->first_name . ' ' . $user->last_name;
-            })
+                ->editColumn('first_name', function ($user) {
+                    return $user->first_name . ' ' . $user->last_name;
+                })
                 ->editColumn('phone', function ($user) {
                     return $user->phone;
                 })
@@ -31,7 +31,20 @@ class UsersController extends Controller
                     return $user->email;
                 })
                 ->editColumn('status', function ($user) {
-                    return $user->status;
+                    $statusText = $user->status == 1 ? 'Active' : 'Blocked';
+                    $statusClass = $user->status == 1 ? 'badge-success' : 'badge-secondary';
+
+                    $status = '<span class="badge ' . $statusClass . '">' . $statusText . '</span>';
+                    $status .= ' <div class="btn-group">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Change Status
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="1">Active</a>
+                                        <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="0">Blocked</a>
+                                    </div>
+                                </div>';
+                    return $status;
                 })
                 ->addColumn('action', function (User $user) {
 
@@ -41,7 +54,8 @@ class UsersController extends Controller
                     $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.users.destroy', $user->id) . '" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
                     return $editBtn;
                 })
-                ->toJson();
+                ->rawColumns(["status", "action"])
+                ->make(true);
         } else {
             return view()->make('admin.users.index');
         }
@@ -220,6 +234,17 @@ class UsersController extends Controller
             $user = User::find($id);
             $user->delete();
             return response()->json(['success', 'User deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
+        }
+    }
+    public function updateStatus(Request $request)
+    {
+        try {
+            $user = User::find($request->id);
+            $user->status = $request->get('status');
+            $user->save();
+            return response()->json(['success', 'User Status updated successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
         }

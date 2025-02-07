@@ -51,6 +51,7 @@ Route::middleware('admin')->prefix('admin')->namespace('\App\Http\Controllers\Ad
     Route::post('settings',[\App\Http\Controllers\Admin\DashboardController::class,'post_settings'])->name('post.setting');
 
     Route::resource('users',UsersController::class);
+    Route::post('users/status',[\App\Http\Controllers\Admin\UsersController::class,'updateStatus'])->name('users.status');
 
     Route::resource('categories',CategoriesController::class);
 
