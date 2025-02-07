@@ -39,7 +39,7 @@ var options = {
 			shade: 'dark',
 			type: 'diagonal1',
 			shadeIntensity: 0.8,
-			gradientToColors: ['#1b00ff'],
+			gradientToColors: ['#db2d2e'],
 			inverseColors: false,
 			opacityFrom: [1, 0.2],
 			opacityTo: 1,
@@ -288,7 +288,7 @@ var options5 = {
 			show: false,
 		},
 	},
-	colors: ['#1b00ff', '#f56767', '#008000'],
+	colors: ['#db2d2e', '#f56767', '#008000'],
 	grid: {
 		borderColor: '#c7d2dd',
 		strokeDashArray: 5,

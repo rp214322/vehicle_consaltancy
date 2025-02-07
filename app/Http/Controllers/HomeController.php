@@ -70,6 +70,7 @@ class HomeController extends Controller
                 $inquiry->email = $request->get('email');
                 $inquiry->phone = $request->get('phone');
                 $inquiry->category_id = $request->get('category_id');
+                $inquiry->status = 0;
                 if($request->has('description')){
                     $inquiry->description = $request->get('description');
                 }

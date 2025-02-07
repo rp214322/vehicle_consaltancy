@@ -40,7 +40,7 @@ label.col-md-2.padding-left{padding-left: 0;}
 .checkbox label {position: relative;}
 .checkbox label:before {content: ''; position: absolute; left: 0; top: 0; margin: 4px; width: 20px; height: 20px; transition: transform 0.28s ease; border-radius: 0; background: #C4C4C4;}
 .checkbox label:after {content: '';position: absolute;background: no-repeat 50%/50% 50%;width: 20px;height: 20px;left: 4px;background-size: 60%;top: 3px;}
-.checkbox input[type="checkbox"]:checked ~ label::before {background-color: #1b00ff;}
+.checkbox input[type="checkbox"]:checked ~ label::before {background-color: #db2d2e;}
 .checkbox input[type="checkbox"]:checked ~ label::after {background-image: url(../images/check-mark.png);background-repeat: no-repeat;background-position: center center;}
 .checkbox label {min-height: 34px;display: block;padding-left: 40px;margin-bottom: 0;font-weight: normal;cursor: pointer;}
 .checkbox label span {position: absolute;top: 50%;-webkit-transform: translateY(-50%);transform: translateY(-50%);}

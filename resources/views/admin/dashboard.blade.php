@@ -104,7 +104,7 @@ var data = JSON.parse('{!! $data !!}');
 			show: false,
 		},
 	},
-	colors: ['#1b00ff', '#f56767', '#008000'],
+	colors: ['#db2d2e', '#f56767', '#008000'],
 	grid: {
 		borderColor: '#c7d2dd',
 		strokeDashArray: 5,

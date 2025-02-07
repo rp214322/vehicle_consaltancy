@@ -41,8 +41,8 @@ class InquiriesController extends Controller
                             $status = $inquiry->status ? '<span class="badge badge-success">Answered</span>' : '<span class="badge badge-secondary">Pending</span>';
                             $status .= ' <div class="btn-group"><button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Change Status</button>' .
                                     '<div class="dropdown-menu dropdown-menu-right">' .
-                                        '<a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $inquiry->id . '" data-status="1">Answered</a>' .
-                                        '<a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $inquiry->id . '" data-status="0">Pending</a>' .
+                                        '<a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $inquiry->id . '" data-status="0">Answered</a>' .
+                                        '<a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $inquiry->id . '" data-status="1">Pending</a>' .
                                     '</div> ';
                             return $status;
                         })

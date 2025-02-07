@@ -1,16 +1,8 @@
-/* Define two custom functions (asc and desc) for string sorting */
-jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
-	return ((x < y) ? -1 : ((x > y) ?  1 : 0));
-};
-
-jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
-	return ((x < y) ?  1 : ((x > y) ? -1 : 0));
-};
 var userTable = $('#CategoriesTable').DataTable({
     dom: '<"top"f>tr<"bottom"ip>',
     processing: true,
     serverSide: true,
-    pageLength: 10,
+    pageLength: 1,
     ajax: list,
 
     columns: [
@@ -31,14 +23,6 @@ var userTable = $('#CategoriesTable').DataTable({
         }
     }
 });
-
-/* Custom Filter*/
-$('#user_filter').change(function (e) {
-    userTable.page.len($(this).val()).draw();
-});
-
-// Sort by columns 1 and 2 and redraw
-userTable.order( [ 0, 'desc' ]).draw();
 
 $.fn.dataTable.ext.errMode = 'none';
 userTable.on('error', function () {

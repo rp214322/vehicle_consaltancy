@@ -8,7 +8,7 @@
                 <div class="pd-20 card-box mb-30">
                     <div class="clearfix mb-20">
                         <div class="pull-left">
-                            <h4 class="text-blue h4">List User</h4>
+                            <h4 class="text-black h4">List User</h4>
                         </div>
                         <div class="pull-right">
                             <a href="javascript:;" class="fill_data btn btn-primary" data-url="{!! route('admin.users.create') !!}" data-method="get">
@@ -20,12 +20,12 @@
                         <table class="data-table table stripe hover nowrap" id="UserTable">
                             <thead>
                                 <tr>
-                                    <th class="table-plus datatable-nosort">No</th>
+                                    <th>No</th>
                                     <th>Name</th>
                                     <th>Contact</th>
                                     <th>Email</th>
                                     <th>Status</th>
-                                    <th class="datatable-nosort">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
