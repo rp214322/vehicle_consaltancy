@@ -4,6 +4,8 @@ var categoriesTable = $("#CategoriesTable").DataTable({
     serverSide: true,
     pageLength: 10, // Default page length
     lengthMenu: [5, 10, 25, 50, 100, 500], // Pagination options
+    scrollY: "60vh", // Set max height to 60% of viewport height
+    scrollCollapse: true, // Allow table height to shrink when less data is shown
     ajax: list,
 
     columns: [
@@ -15,7 +17,6 @@ var categoriesTable = $("#CategoriesTable").DataTable({
         emptyTable: "No matching records found",
     },
     fnDrawCallback: function (oSettings) {
-        // Hide pagination when data is less than the selected page limit
         if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
             $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
         } else {

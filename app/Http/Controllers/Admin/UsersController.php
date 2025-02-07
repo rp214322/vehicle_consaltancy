@@ -19,9 +19,21 @@ class UsersController extends Controller
     public function index(Request $request, User $users)
     {
         if ($request->ajax()) {
+            // Filter users with role "customer"
             $users = $users->where('role', 'customer')->orderBy('id', 'DESC');
+
             return Datatables::eloquent($users)
-                ->editColumn('first_name', function ($user) {
+                ->filterColumn('full_name', function ($query, $keyword) {
+                    $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$keyword}%"]);
+                })
+                ->filterColumn('status', function ($query, $keyword) {
+                    if (strtolower($keyword) === 'active') {
+                        $query->where('status', 1);
+                    } elseif (strtolower($keyword) === 'blocked' || strtolower($keyword) === 'blocked') {
+                        $query->where('status', 0);
+                    }
+                })
+                ->addColumn('full_name', function ($user) {
                     return $user->first_name . ' ' . $user->last_name;
                 })
                 ->editColumn('phone', function ($user) {
@@ -36,20 +48,19 @@ class UsersController extends Controller
 
                     $status = '<span class="badge ' . $statusClass . '">' . $statusText . '</span>';
                     $status .= ' <div class="btn-group">
-                                    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Change Status
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="1">Active</a>
-                                        <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="0">Blocked</a>
-                                    </div>
-                                </div>';
+                                <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Change Status
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="1">Active</a>
+                                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="0">Blocked</a>
+                                </div>
+                            </div>';
                     return $status;
                 })
                 ->addColumn('action', function (User $user) {
-
                     $editBtn = '<div class="dropdown"><a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">';
+                                    <i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">';
                     $editBtn .= '<a href="javascript:;" class="dropdown-item fill_data" data-url="' . route('admin.users.edit', $user->id) . '" data-method="get"><i class="dw dw-edit2"></i> Edit</a>';
                     $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.users.destroy', $user->id) . '" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
                     return $editBtn;

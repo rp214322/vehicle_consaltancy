@@ -19,7 +19,7 @@ class CategoriesController extends Controller
     {
         if($request->ajax())
         {
-            $categories = $categories->orderBy('id','ASC');
+            $categories = $categories->orderBy('id','DESC');
             return Datatables::eloquent($categories)
                         ->editColumn('name', function ($category) {
                             return $category->name;
