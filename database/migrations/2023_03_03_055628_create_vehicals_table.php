@@ -26,7 +26,8 @@ class CreateVehicalsTable extends Migration
             $table->string('mileage')->nullable();
             $table->decimal('price',16,2);
             $table->text('description')->nullable();
-            $table->boolean('status')->default(0);
+            $table->tinyInteger('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

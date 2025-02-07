@@ -60,37 +60,30 @@ class DatabaseSeeder extends Seeder
         Brand::create([
         	'category_id' => 2,
             'name'=> 'Hundai',
-            'status'=>1,
         ]);
         Brand::create([
         	'category_id' => 1,
             'name'=> 'Honda',
-            'status'=>1,
         ]);
         VehicalModel::create([
         	'brand_id' => 1,
             'name'=> 'Creta',
-            'status'=>1,
         ]);
         VehicalModel::create([
         	'brand_id' => 1,
             'name'=> 'i20',
-            'status'=>1,
         ]);
         VehicalModel::create([
         	'brand_id' => 1,
             'name'=> 'i10',
-            'status'=>1,
         ]);
         VehicalModel::create([
         	'brand_id' => 2,
             'name'=> 'Activa',
-            'status'=>1,
         ]);
         VehicalModel::create([
         	'brand_id' => 2,
             'name'=> 'Dream Yuga',
-            'status'=>1,
         ]);
         Vehical::create([
             'category_id' => 2,

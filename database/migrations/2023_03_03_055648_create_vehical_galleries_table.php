@@ -17,8 +17,11 @@ class CreateVehicalGalleriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('vehical_id');
             $table->string('file_name');
+            $table->string("slug");
             $table->string('file_type');
             $table->boolean('is_featured')->default(0);
+            $table->tinyInteger('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

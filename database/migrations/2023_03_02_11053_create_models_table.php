@@ -17,7 +17,9 @@ class CreateModelsTable extends Migration
             $table->id();
             $table->bigInteger('brand_id');
             $table->string('name');
-            $table->boolean('status');
+            $table->string("slug");
+            $table->tinyInteger('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

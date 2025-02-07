@@ -19,6 +19,7 @@ class CreateFeedbacksTable extends Migration
             $table->string('description');
             $table->string('rating');
             $table->tinyInteger('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

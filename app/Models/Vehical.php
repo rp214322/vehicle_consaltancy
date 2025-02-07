@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vehical extends Model
 {
-    use HasFactory,Sluggable;
+    use HasFactory,Sluggable, SoftDeletes;
 
     /**
      * Return the sluggable configuration array for this model.

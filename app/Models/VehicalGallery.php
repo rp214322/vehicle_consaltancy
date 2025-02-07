@@ -2,14 +2,25 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Image;
 use Thumbnail;
 
 class VehicalGallery extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable, SoftDeletes;
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'file_name'
+            ]
+        ];
+    }
 
     public function vehical(){
         return $this->belongsTo('App\Models\Vehical');

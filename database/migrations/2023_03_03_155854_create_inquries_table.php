@@ -19,10 +19,12 @@ class CreateInquriesTable extends Migration
             $table->unsignedBigInteger('vehical_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->string('name')->nullable();
+            $table->string("slug");
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
