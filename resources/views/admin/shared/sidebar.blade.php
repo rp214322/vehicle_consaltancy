@@ -16,6 +16,7 @@
                         <span class="micon dw dw-house-1"></span><span class="mtext">Dashboard</span>
                     </a>
                 </li>
+                <!-- Users -->
                 <li>
                     <a href="{!! route('admin.users.index') !!}" class="dropdown-toggle no-arrow">
                         <span class="micon fi-torsos-all"></span><span class="mtext">Users</span>
@@ -36,6 +37,7 @@
                         <span class="micon fa fa-car"></span><span class="mtext">Model</span>
                     </a>
                 </li>
+                <!-- Vehicle -->
                 <li>
                     <a href="{!! route('admin.vehicals.index') !!}" class="dropdown-toggle no-arrow">
                         <span class="micon fa fa-truck"></span><span class="mtext">Vehicle</span>
