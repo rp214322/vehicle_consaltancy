@@ -1,197 +1,184 @@
-/* Define two custom functions (asc and desc) for string sorting */
-jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
-	return ((x < y) ? -1 : ((x > y) ?  1 : 0));
-};
-
-jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
-	return ((x < y) ?  1 : ((x > y) ? -1 : 0));
-};
-var userTable = $('#VehicalsTable').DataTable({
-    dom: '<"top"f>tr<"bottom"ip>',
+var vehicalsTable = $("#VehicalsTable").DataTable({
+    dom: '<"top"lf>tr<"bottom"ip>',
     processing: true,
     serverSide: true,
-    pageLength: 10,
+    pageLength: 10, // Default page length
+    lengthMenu: [5, 10, 25, 50, 100, 500], // Pagination options
     ajax: list,
 
     columns: [
-        {data: 'id', name: 'id',orderable: true,width:'4%'},
-        {data: 'category', name: 'category',orderable:true},
-        {data: 'brand', name: 'brand',orderable:true},
-        {data: 'title', name: 'title',orderable: true},
-        {data: 'price', name: 'price',orderable: true},
-        {data: 'status', name: 'status',orderable: true},
-        {data: 'action', name: 'action', orderable: false,width:'20%'},
+        { data: "id", name: "id", orderable: true, width: "4%" },
+        { data: "category", name: "category", orderable: true },
+        { data: "brand", name: "brand", orderable: true },
+        { data: "title", name: "title", orderable: true },
+        { data: "price", name: "price", orderable: true },
+        { data: "status", name: "status", orderable: true },
+        { data: "action", name: "action", orderable: false, width: "20%" },
     ],
     language: {
-        emptyTable: "No matching records found"
+        emptyTable: "No matching records found",
     },
-    fnDrawCallback: function(oSettings) {
-        // Hide pagination when data is less then pagelimit
+    fnDrawCallback: function (oSettings) {
+        // Hide pagination when data is less than page limit
         if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
-            $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+            $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
+        } else {
+            $(oSettings.nTableWrapper).find(".dataTables_paginate").show();
         }
-        else{
-            $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
-        }
-    }
+    },
 });
 
-/* Custom Filter*/
-$('#user_filter').change(function (e) {
-    userTable.page.len($(this).val()).draw();
+/* Custom Filter: Change page length dynamically */
+$("#vehical_filter").on("change", function () {
+    var selectedValue = $(this).val();
+    vehicalsTable.page.len(selectedValue).draw();
 });
 
-// Sort by columns 1 and 2 and redraw
-userTable.order( [ 0, 'desc' ]).draw();
-
-$.fn.dataTable.ext.errMode = 'none';
-userTable.on('error', function () {
-    alert("Something went wrong, Please try after sometimes.");
+$.fn.dataTable.ext.errMode = "none";
+vehicalsTable.on("error", function () {
+    alert("Something went wrong, Please try again later.");
 });
 
-jQuery(function(){
-    var m=document.getElementById('VehicalModel'),table=document.getElementById('VehicalsTable');
+jQuery(function () {
+    var m = document.getElementById("VehicalModel"),
+        table = document.getElementById("VehicalsTable");
+
     var rack_types = {
-        init: function() {
-            jQuery(document).on('click','.btn-submit',function(e){
-                //jQuery('.pre-loader').show();
+        init: function () {
+            jQuery(document).on("click", ".btn-submit", function (e) {
                 for (instance in CKEDITOR.instances) {
                     CKEDITOR.instances[instance].updateElement();
                 }
-                var _this = jQuery(this);
                 e.preventDefault();
-                rack_types.fire(_this,"save");
+                rack_types.fire($(this), "save");
             });
-            jQuery(document).on('click','.fill_data',function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+
+            jQuery(document).on("click", ".fill_data", function (e) {
                 e.preventDefault();
-                rack_types.fire(_this,"fetch");
+                rack_types.fire($(this), "fetch");
             });
-            jQuery(document).on('click',".btn-delete",function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+
+            jQuery(document).on("click", ".btn-delete", function (e) {
                 e.preventDefault();
-                if(confirm('Are you sure?')){
-                    rack_types.fire(_this,"delete");
+                if (confirm("Are you sure?")) {
+                    rack_types.fire($(this), "delete");
                 }
             });
 
-            $(document).ready(function() {
-                $(window).keydown(function(event){
-                  if(event.keyCode == 13) {
-                    event.preventDefault();
-                    return false;
-                  }
+            $(document).ready(function () {
+                $(window).keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        event.preventDefault();
+                        return false;
+                    }
                 });
             });
         },
-        fire: function(_this,action) {
-            var _f = _this.parents('form');
-            var method = action == "save" ? _f.attr('method') : _this.data('method');
-            var url = action == "save" ? _f.attr('action') : _this.data('url');
-            var data = action == "delete" ? {_token: jQuery('meta[name="csrf-token"]').attr('content')} : _f.serialize();
+        fire: function (_this, action) {
+            var _f = _this.closest("form");
+            var method =
+                action === "save" ? _f.attr("method") : _this.data("method");
+            var url = action === "save" ? _f.attr("action") : _this.data("url");
+            var data =
+                action === "delete"
+                    ? {
+                          _token: jQuery('meta[name="csrf-token"]').attr(
+                              "content"
+                          ),
+                      }
+                    : _f.serialize();
+
             var ajax = {
-                fire: function(){
+                fire: function () {
                     $.ajax({
                         type: method,
                         url: url,
                         data: data,
                     })
-                    .done(function(response) {
-                        ajax.success(response)
-                    })
-                    .fail(function(response) {
-                        ajax.error(response)
-                    });
+                        .done(function (response) {
+                            ajax.success(response);
+                        })
+                        .fail(function (response) {
+                            ajax.error(response);
+                        });
                 },
-                success: function(response){
-                    //jQuery('.pre-loader').hide();
-                    userTable.ajax.reload();
+                success: function (response) {
+                    vehicalsTable.ajax.reload();
 
-                    if(action == "fetch")
-                    {
+                    if (action === "fetch") {
                         jQuery(".modal-content").html(response);
-                        jQuery(m).modal('show');
+                        jQuery(m).modal("show");
+                    } else if (action === "delete") {
+                        jQuery(_this).closest("tr").remove();
+                        jQuery(m).modal("hide");
+                    } else if (action === "save") {
+                        jQuery(m).modal("hide");
                     }
-                    else if(action == "delete")
-                    {
-                        jQuery(_this).parents("tr").remove();
-                        jQuery(m).modal('hide');
-                    }
-                    else if(action == "save")
-                    {
-                        jQuery(m).modal('hide');
-                    }
-
                 },
-                error: function(error){
-                    jQuery('.pre-loader').hide();
+                error: function (error) {
                     jQuery(_f).find(".has-error").remove();
                     var response = JSON.parse(error.responseText);
                     $.each(error.responseJSON, function (key, value) {
-                        if(key == 'agree_terms')
-                        {
-                            jQuery('.confirm-read-tc').find('.has-error').remove();
-                            jQuery('.confirm-read-tc').append("<span class='has-error'>"+ value +"</span>");
-                        }
-                        else
-                        {
-                            var input = '[name=' + key + ']';
-                            jQuery(_f).find(input).parent().find(".has-error").length == 0 ? jQuery(_f).find(input).parent().append("<span class='has-error'>"+ value +"</span>") : jQuery(_f).find(input).parent().find('.has-error').html(value);
-                        }
+                        var input = "[name=" + key + "]";
+                        jQuery(_f)
+                            .find(input)
+                            .parent()
+                            .append(
+                                "<span class='has-error'>" + value + "</span>"
+                            );
                     });
-                }
-            }
+                },
+            };
             ajax.fire();
-        }
-    }
+        },
+    };
 
     var model = {
-        init: function(){
-            jQuery(m).on('shown.bs.modal',function(){
+        init: function () {
+            jQuery(m).on("hidden.bs.modal", function () {
+                jQuery(this).find("form")[0].reset();
+                jQuery(this).find(".has-error").remove();
             });
-            jQuery(m).on('hidden.bs.modal', function(){
-                jQuery(this).find('form')[0].reset();
-                jQuery(this).find('.has-error').remove();
-                //jQuery.get('/do_rollback',function(){});
-            });
-        }
-    }
+        },
+    };
+
     rack_types.init();
     model.init();
 
-    $(document).on('change','#CategoryId', function() {
+    // Fetch brands based on category selection
+    $(document).on("change", "#CategoryId", function () {
         var id = $(this).val();
         $.ajax({
             url: fetchData,
             type: "GET",
             data: {
                 id: id,
-                type: "brand"
+                type: "brand",
             },
             success: function (response) {
-                $('#BrandId').html(response);
-            }
+                $("#BrandId").html(response);
+            },
         });
     });
 
-    $(document).on('change','#BrandId', function() {
+    // Fetch models based on brand selection
+    $(document).on("change", "#BrandId", function () {
         var id = $(this).val();
         $.ajax({
             url: fetchData,
             type: "GET",
             data: {
                 id: id,
-                type: "model"
+                type: "model",
             },
             success: function (response) {
-                $('#ModelId').html(response);
-            }
+                $("#ModelId").html(response);
+            },
         });
     });
 
-    $(document).on('click','.change_status', function() {
+    // Change status action
+    $(document).on("click", ".change_status", function () {
         var status = $(this).data("status");
         var id = $(this).data("id");
         $.ajax({
@@ -199,15 +186,17 @@ jQuery(function(){
             type: "POST",
             dataType: "json",
             headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                "X-CSRF-TOKEN": jQuery('meta[name="csrf-token"]').attr(
+                    "content"
+                ),
             },
             data: {
                 id: id,
-                status: status
+                status: status,
             },
             success: function (response) {
-                userTable.ajax.reload(null, false); // reload datatable ajax
-            }
+                vehicalsTable.ajax.reload(null, false); // reload datatable ajax
+            },
         });
     });
 });

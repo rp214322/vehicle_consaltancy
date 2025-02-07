@@ -1,148 +1,151 @@
-var userTable = $('#UserTable').DataTable({
-    dom: '<"top"f>tr<"bottom"ip>',
+var userTable = $("#UserTable").DataTable({
+    dom: '<"top"lf>tr<"bottom"ip>',
     processing: true,
     serverSide: true,
-    pageLength: 2,
+    pageLength: 10, // Default page length
+    lengthMenu: [5, 10, 25, 50, 100, 500], // Dynamic options
     ajax: list,
 
     columns: [
-        {data: 'id', name: 'id',orderable: true,width:'4%'},
-        {data: 'first_name', name: 'first_name',orderable: true},
-        {data: 'phone', name: 'phone',orderable: true},
-        {data: 'email', name: 'email',orderable: true},
-        {data: 'status', name: 'status',orderable: true},
-        {data: 'action', name: 'action', orderable: false,width:'10%'},
+        { data: "id", name: "id", orderable: true, width: "4%" },
+        { data: "first_name", name: "first_name", orderable: true },
+        { data: "phone", name: "phone", orderable: true },
+        { data: "email", name: "email", orderable: true },
+        { data: "status", name: "status", orderable: true },
+        { data: "action", name: "action", orderable: false, width: "10%" },
     ],
     language: {
-        emptyTable: "No matching records found"
+        emptyTable: "No matching records found",
     },
-    fnDrawCallback: function(oSettings) {
-        // Hide pagination when data is less then pagelimit
+    fnDrawCallback: function (oSettings) {
+        // Hide pagination when data is less than the selected page limit
         if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
-            $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+            $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
+        } else {
+            $(oSettings.nTableWrapper).find(".dataTables_paginate").show();
         }
-        else{
-            $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
-        }
-    }
+    },
 });
 
-/* Custom Filter*/
-$('#user_filter').change(function (e) {
-    userTable.page.len($(this).val()).draw();
+/* Custom Filter: Change page length dynamically */
+$("#user_filter").on("change", function () {
+    var selectedValue = $(this).val();
+    userTable.page.len(selectedValue).draw();
 });
 
-$.fn.dataTable.ext.errMode = 'none';
-userTable.on('error', function () {
-    alert("Something went wrong, Please try after sometimes.");
+$.fn.dataTable.ext.errMode = "none";
+userTable.on("error", function () {
+    alert("Something went wrong, Please try again later.");
 });
 
-jQuery(function(){
-    var m=document.getElementById('UserModel'),table=document.getElementById('UserTable');
+jQuery(function () {
+    var m = document.getElementById("UserModel"),
+        table = document.getElementById("UserTable");
+
     var users = {
-        init: function() {
-            jQuery(document).on('click','.btn-submit',function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+        init: function () {
+            jQuery(document).on("click", ".btn-submit", function (e) {
                 e.preventDefault();
-                users.fire(_this,"save");
+                users.fire($(this), "save");
             });
-            jQuery(document).on('click','.fill_data',function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+
+            jQuery(document).on("click", ".fill_data", function (e) {
                 e.preventDefault();
-                users.fire(_this,"fetch");
+                users.fire($(this), "fetch");
             });
-            jQuery(document).on('click',".btn-delete",function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+
+            jQuery(document).on("click", ".btn-delete", function (e) {
                 e.preventDefault();
-                if(confirm('Are you sure?')){
-                    users.fire(_this,"delete");
+                if (confirm("Are you sure?")) {
+                    users.fire($(this), "delete");
                 }
             });
 
-            $(document).ready(function() {
-                $(window).keydown(function(event){
-                  if(event.keyCode == 13) {
-                    event.preventDefault();
-                    return false;
-                  }
+            $(document).ready(function () {
+                $(window).keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        event.preventDefault();
+                        return false;
+                    }
                 });
             });
         },
-        fire: function(_this,action) {
-            var _f = _this.parents('form');
-            var method = action == "save" ? _f.attr('method') : _this.data('method');
-            var url = action == "save" ? _f.attr('action') : _this.data('url');
-            var data = action == "delete" ? {_token: jQuery('meta[name="csrf-token"]').attr('content')} : _f.serialize();
+        fire: function (_this, action) {
+            var _f = _this.closest("form");
+            var method =
+                action === "save" ? _f.attr("method") : _this.data("method");
+            var url = action === "save" ? _f.attr("action") : _this.data("url");
+            var data =
+                action === "delete"
+                    ? {
+                          _token: jQuery('meta[name="csrf-token"]').attr(
+                              "content"
+                          ),
+                      }
+                    : _f.serialize();
+
             var ajax = {
-                fire: function(){
+                fire: function () {
                     $.ajax({
                         type: method,
                         url: url,
                         data: data,
                     })
-                    .done(function(response) {
-                        ajax.success(response)
-                    })
-                    .fail(function(response) {
-                        ajax.error(response)
-                    });
+                        .done(function (response) {
+                            ajax.success(response);
+                        })
+                        .fail(function (response) {
+                            ajax.error(response);
+                        });
                 },
-                success: function(response){
-                    //jQuery('.pre-loader').hide();
+                success: function (response) {
                     userTable.ajax.reload();
 
-                    if(action == "fetch")
-                    {
+                    if (action === "fetch") {
                         jQuery(".modal-content").html(response);
-                        jQuery(m).modal('show');
+                        jQuery(m).modal("show");
+                    } else if (action === "delete") {
+                        jQuery(_this).closest("tr").remove();
+                        jQuery(m).modal("hide");
+                    } else if (action === "save") {
+                        jQuery(m).modal("hide");
                     }
-                    else if(action == "delete")
-                    {
-                        jQuery(_this).parents("tr").remove();
-                        jQuery(m).modal('hide');
-                    }
-                    else if(action == "save")
-                    {
-                        jQuery(m).modal('hide');
-                    }
-
                 },
-                error: function(error){
-                    jQuery('.pre-loader').hide();
+                error: function (error) {
                     jQuery(_f).find(".has-error").remove();
                     var response = JSON.parse(error.responseText);
                     $.each(error.responseJSON, function (key, value) {
-                        if(key == 'agree_terms')
-                        {
-                            jQuery('.confirm-read-tc').find('.has-error').remove();
-                            jQuery('.confirm-read-tc').append("<span class='has-error'>"+ value +"</span>");
-                        }
-                        else
-                        {
-                            var input = '[name=' + key + ']';
-                            jQuery(_f).find(input).parent().find(".has-error").length == 0 ? jQuery(_f).find(input).parent().append("<span class='has-error'>"+ value +"</span>") : jQuery(_f).find(input).parent().find('.has-error').html(value);
+                        if (key === "agree_terms") {
+                            jQuery(".confirm-read-tc").append(
+                                "<span class='has-error'>" + value + "</span>"
+                            );
+                        } else {
+                            var input = "[name=" + key + "]";
+                            jQuery(_f)
+                                .find(input)
+                                .parent()
+                                .append(
+                                    "<span class='has-error'>" +
+                                        value +
+                                        "</span>"
+                                );
                         }
                     });
-                }
-            }
+                },
+            };
             ajax.fire();
-        }
-    }
+        },
+    };
 
     var model = {
-        init: function(){
-            jQuery(m).on('shown.bs.modal',function(){
+        init: function () {
+            jQuery(m).on("hidden.bs.modal", function () {
+                jQuery(this).find("form")[0].reset();
+                jQuery(this).find(".has-error").remove();
             });
-            jQuery(m).on('hidden.bs.modal', function(){
-                jQuery(this).find('form')[0].reset();
-                jQuery(this).find('.has-error').remove();
-                //jQuery.get('/do_rollback',function(){});
-            });
-        }
-    }
+        },
+    };
+
     users.init();
     model.init();
 });

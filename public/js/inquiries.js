@@ -1,166 +1,174 @@
-var userTable = $('#InquiryTable').DataTable({
-    dom: '<"top"f>tr<"bottom"ip>',
+var inquiryTable = $("#InquiryTable").DataTable({
+    dom: '<"top"lf>tr<"bottom"ip>',
     processing: true,
     serverSide: true,
-    pageLength: 10,
+    pageLength: 10, // Default page length
+    lengthMenu: [5, 10, 25, 50, 100], // Dropdown for pagination
     ajax: list,
 
     columns: [
-        {data: 'id', name: 'id',orderable: true,width:'4%'},
-        {data: 'type', name: 'type',orderable: true},
-        {data: 'vehical', name: 'vehical',orderable: true},
-        {data: 'name', name: 'name',orderable: true},
-        {data: 'email', name: 'email',orderable: true},
-        {data: 'phone', name: 'phone',orderable: true},
-        {data: 'status', name: 'status',orderable: true},
-        {data: 'created', name: 'created',orderable: true},
-        {data: 'action', name: 'action', orderable: false,width:'10%'},
+        { data: "id", name: "id", orderable: true, width: "4%" },
+        { data: "type", name: "type", orderable: true },
+        { data: "vehical", name: "vehical", orderable: true },
+        { data: "name", name: "name", orderable: true },
+        { data: "email", name: "email", orderable: true },
+        { data: "phone", name: "phone", orderable: true },
+        { data: "status", name: "status", orderable: true },
+        { data: "created", name: "created", orderable: true },
+        { data: "action", name: "action", orderable: false, width: "10%" },
     ],
     language: {
-        emptyTable: "No matching records found"
+        emptyTable: "No matching records found",
     },
-    fnDrawCallback: function(oSettings) {
-        // Hide pagination when data is less then pagelimit
-        if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
-            $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+    fnDrawCallback: function (oSettings) {
+        // Hide pagination if total records are less than the selected page length
+        if (oSettings.fnRecordsDisplay() <= oSettings._iDisplayLength) {
+            $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
+        } else {
+            $(oSettings.nTableWrapper).find(".dataTables_paginate").show();
         }
-        else{
-            $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
-        }
-    }
+    },
 });
 
-$.fn.dataTable.ext.errMode = 'none';
-userTable.on('error', function () {
-    alert("Something went wrong, Please try after sometimes.");
+// Handle Datatable Errors
+$.fn.dataTable.ext.errMode = "none";
+inquiryTable.on("error", function () {
+    alert("Something went wrong, Please try again later.");
 });
 
-jQuery(function(){
-    var m=document.getElementById('InquiryModel'),table=document.getElementById('InquiryTable');
-    var rack_types = {
-        init: function() {
-            jQuery(document).on('click','.btn-submit',function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+jQuery(function () {
+    var m = document.getElementById("InquiryModel"),
+        table = document.getElementById("InquiryTable");
+
+    var inquiryHandler = {
+        init: function () {
+            jQuery(document).on("click", ".btn-submit", function (e) {
                 e.preventDefault();
-                rack_types.fire(_this,"save");
+                inquiryHandler.fire($(this), "save");
             });
-            jQuery(document).on('click','.fill_data',function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+
+            jQuery(document).on("click", ".fill_data", function (e) {
                 e.preventDefault();
-                rack_types.fire(_this,"fetch");
+                inquiryHandler.fire($(this), "fetch");
             });
-            jQuery(document).on('click',".btn-delete",function(e){
-                //jQuery('.pre-loader').show();
-                var _this = jQuery(this);
+
+            jQuery(document).on("click", ".btn-delete", function (e) {
                 e.preventDefault();
-                if(confirm('Are you sure?')){
-                    rack_types.fire(_this,"delete");
+                if (confirm("Are you sure?")) {
+                    inquiryHandler.fire($(this), "delete");
                 }
             });
 
-            $(document).ready(function() {
-                $(window).keydown(function(event){
-                  if(event.keyCode == 13) {
-                    event.preventDefault();
-                    return false;
-                  }
+            $(document).ready(function () {
+                $(window).keydown(function (event) {
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        return false;
+                    }
                 });
             });
         },
-        fire: function(_this,action) {
-            var _f = _this.parents('form');
-            var method = action == "save" ? _f.attr('method') : _this.data('method');
-            var url = action == "save" ? _f.attr('action') : _this.data('url');
-            var data = action == "delete" ? {_token: jQuery('meta[name="csrf-token"]').attr('content')} : _f.serialize();
+        fire: function (_this, action) {
+            var _f = _this.closest("form");
+            var method =
+                action === "save" ? _f.attr("method") : _this.data("method");
+            var url = action === "save" ? _f.attr("action") : _this.data("url");
+            var data =
+                action === "delete"
+                    ? {
+                          _token: jQuery('meta[name="csrf-token"]').attr(
+                              "content"
+                          ),
+                      }
+                    : _f.serialize();
+
             var ajax = {
-                fire: function(){
+                fire: function () {
                     $.ajax({
                         type: method,
                         url: url,
                         data: data,
                     })
-                    .done(function(response) {
-                        ajax.success(response)
-                    })
-                    .fail(function(response) {
-                        ajax.error(response)
-                    });
+                        .done(function (response) {
+                            ajax.success(response);
+                        })
+                        .fail(function (response) {
+                            ajax.error(response);
+                        });
                 },
-                success: function(response){
-                    //jQuery('.pre-loader').hide();
-                    userTable.ajax.reload();
+                success: function (response) {
+                    inquiryTable.ajax.reload();
 
-                    if(action == "fetch")
-                    {
+                    if (action === "fetch") {
                         jQuery(".modal-content").html(response);
-                        jQuery(m).modal('show');
+                        jQuery(m).modal("show");
+                    } else if (action === "delete") {
+                        jQuery(_this).closest("tr").remove();
+                        jQuery(m).modal("hide");
+                    } else if (action === "save") {
+                        jQuery(m).modal("hide");
                     }
-                    else if(action == "delete")
-                    {
-                        jQuery(_this).parents("tr").remove();
-                        jQuery(m).modal('hide');
-                    }
-                    else if(action == "save")
-                    {
-                        jQuery(m).modal('hide');
-                    }
-
                 },
-                error: function(error){
-                    jQuery('.pre-loader').hide();
+                error: function (error) {
                     jQuery(_f).find(".has-error").remove();
                     var response = JSON.parse(error.responseText);
                     $.each(error.responseJSON, function (key, value) {
-                        if(key == 'agree_terms')
-                        {
-                            jQuery('.confirm-read-tc').find('.has-error').remove();
-                            jQuery('.confirm-read-tc').append("<span class='has-error'>"+ value +"</span>");
-                        }
-                        else
-                        {
-                            var input = '[name=' + key + ']';
-                            jQuery(_f).find(input).parent().find(".has-error").length == 0 ? jQuery(_f).find(input).parent().append("<span class='has-error'>"+ value +"</span>") : jQuery(_f).find(input).parent().find('.has-error').html(value);
-                        }
+                        var input = "[name=" + key + "]";
+                        jQuery(_f)
+                            .find(input)
+                            .parent()
+                            .append(
+                                "<span class='has-error'>" + value + "</span>"
+                            );
                     });
-                }
-            }
+                },
+            };
             ajax.fire();
-        }
-    }
+        },
+    };
 
     var model = {
-        init: function(){
-            jQuery(m).on('shown.bs.modal',function(){
+        init: function () {
+            jQuery(m).on("hidden.bs.modal", function () {
+                jQuery(this).find("form")[0].reset();
+                jQuery(this).find(".has-error").remove();
             });
-            jQuery(m).on('hidden.bs.modal', function(){
-                jQuery(this).find('form')[0].reset();
-                jQuery(this).find('.has-error').remove();
-                //jQuery.get('/do_rollback',function(){});
-            });
-        }
-    }
-    rack_types.init();
+        },
+    };
+
+    inquiryHandler.init();
     model.init();
 
-    $(document).on('click','.change_status', function() {
+    // Status Update Handler
+    $(document).on("click", ".change_status", function () {
         var status = $(this).data("status");
         var id = $(this).data("id");
+
         $.ajax({
             url: updateStatus,
             type: "POST",
             dataType: "json",
             headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                "X-CSRF-TOKEN": jQuery('meta[name="csrf-token"]').attr(
+                    "content"
+                ),
             },
             data: {
                 id: id,
-                status: status
+                status: status,
             },
             success: function (response) {
-                userTable.ajax.reload(null, false); // reload datatable ajax
-            }
+                inquiryTable.ajax.reload(null, false); // reload DataTable without full refresh
+            },
+            error: function (xhr) {
+                alert("Failed to update status: " + xhr.responseText);
+            },
         });
+    });
+
+    // Dynamic Pagination
+    $("#inquiry_filter").on("change", function () {
+        var selectedValue = $(this).val();
+        inquiryTable.page.len(selectedValue).draw();
     });
 });
