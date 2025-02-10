@@ -1,5 +1,5 @@
 var userTable = $("#UserTable").DataTable({
-    dom: '<"top"lfB>rt<"bottom"ip>', // Buttons added
+    dom: '<"top"lfB>rt<"bottom"ip>', // Added "B" for buttons
     processing: true,
     serverSide: true,
     pageLength: 10,
@@ -35,68 +35,57 @@ var userTable = $("#UserTable").DataTable({
         },
     ],
     columns: [
-        { data: "id", name: "id", orderable: true, width: "4%" }, // Always visible
+        { data: "id", name: "id", orderable: true, width: "4%" },
         { data: "full_name", name: "full_name", orderable: true },
         { data: "phone", name: "phone", orderable: true },
         { data: "email", name: "email", orderable: true },
         { data: "status", name: "status", orderable: true },
         { data: "action", name: "action", orderable: false, width: "10%" },
     ],
-    columnDefs: [
-        { targets: 0, visible: true, searchable: true }, // Ensure ID column always visible
-    ],
     language: {
         emptyTable: "No matching records found",
     },
 });
 
-// ✅ Toggle Column Visibility (excluding ID)
-$(".toggle-column").on("change", function () {
-    var column = userTable.column($(this).data("column"));
-    column.visible($(this).prop("checked"));
-});
-
-// ✅ Status Filter
+// ✅ Add custom status filter dropdown
 $("#statusFilter").on("change", function () {
     userTable.column(4).search(this.value).draw();
 });
 
-// ✅ Change Page Length
+/* Custom Filter: Change page length dynamically */
 $("#user_filter").on("change", function () {
     var selectedValue = $(this).val();
     userTable.page.len(selectedValue).draw();
 });
 
-// ✅ Handle Ajax Errors
 $.fn.dataTable.ext.errMode = "none";
 userTable.on("error", function () {
     alert("Something went wrong, Please try again later.");
 });
 
-// ✅ Form Submission and Actions
 jQuery(function () {
-    var m = document.getElementById("UserModel");
+    var m = document.getElementById("UserModel"),
+        table = document.getElementById("UserTable");
 
     var users = {
         init: function () {
-            $(document).on("click", ".btn-submit", function (e) {
+            jQuery(document).on("click", ".btn-submit", function (e) {
                 e.preventDefault();
                 users.fire($(this), "save");
             });
 
-            $(document).on("click", ".fill_data", function (e) {
+            jQuery(document).on("click", ".fill_data", function (e) {
                 e.preventDefault();
                 users.fire($(this), "fetch");
             });
 
-            $(document).on("click", ".btn-delete", function (e) {
+            jQuery(document).on("click", ".btn-delete", function (e) {
                 e.preventDefault();
                 if (confirm("Are you sure?")) {
                     users.fire($(this), "delete");
                 }
             });
 
-            // Disable Enter Key Form Submission
             $(document).ready(function () {
                 $(window).keydown(function (event) {
                     if (event.keyCode == 13) {
@@ -106,7 +95,6 @@ jQuery(function () {
                 });
             });
         },
-
         fire: function (_this, action) {
             var _f = _this.closest("form");
             var method =
@@ -114,7 +102,11 @@ jQuery(function () {
             var url = action === "save" ? _f.attr("action") : _this.data("url");
             var data =
                 action === "delete"
-                    ? { _token: $('meta[name="csrf-token"]').attr("content") }
+                    ? {
+                          _token: jQuery('meta[name="csrf-token"]').attr(
+                              "content"
+                          ),
+                      }
                     : _f.serialize();
 
             var ajax = {
@@ -135,26 +127,27 @@ jQuery(function () {
                     userTable.ajax.reload();
 
                     if (action === "fetch") {
-                        $(".modal-content").html(response);
-                        $(m).modal("show");
+                        jQuery(".modal-content").html(response);
+                        jQuery(m).modal("show");
                     } else if (action === "delete") {
-                        _this.closest("tr").remove();
-                        $(m).modal("hide");
+                        jQuery(_this).closest("tr").remove();
+                        jQuery(m).modal("hide");
                     } else if (action === "save") {
-                        $(m).modal("hide");
+                        jQuery(m).modal("hide");
                     }
                 },
                 error: function (error) {
-                    _f.find(".has-error").remove();
+                    jQuery(_f).find(".has-error").remove();
                     var response = JSON.parse(error.responseText);
                     $.each(error.responseJSON, function (key, value) {
                         if (key === "agree_terms") {
-                            $(".confirm-read-tc").append(
+                            jQuery(".confirm-read-tc").append(
                                 "<span class='has-error'>" + value + "</span>"
                             );
                         } else {
                             var input = "[name=" + key + "]";
-                            _f.find(input)
+                            jQuery(_f)
+                                .find(input)
                                 .parent()
                                 .append(
                                     "<span class='has-error'>" +
@@ -171,17 +164,16 @@ jQuery(function () {
 
     var model = {
         init: function () {
-            $(m).on("hidden.bs.modal", function () {
-                $(this).find("form")[0].reset();
-                $(this).find(".has-error").remove();
+            jQuery(m).on("hidden.bs.modal", function () {
+                jQuery(this).find("form")[0].reset();
+                jQuery(this).find(".has-error").remove();
             });
         },
     };
 
     users.init();
     model.init();
-
-    // ✅ Status Update
+    // Status Update Handler
     $(document).on("click", ".change_status", function () {
         var status = $(this).data("status");
         var id = $(this).data("id");
@@ -191,10 +183,16 @@ jQuery(function () {
             type: "POST",
             dataType: "json",
             headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                "X-CSRF-TOKEN": jQuery('meta[name="csrf-token"]').attr(
+                    "content"
+                ),
             },
-            data: { id: id, status: status },
+            data: {
+                id: id,
+                status: status,
+            },
             success: function (response) {
+                // Reload DataTable to reflect changes
                 userTable.ajax.reload(null, false);
             },
             error: function (xhr) {
