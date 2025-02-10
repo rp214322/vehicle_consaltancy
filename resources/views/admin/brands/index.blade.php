@@ -23,6 +23,7 @@
                                     <th>ID</th>
                                     <th>Brand Name</th>
                                     <th>Category Name</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -44,6 +45,7 @@
 @section('scripts')
 <script type="text/javascript">
     window.list = "{!! route('admin.brands.index') !!}";
+    window.updateStatus = "{!! route('admin.brands.status') !!}";
 </script>
 <script src="{!! asset('js/brands.js') !!}" type="text/javascript"></script>
 @endsection

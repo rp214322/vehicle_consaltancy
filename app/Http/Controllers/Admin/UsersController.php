@@ -17,60 +17,55 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, User $users)
-    {
-        if ($request->ajax()) {
-            // Filter users with role "customer"
-            $users = $users->where('role', 'customer')->orderBy('id', 'DESC');
+{
+    if ($request->ajax()) {
+        $users = $users->where('role', 'customer')->orderBy('id', 'DESC');
 
-            return Datatables::eloquent($users)
-                ->filterColumn('full_name', function ($query, $keyword) {
-                    $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$keyword}%"]);
-                })
-                ->filterColumn('status', function ($query, $keyword) {
-                    if (strtolower($keyword) === 'active') {
-                        $query->where('status', 1);
-                    } elseif (strtolower($keyword) === 'blocked' || strtolower($keyword) === 'blocked') {
-                        $query->where('status', 0);
-                    }
-                })
-                ->addColumn('full_name', function ($user) {
-                    return $user->first_name . ' ' . $user->last_name;
-                })
-                ->editColumn('phone', function ($user) {
-                    return $user->phone;
-                })
-                ->editColumn('email', function ($user) {
-                    return $user->email;
-                })
-                ->editColumn('status', function ($user) {
-                    $statusText = $user->status == 1 ? 'Active' : 'Blocked';
-                    $statusClass = $user->status == 1 ? 'badge-success' : 'badge-secondary';
+        return Datatables::eloquent($users)
+            ->filterColumn('full_name', function ($query, $keyword) {
+                $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$keyword}%"]);
+            })
+            ->filterColumn('status', function ($query, $keyword) {
+                if (strtolower($keyword) === 'active') {
+                    $query->where('status', 1);
+                } elseif (strtolower($keyword) === 'blocked') {
+                    $query->where('status', 0);
+                }
+            })
+            ->addColumn('full_name', fn($user) => $user->first_name . ' ' . $user->last_name)
+            ->editColumn('status', function ($user) {
+                $statusText = $user->status == 1 ? 'Active' : 'Blocked';
+                $statusClass = $user->status == 1 ? 'badge-success' : 'badge-secondary';
 
-                    $status = '<span class="badge ' . $statusClass . '">' . $statusText . '</span>';
-                    $status .= ' <div class="btn-group">
-                                <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Change Status
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="1">Active</a>
-                                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="0">Blocked</a>
-                                </div>
-                            </div>';
-                    return $status;
-                })
-                ->addColumn('action', function (User $user) {
-                    $editBtn = '<div class="dropdown"><a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                                    <i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">';
-                    $editBtn .= '<a href="javascript:;" class="dropdown-item fill_data" data-url="' . route('admin.users.edit', $user->id) . '" data-method="get"><i class="dw dw-edit2"></i> Edit</a>';
-                    $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.users.destroy', $user->id) . '" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
-                    return $editBtn;
-                })
-                ->rawColumns(["status", "action"])
-                ->make(true);
-        } else {
-            return view()->make('admin.users.index');
-        }
+                return '<span class="badge ' . $statusClass . '">' . $statusText . '</span>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                Change Status
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="1">Active</a>
+                                <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $user->id . '" data-status="0">Blocked</a>
+                            </div>
+                        </div>';
+            })
+            ->addColumn('action', function (User $user) {
+                return '<div class="dropdown">
+                            <a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" data-toggle="dropdown">
+                                <i class="dw dw-more"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                <a href="javascript:;" class="dropdown-item fill_data" data-url="' . route('admin.users.edit', $user->id) . '" data-method="get"><i class="dw dw-edit2"></i> Edit</a>
+                                <a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.users.destroy', $user->id) . '" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a>
+                            </div>
+                        </div>';
+            })
+            ->rawColumns(["status", "action"])
+            ->make(true);
     }
+
+    return view('admin.users.index');
+}
+
 
     /**
      * Show the form for creating a new resource.

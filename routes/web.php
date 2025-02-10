@@ -56,6 +56,7 @@ Route::middleware('admin')->prefix('admin')->namespace('\App\Http\Controllers\Ad
     Route::resource('categories',CategoriesController::class);
 
     Route::resource('brands',BrandsController::class);
+    Route::post('brands/status',[\App\Http\Controllers\Admin\BrandsController::class,'updateStatus'])->name('brands.status');
 
     Route::resource('models',ModelsController::class);
 

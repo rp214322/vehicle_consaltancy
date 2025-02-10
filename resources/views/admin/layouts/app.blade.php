@@ -10,7 +10,8 @@
     <link rel="shortcut icon" href="{{ asset('images/facivon.png') }}">
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="{!! asset('css/core.css') !!}">
@@ -21,6 +22,8 @@
     <link rel="stylesheet" type="text/css" href="{!! asset('vendors/styles/style.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('css/dev.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('src/plugins/jquery-steps/jquery.steps.css') !!}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+
 
     @yield('styles')
 </head>
@@ -50,6 +53,12 @@
     <script src="{!! asset('src/plugins/datatables/js/dataTables.bootstrap4.min.js') !!}"></script>
     <script src="{!! asset('src/plugins/datatables/js/dataTables.responsive.min.js') !!}"></script>
     <script src="{!! asset('src/plugins/datatables/js/responsive.bootstrap4.min.js') !!}"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     <script src="{!! asset('src/plugins/jquery-steps/jquery.steps.js') !!}"></script>
     <!-- <script src="{!! asset('vendors/scripts/steps-setting.js') !!}"></script> -->
 
@@ -59,9 +68,12 @@
                 e.preventDefault();
                 var message = jQuery(this).data('confirm') ? jQuery(this).data('confirm') : 'Are you sure?';
                 if (confirm(message)) {
-                    var form = jQuery('<form />').attr('method', 'post').attr('action', jQuery(this).attr('href'));
-                    message != "Are you sure want to logout?" ? jQuery('<input />').attr('type', 'hidden').attr('name', '_method').attr('value', 'delete').appendTo(form) : "";
-                    jQuery('<input />').attr('type', 'hidden').attr('name', '_token').attr('value', jQuery('meta[name="csrf-token"]').attr('content')).appendTo(form);
+                    var form = jQuery('<form />').attr('method', 'post').attr('action', jQuery(this).attr(
+                        'href'));
+                    message != "Are you sure want to logout?" ? jQuery('<input />').attr('type', 'hidden')
+                        .attr('name', '_method').attr('value', 'delete').appendTo(form) : "";
+                    jQuery('<input />').attr('type', 'hidden').attr('name', '_token').attr('value', jQuery(
+                        'meta[name="csrf-token"]').attr('content')).appendTo(form);
                     jQuery('body').append(form);
                     form.submit();
                 }
