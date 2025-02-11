@@ -59,25 +59,39 @@ class AuthController extends Controller
     public function postProfile(Request $request)
     {
         $rules = [
-            'name' => 'required|max:30',
-            'email' => 'required|email|max:255'
+            'first_name' => 'required|max:30',
+            'last_name' => 'nullable|max:30',
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'phone' => 'nullable|max:20|unique:users,phone,' . Auth::id(),
+            'country' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:100',
+            'address' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
-        $messages = [
-            'name.required' => 'Please enter name',
-            'email.required' => 'Please enter email',
-            'email.email' => 'Please enter a valid email'
-        ];
-        $validator = Validator::make($request->all(), $rules, $messages);
+
+        $validator = Validator::make($request->all(), $rules);
+
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Please correct the following errors');
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Please correct the errors.');
         }
 
         $user = Auth::user();
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
+        $user->first_name = $request->input('first_name');
+        $user->last_name = $request->input('last_name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->country = $request->input('country');
+        $user->state = $request->input('state');
+        $user->address = $request->input('address');
+        
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/profiles'), $imageName);
+            $user->image = 'uploads/profiles/' . $imageName;
+        }
+        
         $user->save();
-
-        Log::info('Admin profile updated', ['admin_id' => $user->id, 'email' => $user->email]);
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }

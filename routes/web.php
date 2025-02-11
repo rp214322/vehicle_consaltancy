@@ -33,6 +33,7 @@ Route::get('fetch',[\App\Http\Controllers\Admin\VehicalsController::class,'fetch
 //Admin Section
 Route::get('admin/login',[\App\Http\Controllers\Admin\AuthController::class,'getLogin'])->name('admin.login');
 Route::post('admin/login',[\App\Http\Controllers\Admin\AuthController::class,'postLogin'])->name('admin.post.login');
+Route::get('admin/forgotpassword',[\App\Http\Controllers\Admin\AuthController::class,'getPassword'])->name('admin.forgotpassword');
 
 Route::middleware('admin')->prefix('admin')->namespace('\App\Http\Controllers\Admin')->name('admin.')->group(function(){
 

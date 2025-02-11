@@ -12,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Sluggable, SoftDeletes;
+
     public function sluggable(): array
     {
         return [
@@ -30,9 +31,17 @@ class User extends Authenticatable
         'role',
         'first_name',
         'last_name',
+        'slug',
         'phone',
         'email',
         'password',
+        'status',
+        'image',
+        'dob',
+        'gender',
+        'country',
+        'state',
+        'address',
     ];
 
     /**
@@ -52,9 +61,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'dob' => 'date',
     ];
 
-    public function favourite_vehicals(){
+    public function favourite_vehicals()
+    {
         return $this->hasMany('App\Models\FavouriteVehical');
     }
 }

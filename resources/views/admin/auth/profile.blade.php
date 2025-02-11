@@ -20,6 +20,13 @@
 
 @section('content')
     <div class="container">
+        <!-- Back Button -->
+        <div class="mb-3">
+            <button class="btn btn-secondary" onclick="history.back()">
+                <i class="fa fa-arrow-left"></i> Back
+            </button>
+        </div>
+
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-12 mb-30">
                 <div class="card-box height-100-p pd-20">
@@ -131,7 +138,7 @@
                         const countryName = country.name.common;
                         const countryCode = country.cca2;
                         const geonameId = countryCode === "CA" ? 6251999 :
-                        1269750; // Canada & India geoname IDs
+                            1269750; // Canada & India geoname IDs
 
                         countrySelect.append(
                             `<option value="${countryCode}" data-geonameid="${geonameId}">${countryName}</option>`
