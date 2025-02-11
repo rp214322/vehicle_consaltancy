@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Str;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'role' => 'admin',
         	'first_name' => 'Ritesh',
-            'last_name' => 'Patel',
-            'phone' => '7016590780',
+            'last_name' => '',
         	'email' => 'admin@hvsc.com',
             'password' => bcrypt('admin123'),
             'email_verified_at' => now(),

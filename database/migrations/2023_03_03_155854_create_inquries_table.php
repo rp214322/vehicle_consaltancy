@@ -23,7 +23,7 @@ class CreateInquriesTable extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->text('description')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
