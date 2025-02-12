@@ -29,7 +29,7 @@
                             <p>To make requests for further information, contact us via our social channels.</p>
                         </div>
                         <ul>
-                            <li><span>Email</span> hvsc65@gmail.com</li>
+                            <li><span>Email</span> hvac@gmail.com</li>
                             <li><span>Contact</span> +91 9865896636</li>
                         </ul>
                     </div>

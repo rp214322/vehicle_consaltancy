@@ -11,7 +11,7 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="footer__contact__option">
                             <div class="option__item"><i class="fa fa-phone"></i> (+12) 345 678 910</div>
-                            <div class="option__item email"><i class="fa fa-envelope-o"></i> HVSC@gmail.com</div>
+                            <div class="option__item email"><i class="fa fa-envelope-o"></i> hvac@gmail.com</div>
                         </div>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
             </div>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             <div class="footer__copyright__text">
-                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved |  <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">HVSC</a></p>
+                <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved |  <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">HVAC</a></p>
             </div>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
         </div>

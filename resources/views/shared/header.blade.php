@@ -9,7 +9,7 @@
     <div id="mobile-menu-wrap"></div>
     <ul class="offcanvas__widget__add">
         <li><i class="fa fa-clock-o"></i> Week day: 08:00 am to 18:00 pm</li>
-        <li><i class="fa fa-envelope-o"></i> HVSC@gmail.com</li>
+        <li><i class="fa fa-envelope-o"></i> hvac@gmail.com</li>
     </ul>
     <div class="offcanvas__phone__num">
         <i class="fa fa-phone"></i>
@@ -32,7 +32,7 @@
                 <div class="col-lg-7">
                     <ul class="header__top__widget">
                         <li><i class="fa fa-clock-o"></i> Week day: 08:00 am to 18:00 pm</li>
-                        <li><i class="fa fa-envelope-o"></i> hvsc@gmail.com</li>
+                        <li><i class="fa fa-envelope-o"></i> HVAC@gmail.com</li>
                     </ul>
                 </div>
                 <div class="col-lg-5">

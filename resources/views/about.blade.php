@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title about-title">
-                    <h2>Wellcome To HVSC Auto Online <br />We Provide Everything You Need To A Car</h2>
+                    <h2>Wellcome To HVAC Auto Online <br />We Provide Everything You Need To A Car</h2>
                     <p>First I will explain what contextual advertising is. Contextual advertising means the
                         advertising of products on a website according to<br /> the content the page is displaying.
                         For example if the content of a website was information on a Ford truck then the
