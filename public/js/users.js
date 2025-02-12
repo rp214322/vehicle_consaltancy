@@ -173,6 +173,7 @@ jQuery(function () {
 
     users.init();
     model.init();
+
     // Status Update Handler
     $(document).on("click", ".change_status", function () {
         var status = $(this).data("status");
@@ -200,4 +201,89 @@ jQuery(function () {
             },
         });
     });
+
+    // Trigger country-state functionality when modal is shown
+    $('#UserModel').on('show.bs.modal', function () {
+        initializeCountryState();
+    });
+
+    function initializeCountryState() {
+        const countrySelect = $("#countrySelect");
+        const stateSelect = $("#stateSelect");
+        const phoneInput = $("input[name='phone']");
+        const geonamesUsername = "ritesh10_shivlab"; // Replace with your Geonames username
+
+        // Fetch all countries and filter only Canada & India
+        fetch("https://restcountries.com/v3.1/all")
+            .then(response => response.json())
+            .then(data => {
+                countrySelect.empty().append('<option value="">Select Country</option>');
+
+                // Filter only Canada & India
+                const filteredCountries = data.filter(country => country.cca2 === "CA" || country.cca2 === "IN");
+
+                filteredCountries.forEach(country => {
+                    const countryName = country.name.common;
+                    const countryCode = country.cca2;
+                    const geonameId = countryCode === "CA" ? 6251999 : 1269750; // Canada & India geoname IDs
+
+                    countrySelect.append(
+                        `<option value="${countryCode}" data-geonameid="${geonameId}">${countryName}</option>`
+                    );
+                });
+
+                countrySelect.select2({
+                    theme: 'bootstrap4',
+                    width: '100%',
+                    placeholder: 'Select Country'
+                });
+            })
+            .catch(error => console.error("API Error (Countries):", error));
+
+        countrySelect.on("change", function() {
+            const selectedCountryCode = $(this).val();
+            stateSelect.empty().append('<option value="">Select State</option>');
+
+            if (selectedCountryCode) {
+                const selectedGeonameId = $(this).find(":selected").data("geonameid");
+                fetchStates(selectedGeonameId);
+            }
+
+            updatePhoneCode(selectedCountryCode);
+
+            stateSelect.select2({
+                theme: 'bootstrap4',
+                width: '100%',
+                placeholder: 'Select State'
+            });
+        });
+
+        function fetchStates(geonameId) {
+            if (!geonameId) return;
+
+            fetch(`http://api.geonames.org/childrenJSON?geonameId=${geonameId}&username=${geonamesUsername}`)
+                .then(response => response.json())
+                .then(data => {
+                    stateSelect.empty().append('<option value="">Select State</option>');
+
+                    if (data.geonames.length > 0) {
+                        data.geonames.forEach(state => {
+                            stateSelect.append(
+                                `<option value="${state.name}">${state.name}</option>`);
+                        });
+                    }
+                })
+                .catch(error => console.error("API Error (States):", error));
+        }
+
+        function updatePhoneCode(countryCode) {
+            if (countryCode === "CA") {
+                phoneInput.val("+1 " + phoneInput.val().replace(/^\+\d+\s*/, ""));
+            } else if (countryCode === "IN") {
+                phoneInput.val("+91 " + phoneInput.val().replace(/^\+\d+\s*/, ""));
+            } else {
+                phoneInput.val(phoneInput.val().replace(/^\+\d+\s*/, ""));
+            }
+        }
+    }
 });

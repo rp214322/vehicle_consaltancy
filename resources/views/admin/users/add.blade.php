@@ -33,6 +33,47 @@
         <lable>Confirm Password</lable>
         <input type="password" name="password_confirmation" class="form-control">
       </div>
+      <div class="form-group">
+        <label>Role</label>
+        <select name="role" class="form-control">
+          <option value="" selected>-- Select Role --</option>
+          <option value="customer">Customer</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <select name="gender" class="form-control">
+          <option value="" selected>-- Select Gender --</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="date" name="dob" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <select class="form-control" name="country" id="countrySelect">
+          <option value="">Select Country</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>State/Province</label>
+        <select class="form-control" name="state" id="stateSelect">
+          <option value="">Select State</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <textarea name="address" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Image</label>
+        <input type="file" name="image" class="form-control">
+      </div>
   </div>
 </div>
 <div class="modal-footer">

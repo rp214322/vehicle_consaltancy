@@ -97,6 +97,13 @@ class UsersController extends Controller
             'phone' => 'required|numeric|digits:10|unique:users,phone',
             'password' => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required|string|min:8',
+            'role' => 'required|in:admin,customer',
+            'dob' => 'nullable|date',
+            'gender' => 'nullable|in:male,female,other',
+            'country' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'address' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $messages = [
@@ -121,6 +128,12 @@ class UsersController extends Controller
             'password_confirmation.required' => 'Please confirm your password.',
             'password_confirmation.string' => 'Password confirmation should be a string.',
             'password_confirmation.min' => 'Password confirmation must be at least 8 characters.',
+            'role.required' => 'Please select a role.',
+            'dob.date' => 'Please enter a valid date of birth.',
+            'gender.in' => 'Please select a valid gender option.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'Allowed image formats: jpeg, png, jpg, gif.',
+            'image.max' => 'Image size should not exceed 2MB.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -135,8 +148,19 @@ class UsersController extends Controller
             $user->last_name = $request->get('last_name');
             $user->phone = $request->get('phone');
             $user->email = $request->get('email');
+            $user->role = $request->get('role');
+            $user->dob = $request->get('dob');
+            $user->gender = $request->get('gender');
+            $user->country = $request->get('country');
+            $user->state = $request->get('state');
+            $user->address = $request->get('address');
             $user->email_verified_at = now();
             $user->password = Hash::make($request->get('password'));
+            if ($request->hasFile('image')) {
+                $imageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('uploads/users'), $imageName);
+                $user->image = 'uploads/users/' . $imageName;
+            }
             $user->save();
 
             return response()->json(['success' => 'User created successfully.'], 200);
