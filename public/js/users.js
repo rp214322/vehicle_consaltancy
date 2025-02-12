@@ -46,7 +46,20 @@ var userTable = $("#UserTable").DataTable({
         emptyTable: "No matching records found",
     },
 });
+$(".toggle-column").on("change", function () {
+    var columnIndex = $(this).data("column");
+    var column = userTable.column(columnIndex);
 
+    // Toggle visibility based on checkbox state
+    column.visible($(this).prop("checked"));
+});
+
+// ✅ Ensure checkboxes reflect initial column visibility
+$(".toggle-column").each(function () {
+    var columnIndex = $(this).data("column");
+    var column = userTable.column(columnIndex);
+    $(this).prop("checked", column.visible());
+});
 // ✅ Add custom status filter dropdown
 $("#statusFilter").on("change", function () {
     userTable.column(4).search(this.value).draw();

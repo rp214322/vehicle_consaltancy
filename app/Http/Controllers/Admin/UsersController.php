@@ -26,13 +26,6 @@ class UsersController extends Controller
                 ->filterColumn('full_name', function ($query, $keyword) {
                     $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$keyword}%"]);
                 })
-                ->filterColumn('status', function ($query, $keyword) {
-                    if (strtolower($keyword) === 'active') {
-                        $query->where('status', 1);
-                    } elseif (strtolower($keyword) === 'blocked' || strtolower($keyword) === 'blocked') {
-                        $query->where('status', 0);
-                    }
-                })
                 ->addColumn('full_name', function ($user) {
                     return $user->first_name . ' ' . $user->last_name;
                 })
