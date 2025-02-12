@@ -15,6 +15,32 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .profile-photo {
+            position: relative;
+        }
+
+        .profile-photo .edit-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .profile-photo .edit-avatar input {
+            display: none;
+        }
+
+        .avatar-photo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 3px solid #ddd;
+        }
     </style>
 @endsection
 
@@ -31,10 +57,12 @@
             <div class="col-lg-4 col-md-6 col-sm-12 mb-30">
                 <div class="card-box height-100-p pd-20">
                     <div class="profile-photo text-center">
-                        <a href="#" data-toggle="modal" data-target="#modal" class="edit-avatar">
+                        <label class="edit-avatar">
                             <i class="fa fa-pencil"></i>
-                        </a>
-                        <img src="{{ asset(Auth::user()->profile_photo ?? 'images/profile-photo.jpg') }}"
+                            <input type="file" id="profileImageUpload" accept="image/*">
+                        </label>
+                        <img id="profileImagePreview"
+                            src="{{ asset(Auth::user()->profile_photo ?? 'images/Default_image.jpg') }}"
                             alt="Profile Photo" class="avatar-photo img-fluid rounded-circle shadow-sm" />
                         <h5 class="text-center h5 mt-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
                     </div>
@@ -64,23 +92,33 @@
                         </ul>
                         <div class="tab-content p-3">
                             <div class="tab-pane fade show active" id="setting">
-                                <form method="POST" action="#">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                <form method="POST" action="{{ route('admin.post.profile') }}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label>First Name</label>
                                             <input type="text" class="form-control" name="first_name"
-                                                value="{{ Auth::user()->first_name }}" required>
+                                                value="{{ old('first_name', Auth::user()->first_name) }}" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>Last Name</label>
                                             <input type="text" class="form-control" name="last_name"
-                                                value="{{ Auth::user()->last_name ?? '' }}">
+                                                value="{{ old('last_name', Auth::user()->last_name) }}">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>Email</label>
                                             <input type="email" class="form-control" name="email"
-                                                value="{{ Auth::user()->email }}" required>
+                                                value="{{ old('email', Auth::user()->email) }}" required>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>Country</label>
@@ -97,11 +135,32 @@
                                         <div class="col-md-6 mb-3">
                                             <label>Phone Number</label>
                                             <input type="text" class="form-control" name="phone"
-                                                value="{{ Auth::user()->phone ?? '' }}">
+                                                value="{{ old('phone', Auth::user()->phone) }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Gender</label>
+                                            <select name="gender" class="form-control">
+                                                <option value="" {{ old('gender', Auth::user()->gender) == '' ? 'selected' : '' }}>-- Select Gender --</option>
+                                                <option value="male" {{ old('gender', Auth::user()->gender) == 'male' ? 'selected' : '' }}>Male</option>
+                                                <option value="female" {{ old('gender', Auth::user()->gender) == 'female' ? 'selected' : '' }}>Female</option>
+                                                <option value="other" {{ old('gender', Auth::user()->gender) == 'other' ? 'selected' : '' }}>Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Date of Birth</label>
+                                            <input type="date" name="dob" class="form-control" value="{{ old('dob', Auth::user()->dob) }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Password</label>
+                                            <input type="password" name="password" class="form-control">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Confirm Password</label>
+                                            <input type="password" name="password_confirmation" class="form-control">
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label>Address</label>
-                                            <textarea class="form-control" name="address">{{ Auth::user()->address ?? '' }}</textarea>
+                                            <textarea class="form-control" name="address">{{ old('address', Auth::user()->address) }}</textarea>
                                         </div>
                                         <div class="col-md-12">
                                             <button type="submit" class="btn btn-primary">Update Information</button>
@@ -116,7 +175,20 @@
         </div>
     </div>
 @endsection
+
 @section('scripts')
+    <script>
+        document.getElementById("profileImageUpload").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("profileImagePreview").src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
     <script>
         $(document).ready(function() {
             const countrySelect = $("#countrySelect");
@@ -218,3 +290,4 @@
         });
     </script>
 @endsection
+

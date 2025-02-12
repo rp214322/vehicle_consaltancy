@@ -23,6 +23,9 @@
     <link rel="stylesheet" type="text/css" href="{!! asset('css/dev.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('src/plugins/jquery-steps/jquery.steps.css') !!}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet">
+
 
 
     @yield('styles')
@@ -60,6 +63,8 @@
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     <script src="{!! asset('src/plugins/jquery-steps/jquery.steps.js') !!}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
     <!-- <script src="{!! asset('vendors/scripts/steps-setting.js') !!}"></script> -->
 
     <script>

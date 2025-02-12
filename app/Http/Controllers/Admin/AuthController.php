@@ -60,12 +60,14 @@ class AuthController extends Controller
     {
         $rules = [
             'first_name' => 'required|max:30',
-            'last_name' => 'nullable|max:30',
+            'last_name' => 'required|max:30',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'phone' => 'nullable|max:20|unique:users,phone,' . Auth::id(),
             'country' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:100',
             'address' => 'nullable|string|max:255',
+            'dob' => 'nullable|date',
+            'gender' => 'nullable|in:male,female,other',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
@@ -83,12 +85,14 @@ class AuthController extends Controller
         $user->country = $request->input('country');
         $user->state = $request->input('state');
         $user->address = $request->input('address');
+        $user->dob = $request->input('dob');
+        $user->gender = $request->input('gender');
         
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/profiles'), $imageName);
-            $user->image = 'uploads/profiles/' . $imageName;
+            $user->profile_photo = 'uploads/profiles/' . $imageName;
         }
         
         $user->save();
