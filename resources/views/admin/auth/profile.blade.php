@@ -57,13 +57,11 @@
             <div class="col-lg-4 col-md-6 col-sm-12 mb-30">
                 <div class="card-box height-100-p pd-20">
                     <div class="profile-photo text-center">
-                        <label class="edit-avatar">
-                            <i class="fa fa-pencil"></i>
-                            <input type="file" id="profileImageUpload" accept="image/*">
                         </label>
                         <img id="profileImagePreview"
-                            src="{{ asset(Auth::user()->profile_photo ?? 'images/Default_image.jpg') }}"
-                            alt="Profile Photo" class="avatar-photo img-fluid rounded-circle shadow-sm" />
+                            src="{{ asset(Auth::user()->image ? Auth::user()->image : 'images/Default_image.jpg') }}"
+                            alt="Profile Photo"
+                            class="avatar-photo img-fluid rounded-circle shadow-sm" />
                         <h5 class="text-center h5 mt-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
                     </div>
 
@@ -101,8 +99,11 @@
                                         </ul>
                                     </div>
                                 @endif
-
-                                <form method="POST" action="{{ route('admin.post.profile') }}" enctype="multipart/form-data">
+                                @if (session('success'))
+                                    <div class="alert alert-success">{{ session('success') }}</div>
+                                @endif
+                                <form method="POST" action="{{ route('admin.post.profile') }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
@@ -140,15 +141,24 @@
                                         <div class="col-md-6 mb-3">
                                             <label>Gender</label>
                                             <select name="gender" class="form-control">
-                                                <option value="" {{ old('gender', Auth::user()->gender) == '' ? 'selected' : '' }}>-- Select Gender --</option>
-                                                <option value="male" {{ old('gender', Auth::user()->gender) == 'male' ? 'selected' : '' }}>Male</option>
-                                                <option value="female" {{ old('gender', Auth::user()->gender) == 'female' ? 'selected' : '' }}>Female</option>
-                                                <option value="other" {{ old('gender', Auth::user()->gender) == 'other' ? 'selected' : '' }}>Other</option>
+                                                <option value=""
+                                                    {{ old('gender', Auth::user()->gender) == '' ? 'selected' : '' }}>--
+                                                    Select Gender --</option>
+                                                <option value="male"
+                                                    {{ old('gender', Auth::user()->gender) == 'male' ? 'selected' : '' }}>
+                                                    Male</option>
+                                                <option value="female"
+                                                    {{ old('gender', Auth::user()->gender) == 'female' ? 'selected' : '' }}>
+                                                    Female</option>
+                                                <option value="other"
+                                                    {{ old('gender', Auth::user()->gender) == 'other' ? 'selected' : '' }}>
+                                                    Other</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>Date of Birth</label>
-                                            <input type="date" name="dob" class="form-control" value="{{ old('dob', Auth::user()->dob) }}">
+                                            <input type="date" name="dob" class="form-control"
+                                                value="{{ old('dob', Auth::user()->dob ? Auth::user()->dob->format('Y-m-d') : '') }}">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label>Password</label>
@@ -161,6 +171,10 @@
                                         <div class="col-md-12 mb-3">
                                             <label>Address</label>
                                             <textarea class="form-control" name="address">{{ old('address', Auth::user()->address) }}</textarea>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label>Profile Photo</label>
+                                            <input type="file" class="form-control" name="image" accept="image/*">
                                         </div>
                                         <div class="col-md-12">
                                             <button type="submit" class="btn btn-primary">Update Information</button>
@@ -290,4 +304,3 @@
         });
     </script>
 @endsection
-
