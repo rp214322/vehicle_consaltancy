@@ -26,6 +26,13 @@ class UsersController extends Controller
                 ->filterColumn('full_name', function ($query, $keyword) {
                     $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$keyword}%"]);
                 })
+                ->filterColumn('status', function ($query, $keyword) {
+                    if (strtolower($keyword) === 'active') {
+                        $query->where('status', 1);
+                    } elseif (strtolower($keyword) === 'blocked' || strtolower($keyword) === 'blocked') {
+                        $query->where('status', 0);
+                    }
+                })
                 ->addColumn('full_name', function ($user) {
                     return $user->first_name . ' ' . $user->last_name;
                 })
@@ -90,7 +97,6 @@ class UsersController extends Controller
             'phone' => 'required|numeric|digits:10|unique:users,phone',
             'password' => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required|string|min:8',
-            'role' => 'required|in:admin,customer',
             'dob' => 'nullable|date',
             'gender' => 'nullable|in:male,female,other',
             'country' => 'nullable|string|max:255',
@@ -121,7 +127,6 @@ class UsersController extends Controller
             'password_confirmation.required' => 'Please confirm your password.',
             'password_confirmation.string' => 'Password confirmation should be a string.',
             'password_confirmation.min' => 'Password confirmation must be at least 8 characters.',
-            'role.required' => 'Please select a role.',
             'dob.date' => 'Please enter a valid date of birth.',
             'gender.in' => 'Please select a valid gender option.',
             'image.image' => 'The uploaded file must be an image.',
@@ -141,7 +146,6 @@ class UsersController extends Controller
             $user->last_name = $request->get('last_name');
             $user->phone = $request->get('phone');
             $user->email = $request->get('email');
-            $user->role = $request->get('role');
             $user->dob = $request->get('dob');
             $user->gender = $request->get('gender');
             $user->country = $request->get('country');
@@ -199,6 +203,12 @@ class UsersController extends Controller
             'phone' => 'nullable|numeric|digits:10|unique:users,phone,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
             'password_confirmation' => 'nullable|string|min:8',
+            'dob' => 'nullable|date',
+            'gender' => 'nullable|in:male,female,other',
+            'country' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'address' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $messages = [
@@ -220,6 +230,11 @@ class UsersController extends Controller
             'password.confirmed' => 'Password and confirmation do not match.',
             'password_confirmation.string' => 'Password confirmation should be a string.',
             'password_confirmation.min' => 'Password confirmation must be at least 8 characters.',
+            'dob.date' => 'Please enter a valid date of birth.',
+            'gender.in' => 'Please select a valid gender option.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'Allowed image formats: jpeg, png, jpg, gif.',
+            'image.max' => 'Image size should not exceed 2MB.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -234,9 +249,19 @@ class UsersController extends Controller
             $user->last_name = $request->get('last_name');
             $user->phone = $request->get('phone');
             $user->email = $request->get('email');
+            $user->dob = $request->get('dob');
+            $user->gender = $request->get('gender');
+            $user->country = $request->get('country');
+            $user->state = $request->get('state');
+            $user->address = $request->get('address');
 
             if ($request->has('password') && !empty($request->password)) {
                 $user->password = Hash::make($request->get('password'));
+            }
+            if ($request->hasFile('image')) {
+                $imageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('uploads/users'), $imageName);
+                $user->image = 'uploads/users/' . $imageName;
             }
 
             $user->save();

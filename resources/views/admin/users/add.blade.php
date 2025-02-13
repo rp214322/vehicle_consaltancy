@@ -34,14 +34,6 @@
                 <input type="password" name="password_confirmation" class="form-control">
             </div>
             <div class="form-group">
-                <label>Role</label>
-                <select name="role" class="form-control">
-                    <option value="" selected>-- Select Role --</option>
-                    <option value="customer">Customer</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
-            <div class="form-group">
                 <label>Gender</label>
                 <select name="gender" class="form-control">
                     <option value="" selected>-- Select Gender --</option>
