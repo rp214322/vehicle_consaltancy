@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'role' => 'admin',
-        	'first_name' => 'Ritesh',
+        	'first_name' => 'Admin',
         	'email' => 'admin@hvac.com',
             'password' => bcrypt('admin123'),
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ]);
-        User::factory(35)->create();
+        // User::factory(35)->create();
         Category::create([
         	'name' => '2 Wheels',
         ]);

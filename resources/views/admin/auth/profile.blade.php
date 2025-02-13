@@ -83,11 +83,6 @@
             <div class="col-lg-8 col-md-6 col-sm-12 mb-30">
                 <div class="card-box height-100-p overflow-hidden">
                     <div class="profile-tab height-100-p">
-                        <ul class="nav nav-tabs customtab">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#setting">Settings</a>
-                            </li>
-                        </ul>
                         <div class="tab-content p-3">
                             <div class="tab-pane fade show active" id="setting">
                                 @if ($errors->any())

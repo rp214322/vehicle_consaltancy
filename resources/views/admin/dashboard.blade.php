@@ -5,7 +5,6 @@
             <div class="title pb-20">
                 <h2 class="h3 mb-0">Overview</h2>
             </div>
-
             <div class="row pb-10">
                 <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
                     <a href="{{ route('admin.users.index') }}">
@@ -25,7 +24,6 @@
                         </div>
                     </a>
                 </div>
-
                 <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
                     <a href="{{ route('admin.brands.index') }}">
                         <div class="card-box height-100-p widget-style3">
@@ -43,7 +41,6 @@
                         </div>
                     </a>
                 </div>
-
                 <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
                     <a href="{{ route('admin.models.index') }}">
                         <div class="card-box height-100-p widget-style3">
@@ -61,7 +58,6 @@
                         </div>
                     </a>
                 </div>
-
                 <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
                     <a href="{{ route('admin.vehicals.index') }}">
                         <div class="card-box height-100-p widget-style3">
@@ -80,7 +76,6 @@
                     </a>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-xl-12 mb-30">
                     <div class="card-box height-100-p pd-20">
@@ -96,7 +91,6 @@
         </div>
     </div>
 @endsection
-
 @section('scripts')
     <script src="{{ asset('src/plugins/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
@@ -166,7 +160,6 @@
                 }
             }
         };
-
         var chart5 = new ApexCharts(document.querySelector("#chart5"), options5);
         chart5.render();
     </script>

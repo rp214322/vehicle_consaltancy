@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="{!! asset('front/css/slicknav.min.css') !!}" type="text/css">
     <link rel="stylesheet" href="{!! asset('css/star-rating-svg.css') !!}" type="text/css">
     <link rel="stylesheet" href="{!! asset('front/css/style.css') !!}" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css"
+        rel="stylesheet" />
     @yield('styles')
 </head>
 <body>
@@ -45,6 +48,7 @@
     <script src="{!! asset('front/js/owl.carousel.min.js') !!}"></script>
     <script src="{!! asset('front/js/main.js') !!}"></script>
     <script src="{!! asset('js/jquery.star-rating-svg.js') !!}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         jQuery(document).ready(function() {
             jQuery(document).on("click", "[data-confirm]", function(e) {

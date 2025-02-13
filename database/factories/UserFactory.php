@@ -16,11 +16,11 @@ class UserFactory extends Factory
     {
         return [
             'first_name' => $this->faker->firstName(),
+            'last_name'=> $this->faker->lastName(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => bcrypt('password'), // Default password
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            'status' => $this->faker->randomElement([0, 1]), // Random status (0 or 1)
         ];
     }
 

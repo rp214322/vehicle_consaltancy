@@ -44,6 +44,7 @@ class RegisterController extends Controller
             'phone' => ['required', 'numeric', 'digits:10', 'unique:users', 'regex:/^[0-9]{10}$/'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'gender' => ['required', 'in:male,female,other'],
         ], [
             // Custom validation messages
             'phone.required' => 'The phone number is required.',
@@ -55,6 +56,8 @@ class RegisterController extends Controller
             'password.required' => 'The password is required.',
             'password.confirmed' => 'The password confirmation does not match.',
             'password.min' => 'The password must be at least 8 characters.',
+            'gender.required' => 'Please select your gender.',
+            'gender.in' => 'Invalid gender selection.',
         ]);
     }
 
@@ -72,6 +75,7 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'gender' => $data['gender'],
         ]);
     }
 }
