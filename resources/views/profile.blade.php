@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('styles')
     <style>
         .login-page {
@@ -143,27 +144,6 @@
                                         value="{{ old('phone', Auth::user()->phone) }}">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label>Gender</label>
-                                    <div class="input-group">
-                                        <select name="gender" class="form-control">
-                                            <option value=""
-                                                {{ old('gender', Auth::user()->gender) == '' ? 'selected' : '' }}>-- Select
-                                                Gender --</option>
-                                            <option value="male"
-                                                {{ old('gender', Auth::user()->gender) == 'male' ? 'selected' : '' }}>Male
-                                            </option>
-                                            <option value="female"
-                                                {{ old('gender', Auth::user()->gender) == 'female' ? 'selected' : '' }}>
-                                                Female
-                                            </option>
-                                            <option value="other"
-                                                {{ old('gender', Auth::user()->gender) == 'other' ? 'selected' : '' }}>
-                                                Other
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
                                     <label>Date of Birth</label>
                                     <input type="date" name="dob" class="form-control"
                                         value="{{ old('dob', Auth::user()->dob ? Auth::user()->dob->format('Y-m-d') : '') }}">
@@ -195,6 +175,7 @@
         </div>
     </section>
 @endsection
+
 @section('scripts')
     <script>
         $(document).ready(function() {

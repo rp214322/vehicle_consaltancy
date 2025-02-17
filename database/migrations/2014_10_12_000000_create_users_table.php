@@ -23,13 +23,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->tinyInteger('status')->default(1);
-            $table->string('image')->nullable(); // Added image field
             $table->date('dob')->nullable(); // Added date of birth field
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('country')->nullable(); // Country
             $table->string('state')->nullable(); // State
             $table->text('address')->nullable(); // Address
+            $table->string('image')->nullable(); // Added image field
+            $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
