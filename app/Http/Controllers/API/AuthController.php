@@ -72,7 +72,6 @@ class AuthController extends Controller
 
     public function updateProfile(Request $request, $id)
     {
-        // dd($request->all());
         $user = User::find($id);
 
         if (!$user) {
