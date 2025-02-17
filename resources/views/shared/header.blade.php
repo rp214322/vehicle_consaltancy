@@ -1,10 +1,26 @@
 <!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
-    <div class="offcanvas__widget">
-    </div>
     <div class="offcanvas__logo">
         <a href="{!! route('home') !!}"><img src="{!! asset('front/img/logo.png') !!}" alt=""></a>
+    </div>
+    <div class="offcanvas__widget">
+        @if (Auth::check())
+            <div class="dropdown show">
+                <a class="btn primary-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {!! Auth::user()->first_name !!}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a href="{!! route('profile') !!}" class="dropdown-item">Profile</a>
+                    <a href="{!! route('favourite.list') !!}" class="dropdown-item">Favourite Vehical</a>
+                    <a href="{!! route('logout') !!}" class="dropdown-item"
+                        data-confirm="Are you sure want to logout?">Sign Out</a>
+                </div>
+            </div>
+        @else
+            <a href="{!! route('login') !!}" class="primary-btn">Sign In</a>
+        @endif
     </div>
     <div id="mobile-menu-wrap"></div>
     <ul class="offcanvas__widget__add">
@@ -63,24 +79,27 @@
                 <div class="header__nav">
                     <nav class="header__menu">
                         <ul>
-                            <li class="{!! request()->route()->getName() == "home" ? "active" : "" !!}"><a href="{!! route('home') !!}">Home</a></li>
-                            <li class="{!! request()->route()->getName() == "vehicals.list" ? "active" : "" !!}"><a href="{!! route('vehicals.list') !!}">Vehicals</a></li>
-                            <li class="{!! request()->route()->getName() == "about" ? "active" : "" !!}"><a href="{!! route('about') !!}">About</a></li>
-                            <li class="{!! request()->route()->getName() == "contact" ? "active" : "" !!}"><a href="{!! route('contact') !!}">Contact</a></li>
+                            <li class="{!! request()->route()->getName() == 'home' ? 'active' : '' !!}"><a href="{!! route('home') !!}">Home</a></li>
+                            <li class="{!! request()->route()->getName() == 'vehicals.list' ? 'active' : '' !!}"><a href="{!! route('vehicals.list') !!}">Vehicals</a></li>
+                            <li class="{!! request()->route()->getName() == 'about' ? 'active' : '' !!}"><a href="{!! route('about') !!}">About</a></li>
+                            <li class="{!! request()->route()->getName() == 'contact' ? 'active' : '' !!}"><a href="{!! route('contact') !!}">Contact</a></li>
                         </ul>
                     </nav>
                     <div class="header__nav__widget">
-                        @if(Auth::check())
-                        <div class="dropdown show">
-                            <a class="btn primary-btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {!! Auth::user()->first_name !!}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <a href="{!! route('profile') !!}" class="dropdown-item">Profile</a>
-                              <a href="{!! route('favourite.list') !!}" class="dropdown-item">Favourite Vehical</a>
-                              <a href="{!! route('logout') !!}" class="dropdown-item" data-confirm="Are you sure want to logout?">Sign Out</a>
+                        @if (Auth::check())
+                            <div class="dropdown show">
+                                <a class="btn primary-btn dropdown-toggle" href="#" role="button"
+                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    {!! Auth::user()->first_name !!}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a href="{!! route('profile') !!}" class="dropdown-item">Profile</a>
+                                    <a href="{!! route('favourite.list') !!}" class="dropdown-item">Favourite Vehical</a>
+                                    <a href="{!! route('logout') !!}" class="dropdown-item"
+                                        data-confirm="Are you sure want to logout?">Sign Out</a>
+                                </div>
                             </div>
-                          </div>
                         @else
                             <a href="{!! route('login') !!}" class="primary-btn">Sign In</a>
                         @endif

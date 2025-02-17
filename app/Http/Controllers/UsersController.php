@@ -30,7 +30,6 @@ class UsersController extends Controller
             'state' => 'nullable|string|max:100',
             'address' => 'nullable|string|max:255',
             'dob' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'password' => 'nullable|string|min:8|confirmed',
             'password_confirmation' => 'nullable|string|min:8',
@@ -51,7 +50,6 @@ class UsersController extends Controller
         $user->state = $request->input('state');
         $user->address = $request->input('address');
         $user->dob = $request->input('dob');
-        $user->gender = $request->input('gender');
 
         if ($request->has('password') && !empty($request->password)) {
             $user->password = Hash::make($request->get('password'));

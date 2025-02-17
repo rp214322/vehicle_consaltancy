@@ -47,23 +47,6 @@
                                 <span class="text-danger d-block"><strong>{{ $message }}</strong></span>
                             @enderror
                         </div>
-                        <!-- Gender -->
-                        <div class="mb-3">
-                            <label class="form-label"><b>Gender</b></label>
-                            <div class="input-group">
-                                <select id="gender" class="form-control open @error('gender') is-invalid @enderror"
-                                    name="gender">
-                                    <option value="">Select Gender</option>
-                                    <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
-                                    <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
-                                    <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
-                                </select>
-                            </div>
-                            <!-- Error message should be outside the select -->
-                            @error('gender')
-                                <span class="text-danger d-block"><strong>{{ $message }}</strong></span>
-                            @enderror
-                        </div>
 
                         <!-- Email -->
                         <div class="mb-3">
