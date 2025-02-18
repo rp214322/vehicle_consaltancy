@@ -18,6 +18,7 @@ class CreateBrandsTable extends Migration
             $table->bigInteger("category_id");
             $table->string("name");
             $table->string("slug");
+            $table->string("image")->nullable();
             $table->tinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
