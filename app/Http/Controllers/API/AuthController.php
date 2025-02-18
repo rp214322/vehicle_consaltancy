@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * @OA\Info(
@@ -49,6 +51,7 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        Log::info('Register Request:', $request->all());
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
@@ -68,11 +71,14 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
-
-        return response()->json([
+        $response = [
             'message' => 'User registered successfully',
             'data' => $user
-        ], 201);
+        ];
+
+        Log::info('Register Response:', $response);
+
+        return response()->json($response, 201);
     }
     /**
      * @OA\Post(
@@ -94,6 +100,7 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        Log::info('Login Request:', $request->all());
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
@@ -110,11 +117,16 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
+        $response = [
             'message' => 'Logged in successfully',
             'access_token' => $token,
             'data' => $user
-        ]);
+        ];
+
+        // Log the response
+        Log::info('User Logged In', $response);
+
+        return response()->json($response);
     }
     /**
      * @OA\Put(
@@ -154,6 +166,7 @@ class AuthController extends Controller
 
     public function updateProfile(Request $request, $id)
     {
+        Log::info('Profile Update_Request', $request->all());
         $user = User::find($id);
 
         if (!$user) {
@@ -209,10 +222,15 @@ class AuthController extends Controller
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 
-        return response()->json([
+        $response = [
             'message' => 'Profile updated successfully',
             'user' => $user,
-        ]);
+        ];
+
+        // Log the response
+        Log::info('User Profile Updated', $response);
+
+        return response()->json($response);
     }
     /**
      * @OA\Post(
@@ -225,11 +243,17 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        Log::info('Logout Request Payload', $request->all());
+
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
+        $response = [
             'message' => 'Successfully logged out',
-        ]);
+        ];
+
+        Log::info('Logout Response', $response);
+
+        return response()->json($response);
     }
     /**
      * @OA\Post(
@@ -249,20 +273,24 @@ class AuthController extends Controller
      */
     public function forgotPassword(Request $request)
     {
+        Log::info('Forgot Password Request Payload', $request->all());
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            $errors = $validator->errors();
+            Log::info('Forgot Password Validation Errors', $errors);
+            return response()->json(['errors' => $errors], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json([
-                'message' => 'User not found',
-            ], 404);
+            $message = 'User not found';
+            Log::info('Forgot Password Response', ['message' => $message]);
+            return response()->json(['message' => $message], 404);
         }
 
         $otp = Str::random(6);
@@ -271,14 +299,14 @@ class AuthController extends Controller
             'password_reset_token_expiry' => now()->addMinutes(10),
         ]);
 
-        // Send OTP via email
         Mail::raw("Your OTP for password reset is: $otp", function ($message) use ($user) {
             $message->to($user->email)->subject('Password Reset OTP');
         });
 
-        return response()->json([
-            'message' => 'OTP sent to your email',
-        ]);
+        $response = ['message' => 'OTP sent to your email'];
+        Log::info('Forgot Password Response', $response);
+
+        return response()->json($response);
     }
     /**
      * @OA\Post(
@@ -299,13 +327,17 @@ class AuthController extends Controller
      */
     public function verifyOtp(Request $request)
     {
+        Log::info('Verify OTP Request Payload', $request->all());
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'otp' => 'required|string',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            $errors = $validator->errors();
+            Log::info('Verify OTP Validation Errors', $errors);
+            return response()->json(['errors' => $errors], 422);
         }
 
         $user = User::where('email', $request->email)
@@ -314,14 +346,15 @@ class AuthController extends Controller
             ->first();
 
         if (!$user) {
-            return response()->json([
-                'message' => 'Invalid or expired OTP',
-            ], 400);
+            $message = 'Invalid or expired OTP';
+            Log::info('Verify OTP Response', ['message' => $message]);
+            return response()->json(['message' => $message], 400);
         }
 
-        return response()->json([
-            'message' => 'OTP verified successfully',
-        ]);
+        $response = ['message' => 'OTP verified successfully'];
+        Log::info('Verify OTP Response', $response);
+
+        return response()->json($response);
     }
     /**
      * @OA\Post(
@@ -345,6 +378,8 @@ class AuthController extends Controller
      */
     public function resetPassword(Request $request)
     {
+        Log::info('Reset Password Request Payload', $request->all());
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'otp' => 'required|string',
@@ -352,7 +387,9 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            $errors = $validator->errors();
+            Log::info('Reset Password Validation Errors', $errors);
+            return response()->json(['errors' => $errors], 422);
         }
 
         $user = User::where('email', $request->email)
@@ -361,9 +398,9 @@ class AuthController extends Controller
             ->first();
 
         if (!$user) {
-            return response()->json([
-                'message' => 'Invalid or expired OTP',
-            ], 400);
+            $message = 'Invalid or expired OTP';
+            Log::info('Reset Password Response', ['message' => $message]);
+            return response()->json(['message' => $message], 400);
         }
 
         $user->update([
@@ -372,8 +409,9 @@ class AuthController extends Controller
             'password_reset_token_expiry' => null,
         ]);
 
-        return response()->json([
-            'message' => 'Password reset successfully',
-        ]);
+        $response = ['message' => 'Password reset successfully'];
+        Log::info('Reset Password Response', $response);
+
+        return response()->json($response);
     }
 }
