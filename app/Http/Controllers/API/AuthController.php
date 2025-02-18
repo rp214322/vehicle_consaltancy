@@ -101,26 +101,56 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         Log::info('Login Request:', $request->all());
+        
+        // Validate the incoming request
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'nullable|email', // email field is optional
+            'phone' => 'nullable|string', // phone field is optional
+            'password' => 'required|string',
         ]);
+        // dd($validator->fails());
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+        // Check if either email or phone is provided
+        if ($request->has('email')) {
+            // Check if user with the given email exists
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user) {
+                return response()->json(['message' => 'Email not found. Please first register.'], 404);
+            }
+        } elseif ($request->has('phone')) {
+            // Check if user with the given phone exists
+            $user = User::where('phone', $request->phone)->first();
+
+            if (!$user) {
+                return response()->json(['message' => 'Phone number not found. Please first register.'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Email or phone is required'], 422);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        // Check if the user's status is inactive (0)
+        if ($user->status == 0) {
+            return response()->json(['message' => 'You are inactive. Contact admin.'], 403);
+        }
+
+        // Attempt to authenticate the user using the provided password
+        if (!Auth::attempt(['email' => $user->email, 'password' => $request->password])) {
+            return response()->json(['message' => 'Password incorrect'], 401);
+        }
+
+        // Generate the access token
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        // Response data
         $response = [
             'message' => 'Logged in successfully',
             'access_token' => $token,
-            'data' => $user
+            'data' => $user,
         ];
 
         // Log the response
@@ -173,6 +203,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
+        // Validation
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
