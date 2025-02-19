@@ -37,6 +37,18 @@ class AddMissingFieldsToUsersTable extends Migration
             $table->tinyInteger('status')->default(1)->after('image');
             $table->softDeletes()->after('remember_token');
         });
+        Schema::table('users', function (Blueprint $table) {
+            // Remove duplicate phone numbers before adding unique constraint
+            DB::statement("
+            DELETE u1 FROM users u1
+            INNER JOIN users u2 
+            ON u1.phone = u2.phone 
+            WHERE u1.id > u2.id
+        ");
+
+            // Add unique constraint to phone number
+            $table->unique('phone');
+        });
     }
 
     /**
@@ -49,6 +61,7 @@ class AddMissingFieldsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropUnique('users_slug_unique');
             $table->dropColumn(['slug', 'dob', 'country', 'state', 'address', 'image', 'status', 'deleted_at']);
+            $table->dropUnique('users_phone_unique');
         });
     }
 }
