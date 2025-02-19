@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 19, 2025 at 11:55 AM
+-- Generation Time: Feb 19, 2025 at 07:14 PM
 -- Server version: 8.0.41-0ubuntu0.22.04.1
 -- PHP Version: 8.1.31
 
@@ -72,6 +72,8 @@ CREATE TABLE `categories` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint NOT NULL DEFAULT '1',
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -80,9 +82,9 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
-(1, '2 Wheeler', '2-wheeler', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(3, '4 Wheeler', '4-wheeler', '2023-03-28 08:18:44', '2023-03-28 08:18:44');
+INSERT INTO `categories` (`id`, `name`, `slug`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, '2 Wheeler', '2-wheeler', 1, NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(3, '4 Wheeler', '4-wheeler', 1, NULL, '2023-03-28 08:18:44', '2023-03-28 08:18:44');
 
 -- --------------------------------------------------------
 
@@ -222,7 +224,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2023_03_03_055648_create_vehical_galleries_table', 1),
 (10, '2023_03_03_155854_create_inquries_table', 1),
 (11, '2023_03_03_155915_create_feedbacks_table', 1),
-(12, '2023_03_30_055747_create_favourite_vehicals_table', 2);
+(12, '2023_03_30_055747_create_favourite_vehicals_table', 2),
+(13, '2025_02_19_073650_add_missing_fields_to_users_table', 3),
+(14, '2025_02_19_100630_update_categories_table_add_status_softdeletes', 3);
 
 -- --------------------------------------------------------
 
@@ -344,6 +348,14 @@ CREATE TABLE `password_resets` (
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('admin@example.com', '$2y$10$SqiCE1yMbGz5C/YyHnVoHuDsieMUIEO89ML/cNwFkVr4bNnaD8M76', '2025-02-19 05:55:19'),
+('ronakp2912@gmail.com', '$2y$10$3k2luPyXi5Hqm2STe8fUeOECq0PqMyDXiAakym9uRxMI0Rpp4LdEu', '2025-02-19 05:57:08');
+
 -- --------------------------------------------------------
 
 --
@@ -362,6 +374,16 @@ CREATE TABLE `personal_access_tokens` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\User', 60, 'auth_token', '86c93b74075d1eb26e145d06b006ca2ad6eec8285596e068a4562e6f81b4ad8e', '[\"*\"]', NULL, '2025-02-19 07:57:50', '2025-02-19 07:57:50'),
+(2, 'App\\Models\\User', 60, 'auth_token', '1b59aa419599dbffd1cf973f94cab77c35303589d0179fba39f08879cd2866e6', '[\"*\"]', NULL, '2025-02-19 07:58:04', '2025-02-19 07:58:04'),
+(3, 'App\\Models\\User', 60, 'auth_token', '2e1afb72738f2e9ab3a7f0af9be4ec4b393f1f4993eaf23abcf45a80d4cefc57', '[\"*\"]', NULL, '2025-02-19 07:58:05', '2025-02-19 07:58:05'),
+(4, 'App\\Models\\User', 60, 'auth_token', '2e61c5317055735f278c732e8398e12e3e2b56da6c43b73c15ac81f6ebd3e021', '[\"*\"]', NULL, '2025-02-19 07:58:24', '2025-02-19 07:58:24');
+
 -- --------------------------------------------------------
 
 --
@@ -373,11 +395,19 @@ CREATE TABLE `users` (
   `role` enum('admin','customer') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'customer',
   `first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dob` date DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '1',
   `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -386,56 +416,64 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `phone`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'customer', 'Helga Fadel', 'Cindy Johnston IV', NULL, 'calista35@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'z0MTdUug2l', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(3, 'customer', 'Marcelo Stiedemann', 'Lenny Torp', NULL, 'lhessel@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'YwmkhPtdLU', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(4, 'customer', 'Delilah Kozey', 'Mr. Mckenzie Tromp', NULL, 'sstark@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'TuerWfDVik', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(5, 'customer', 'Marcellus Towne', 'Prof. Steve Grant IV', NULL, 'cleveland.macejkovic@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'IaaWL9TRNK', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(6, 'customer', 'Leone Reinger I', 'Adah Collier I', NULL, 'nathan47@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'YGMbpSHfbL', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(7, 'customer', 'Berenice Hammes', 'Barbara Fisher II', NULL, 'lyla40@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1ql0q8DvLO', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(8, 'customer', 'Lloyd Corwin', 'Amya Mayer', NULL, 'vschmeler@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'uiVhISNj7c', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(9, 'customer', 'Ms. Stacy Haag', 'Theresa Kunze', NULL, 'alockman@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'o6cFZQBtg8', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(10, 'customer', 'Miss Yasmeen Kemmer Sr.', 'Emilie Koch', NULL, 'kianna.murray@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '0lpS0MgVHg', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(11, 'customer', 'Dr. Novella Nikolaus MD', 'Beryl Haley', NULL, 'stokes.nicholas@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '6gTey1uJDi', '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(13, 'admin', 'yash', 'patel', '9157541292', 'yash1292@gmail.com', '2023-04-02 04:54:16', '$2y$10$vJm4Ecn4KG9iR9osssHAy.pdpEi7VIqqBwS5Y8NqFnQy4.E9UZRWq', 'CSLGDJnILqPrKWe18ycWfTqrJQRPAwwoq1j2Oz6F62WjN33kl3bGrNG139Tt', '2023-04-02 04:54:16', '2023-04-03 08:21:03'),
-(14, 'customer', 'Lue Cartwright', 'Amira Schaefer', NULL, 'bins.payton@example.com', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'nwUAc8Nt9z', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(15, 'customer', 'Matt Von', 'Bernie Christiansen', NULL, 'schmeler.leilani@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'vP54A5pAqP', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(16, 'customer', 'Audrey Kemmer', 'Grant Sawayn', NULL, 'cankunding@example.com', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ouyGjSCH3H', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(17, 'customer', 'Prof. Alfredo Waters PhD', 'Hector Macejkovic PhD', NULL, 'marisol36@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '9gA9BWYtg1', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(18, 'customer', 'Ollie Torp III', 'Beth Bayer', NULL, 'johns.gennaro@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '7PSnVlB6Vn', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(19, 'customer', 'Annamarie Paucek', 'Prof. Freddie Pouros Sr.', NULL, 'lgreenholt@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '6Nik6ILKQR', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(20, 'customer', 'Ayla Schroeder', 'Kallie Barrows', NULL, 'rollin.romaguera@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'kzX2CkAQd2', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(21, 'customer', 'Celestino Cummerata', 'Lula Wehner', NULL, 'von.frederic@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'cELQbLHHeE', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(22, 'customer', 'Marilyne Heaney', 'Gillian Bartoletti', NULL, 'zhyatt@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'rSqXgrcUpK', '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(23, 'customer', 'Adelia Kautzer', 'Mr. Nels Medhurst MD', NULL, 'lmacejkovic@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2JmetXdnT7', '2023-04-02 04:54:19', '2023-04-02 04:54:19'),
-(24, 'admin', 'devanshi', 'ballar', '9824732223', 'devanshiballer12i@gmail.com', '2023-04-19 23:24:03', '$2y$10$K0On/LOsSXRLRZrlJCv1uOmwIwM4z/PumNDcT94UfjX5/AkZAWRTG', 'JCaKrkTA1tAsS8NG5hteS8TH3FRx1HJGWpzO4z3DF60yTAiuoU9u1Dlol9TE', '2023-04-19 23:24:03', '2023-04-19 23:58:23'),
-(25, 'customer', 'Luther Hauck', 'Toy Reinger', NULL, 'cummerata.nicholaus@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'T9wtRIb4ME', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(26, 'customer', 'Tiana Quigley', 'Casey Predovic', NULL, 'ijohnston@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '3GBLo7aE8A', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(27, 'customer', 'Ettie Pouros', 'Talia Swaniawski Sr.', NULL, 'jayson.jenkins@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'NEd6Gk36Ke', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(28, 'customer', 'Audie Trantow', 'Stella Kertzmann', '6686', 'eve25@example.net', '2023-04-19 23:24:05', '$2y$10$WSXQqgpYCPqYWNjI7bLtBu.yUjTUEHLfJvQtKRroBnfJpXpsqqeBy', 'Y0ydlasTMIBbLSZMv9BOPbHGsYIeuBenulRq5UZIqTmSO4Y8X0NdA6nsyvVQ', '2023-04-19 23:24:05', '2023-04-20 06:05:17'),
-(29, 'customer', 'Charity Schneider', 'Mr. Kay Stanton III', NULL, 'isadore10@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'NEnc48XCbV', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(30, 'customer', 'Ted Mann', 'Prof. Gay Harris IV', NULL, 'jheidenreich@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '5sFi26SSpy', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(31, 'customer', 'Dr. Gracie Cassin', 'Lonnie Nikolaus', NULL, 'ferry.faustino@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'F4BsYdp9un', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(32, 'customer', 'Karlee Kovacek PhD', 'Serenity Roob', NULL, 'fern83@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'a2bdC7767U', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(33, 'customer', 'Cordell Smitham', 'Jacklyn Hills IV', NULL, 'oswald59@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'YzKOeTA14S', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(34, 'customer', 'Rubye Wyman', 'Katlynn O\'Kon', NULL, 'cindy63@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Uj6YOXosY4', '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(36, 'admin', 'Administrator', '', NULL, 'admin@example.com', '2023-04-20 00:12:37', '$2y$10$WSXQqgpYCPqYWNjI7bLtBu.yUjTUEHLfJvQtKRroBnfJpXpsqqeBy', 'oYAZzdBGb9G69BAP0fFiTkzMEYkDYAs699N6L8FFmMTgog4cP7f6kiVOom7a', '2023-04-20 00:12:37', '2023-04-20 00:12:37'),
-(37, 'customer', 'Thea Greenholt', 'Neoma Shanahan V', NULL, 'dkirlin@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'wFJyxQdCjS', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(38, 'customer', 'Mara Witting', 'Jovan Wyman', NULL, 'arch35@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Cz3rWZuwWC', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(39, 'customer', 'Casimir Koepp', 'Giovanny Rosenbaum', NULL, 'delaney72@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Q0hdlOk7A4', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(40, 'customer', 'Ethelyn Mueller', 'Earnestine Heller IV', NULL, 'mbreitenberg@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'cMwvyLWcTD', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(41, 'customer', 'Demario Reynolds', 'Steve Deckow V', NULL, 'nicklaus.monahan@example.org', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'R5lUt2CDU9', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(42, 'customer', 'Arden Mitchell', 'Rupert O\'Keefe', NULL, 'toy.marquardt@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '88tRlP36oE', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(43, 'customer', 'Gunner Howe', 'Lamar Schumm', NULL, 'wiza.giovanny@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'eIHRg3c5DH', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(44, 'customer', 'Olen Hyatt', 'Emmett Jacobi Sr.', NULL, 'oborer@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'LqLtPWbSee', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(45, 'customer', 'Hal Schulist', 'Chance Boyer', NULL, 'mprosacco@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'EsUBEZ8Vob', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(46, 'customer', 'Skye Denesik', 'Dr. Jaquan Beahan II', NULL, 'carmela.bergnaum@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Td8yC64PPz', '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(47, 'customer', 'test', 'test', '97997', 'test1@gmail.com', NULL, '$2y$10$GP7AAn0Fs2eRpThmo.7hs.C4kEMc1nf9PxqqKoJGTOu/F7yEkoOOe', NULL, '2023-04-20 06:19:28', '2023-04-20 06:19:28'),
-(48, 'customer', 'kavita', 'patel', '9157541292', 'kavi1292@gmail.com', '2023-04-20 09:55:23', '$2y$10$oyvTQ/9PqpGn6fMjMlU7DeCIJRjsRr2Y.fFdA1uB6FFWDC/tQqvDW', NULL, '2023-04-20 09:55:23', '2023-04-20 09:55:23'),
-(49, 'customer', 'julee', 'patel', '9909339543', 'julee993@gamil.com', '2023-04-20 09:56:30', '$2y$10$gpo7knG4.cC1EWWPLDQJ7.d2zRp0GU3w4UdhJ8PHDJCEqBOmVWx1y', NULL, '2023-04-20 09:56:30', '2023-04-20 09:56:30'),
-(50, 'customer', 'shivay', 'patel', '9909365298', 'shivu81222@gmail.com', '2023-04-20 09:58:39', '$2y$10$yLKrfZ.3MyKUh6kOsS5TDOkV8dG.cHR/Rqx5BLYNi3ydJZPMMj9C.', NULL, '2023-04-20 09:58:39', '2023-04-20 09:58:39'),
-(51, 'customer', 'dsf', 'dfsdfdsfs', '3656563256', 'dsf@fgdg.com', NULL, '$2y$10$A2Ju0kujW6XusC9hY1sf3.CbnGUIvZnnue.PTJ6ES42ieCb9vjB5.', NULL, '2023-10-11 08:15:09', '2023-10-11 08:15:09'),
-(52, 'customer', 'abhi', 'patel', '9313533288', 'abhaypatel2354@gmail.com', '2024-05-31 09:25:37', '$2y$10$.o1fZHPdIFeV47rPu.5D8O/bDFb/nK0eGlRA6dM/q1TEnXK6tCLxC', NULL, '2024-05-31 09:25:37', '2024-05-31 09:25:37');
+INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `slug`, `phone`, `email`, `email_verified_at`, `password`, `dob`, `country`, `state`, `address`, `image`, `status`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(2, 'customer', 'Helga Fadel', 'Cindy Johnston IV', 'user-2', NULL, 'calista35@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'z0MTdUug2l', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(3, 'customer', 'Marcelo Stiedemann', 'Lenny Torp', 'user-3', NULL, 'lhessel@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'YwmkhPtdLU', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(4, 'customer', 'Delilah Kozey', 'Mr. Mckenzie Tromp', 'user-4', NULL, 'sstark@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'TuerWfDVik', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(5, 'customer', 'Marcellus Towne', 'Prof. Steve Grant IV', 'user-5', NULL, 'cleveland.macejkovic@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'IaaWL9TRNK', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(6, 'customer', 'Leone Reinger I', 'Adah Collier I', 'user-6', NULL, 'nathan47@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'YGMbpSHfbL', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(7, 'customer', 'Berenice Hammes', 'Barbara Fisher II', 'user-7', NULL, 'lyla40@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '1ql0q8DvLO', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(8, 'customer', 'Lloyd Corwin', 'Amya Mayer', 'user-8', NULL, 'vschmeler@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'uiVhISNj7c', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(9, 'customer', 'Ms. Stacy Haag', 'Theresa Kunze', 'user-9', NULL, 'alockman@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'o6cFZQBtg8', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(10, 'customer', 'Miss Yasmeen Kemmer Sr.', 'Emilie Koch', 'user-10', NULL, 'kianna.murray@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '0lpS0MgVHg', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(11, 'customer', 'Dr. Novella Nikolaus MD', 'Beryl Haley', 'user-11', NULL, 'stokes.nicholas@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '6gTey1uJDi', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
+(13, 'admin', 'yash', 'patel', 'user-13', '9157541292', 'yash1292@gmail.com', '2023-04-02 04:54:16', '$2y$10$vJm4Ecn4KG9iR9osssHAy.pdpEi7VIqqBwS5Y8NqFnQy4.E9UZRWq', NULL, NULL, NULL, NULL, NULL, 1, 'CSLGDJnILqPrKWe18ycWfTqrJQRPAwwoq1j2Oz6F62WjN33kl3bGrNG139Tt', NULL, '2023-04-02 04:54:16', '2023-04-03 08:21:03'),
+(14, 'customer', 'Lue Cartwright', 'Amira Schaefer', 'user-14', NULL, 'bins.payton@example.com', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'nwUAc8Nt9z', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(15, 'customer', 'Matt Von', 'Bernie Christiansen', 'user-15', NULL, 'schmeler.leilani@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'vP54A5pAqP', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(16, 'customer', 'Audrey Kemmer', 'Grant Sawayn', 'user-16', NULL, 'cankunding@example.com', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'ouyGjSCH3H', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(17, 'customer', 'Prof. Alfredo Waters PhD', 'Hector Macejkovic PhD', 'user-17', NULL, 'marisol36@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '9gA9BWYtg1', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(18, 'customer', 'Ollie Torp III', 'Beth Bayer', 'user-18', NULL, 'johns.gennaro@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '7PSnVlB6Vn', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(19, 'customer', 'Annamarie Paucek', 'Prof. Freddie Pouros Sr.', 'user-19', NULL, 'lgreenholt@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '6Nik6ILKQR', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(20, 'customer', 'Ayla Schroeder', 'Kallie Barrows', 'user-20', NULL, 'rollin.romaguera@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'kzX2CkAQd2', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(21, 'customer', 'Celestino Cummerata', 'Lula Wehner', 'user-21', NULL, 'von.frederic@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'cELQbLHHeE', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(22, 'customer', 'Marilyne Heaney', 'Gillian Bartoletti', 'user-22', NULL, 'zhyatt@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'rSqXgrcUpK', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
+(23, 'customer', 'Adelia Kautzer', 'Mr. Nels Medhurst MD', 'user-23', NULL, 'lmacejkovic@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '2JmetXdnT7', NULL, '2023-04-02 04:54:19', '2023-04-02 04:54:19'),
+(24, 'admin', 'devanshi', 'ballar', 'user-24', '9824732223', 'devanshiballer12i@gmail.com', '2023-04-19 23:24:03', '$2y$10$K0On/LOsSXRLRZrlJCv1uOmwIwM4z/PumNDcT94UfjX5/AkZAWRTG', NULL, NULL, NULL, NULL, NULL, 1, 'JCaKrkTA1tAsS8NG5hteS8TH3FRx1HJGWpzO4z3DF60yTAiuoU9u1Dlol9TE', NULL, '2023-04-19 23:24:03', '2023-04-19 23:58:23'),
+(25, 'customer', 'Luther Hauck', 'Toy Reinger', 'user-25', NULL, 'cummerata.nicholaus@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'T9wtRIb4ME', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(26, 'customer', 'Tiana Quigley', 'Casey Predovic', 'user-26', NULL, 'ijohnston@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '3GBLo7aE8A', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(27, 'customer', 'Ettie Pouros', 'Talia Swaniawski Sr.', 'user-27', NULL, 'jayson.jenkins@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'NEd6Gk36Ke', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(28, 'customer', 'Audie Trantow', 'Stella Kertzmann', 'user-28', '6686', 'eve25@example.net', '2023-04-19 23:24:05', '$2y$10$WSXQqgpYCPqYWNjI7bLtBu.yUjTUEHLfJvQtKRroBnfJpXpsqqeBy', NULL, NULL, NULL, NULL, NULL, 1, 'Y0ydlasTMIBbLSZMv9BOPbHGsYIeuBenulRq5UZIqTmSO4Y8X0NdA6nsyvVQ', NULL, '2023-04-19 23:24:05', '2023-04-20 06:05:17'),
+(29, 'customer', 'Charity Schneider', 'Mr. Kay Stanton III', 'user-29', NULL, 'isadore10@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'NEnc48XCbV', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(30, 'customer', 'Ted Mann', 'Prof. Gay Harris IV', 'user-30', NULL, 'jheidenreich@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '5sFi26SSpy', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(31, 'customer', 'Dr. Gracie Cassin', 'Lonnie Nikolaus', 'user-31', NULL, 'ferry.faustino@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'F4BsYdp9un', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(32, 'customer', 'Karlee Kovacek PhD', 'Serenity Roob', 'user-32', NULL, 'fern83@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'a2bdC7767U', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(33, 'customer', 'Cordell Smitham', 'Jacklyn Hills IV', 'user-33', NULL, 'oswald59@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'YzKOeTA14S', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(34, 'customer', 'Rubye Wyman', 'Katlynn O\'Kon', 'user-34', NULL, 'cindy63@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Uj6YOXosY4', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
+(36, 'admin', 'Admin', '-', 'user-36', '+91 7016590780', 'admin@admin.com', '2023-04-20 00:12:37', '$2y$10$6iHomnC0bb92QSVMp9mDauOvOa0x7piALOwBfZklEeMmPTaVrWBZ2', '2002-03-30', 'IN', 'Gujarat', '605 Titenium Square, Ahmedabad, Gujarat', 'uploads/profiles/1739968725.jpg', 1, 'oYAZzdBGb9G69BAP0fFiTkzMEYkDYAs699N6L8FFmMTgog4cP7f6kiVOom7a', NULL, '2023-04-20 00:12:37', '2025-02-19 07:08:45'),
+(37, 'customer', 'Thea Greenholt', 'Neoma Shanahan V', 'user-37', NULL, 'dkirlin@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'wFJyxQdCjS', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(38, 'customer', 'Mara Witting', 'Jovan Wyman', 'user-38', NULL, 'arch35@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Cz3rWZuwWC', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(39, 'customer', 'Casimir Koepp', 'Giovanny Rosenbaum', 'user-39', NULL, 'delaney72@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Q0hdlOk7A4', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(40, 'customer', 'Ethelyn Mueller', 'Earnestine Heller IV', 'user-40', NULL, 'mbreitenberg@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'cMwvyLWcTD', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(41, 'customer', 'Demario Reynolds', 'Steve Deckow V', 'user-41', NULL, 'nicklaus.monahan@example.org', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'R5lUt2CDU9', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(42, 'customer', 'Arden Mitchell', 'Rupert O\'Keefe', 'user-42', NULL, 'toy.marquardt@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '88tRlP36oE', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(43, 'customer', 'Gunner Howe', 'Lamar Schumm', 'user-43', NULL, 'wiza.giovanny@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'eIHRg3c5DH', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(44, 'customer', 'Olen Hyatt', 'Emmett Jacobi Sr.', 'user-44', NULL, 'oborer@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'LqLtPWbSee', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(45, 'customer', 'Hal Schulist', 'Chance Boyer', 'user-45', NULL, 'mprosacco@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'EsUBEZ8Vob', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(46, 'customer', 'Skye Denesik', 'Dr. Jaquan Beahan II', 'user-46', NULL, 'carmela.bergnaum@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Td8yC64PPz', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
+(47, 'customer', 'test', 'test', 'user-47', '97997', 'test1@gmail.com', NULL, '$2y$10$GP7AAn0Fs2eRpThmo.7hs.C4kEMc1nf9PxqqKoJGTOu/F7yEkoOOe', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2023-04-20 06:19:28', '2023-04-20 06:19:28'),
+(49, 'customer', 'julee', 'patel', 'user-49', '9909339543', 'julee993@gamil.com', '2023-04-20 09:56:30', '$2y$10$gpo7knG4.cC1EWWPLDQJ7.d2zRp0GU3w4UdhJ8PHDJCEqBOmVWx1y', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2023-04-20 09:56:30', '2023-04-20 09:56:30'),
+(50, 'customer', 'shivay', 'patel', 'user-50', '9909365298', 'shivu81222@gmail.com', '2023-04-20 09:58:39', '$2y$10$yLKrfZ.3MyKUh6kOsS5TDOkV8dG.cHR/Rqx5BLYNi3ydJZPMMj9C.', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2023-04-20 09:58:39', '2023-04-20 09:58:39'),
+(51, 'customer', 'dsf', 'dfsdfdsfs', 'user-51', '3656563256', 'dsf@fgdg.com', NULL, '$2y$10$A2Ju0kujW6XusC9hY1sf3.CbnGUIvZnnue.PTJ6ES42ieCb9vjB5.', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2023-10-11 08:15:09', '2023-10-11 08:15:09'),
+(52, 'customer', 'abhi', 'patel', 'user-52', '9313533288', 'abhaypatel2354@gmail.com', '2024-05-31 09:25:37', '$2y$10$.o1fZHPdIFeV47rPu.5D8O/bDFb/nK0eGlRA6dM/q1TEnXK6tCLxC', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2024-05-31 09:25:37', '2024-05-31 09:25:37'),
+(53, 'customer', 'Ronak', 'Patel', 'ronak', '9664725001', 'ronakp2912@gmail.com', NULL, '$2y$10$FB7Jbza.VhHKSBDwu3T34uu0yfUSjZmq34oF.DA3u7g603iWLkZYC', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-02-19 06:45:54', '2025-02-19 05:54:17', '2025-02-19 06:45:54'),
+(54, 'customer', 'Prasant', 'chanvda', 'prasant', '9589658965', 'prasant@gmail.com', '2025-02-19 06:05:39', '$2y$10$3GvSY757KhFoVYA5qkiiKOlGAEIORfwNdpigu4WulRloyCxii013.', '2025-02-13', 'IN', 'Assam', 'dgdgfdfdf', NULL, 0, NULL, NULL, '2025-02-19 06:05:39', '2025-02-19 06:53:15'),
+(55, 'customer', 'Prasant', 'chavda', 'prasant-2', '9658745896', 'prasant1@gmail.com', '2025-02-19 06:31:14', '$2y$10$o/L7DEYFX6/r8S1sIDTpVeuAeDpvhw5hnjnMIFFHxhf3wPq3t6cZe', NULL, 'IN', 'Goa', 'fgfd', NULL, 1, NULL, NULL, '2025-02-19 06:31:14', '2025-02-19 06:31:14'),
+(56, 'customer', 'Deep', 'Sapariya', 'deep', '9652145266', 'deep.patel@shivlab.com', NULL, '$2y$10$xAo1zvaxWwiTOCcW7sfCGOSs9PJdWQ.QOU.qSFp9hhhcXhWKOeMU.', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 07:33:25', '2025-02-19 07:33:25'),
+(57, 'customer', 'Manan', 'Bhalala', 'manan', '9652365214', 'manan.bhalala@shivlab.com', NULL, '$2y$10$5vUupIfedcqZOXXod8TE0.xUv1XDbrCCd6Ptr3H9WR2buOi/OtUI.', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 07:34:26', '2025-02-19 07:34:26'),
+(58, 'customer', 'Yogesh', 'bhau', 'yogesh', '9652365216', 'yogest@gmil.com', NULL, '$2y$10$NH8YGrBd6SqfVbWRfWKik.OGXxGT/4vMXIq/hfJTx1lasJyn.xDYy', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 07:35:24', '2025-02-19 07:35:24'),
+(59, 'customer', 'Mahesh', 'Savaliya', 'mahesh', '9632563256', 'mana.bhalala@shivlab.com', NULL, '$2y$10$qhXr9kW0mHqMGDoWkK547e9D3ezytsFxOo0IyY9Sf3okxzQQ4weJW', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 07:53:50', '2025-02-19 07:56:12'),
+(60, 'customer', 'Rohan', 'Chauhan', 'rohan', '9658965896', 'rohan@gmail.com', NULL, '$2y$10$l6I4xK15hTXy3916rUUTm.lsK7Z06qFE3hhad6wK5A.RTniRLhJSu', '1990-05-15', 'IN', 'Gujarat', '123 Main Street, Los Angeles', 'http://192.168.1.87:8000/storage/profile_images/profile_60_1739971800.png', 1, NULL, NULL, '2025-02-19 07:56:58', '2025-02-19 08:00:00'),
+(61, 'customer', 'Rohan', 'Chauhan', 'rohan-2', '9658965893', 'rohan3@gmail.com', NULL, '$2y$10$dC3MPSDzaoALjd/6linoYO/UdMoAJG3DV3fZbRHIsp4ZmUaSuEGj.', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 08:00:31', '2025-02-19 08:00:31');
 
 -- --------------------------------------------------------
 
@@ -466,13 +504,10 @@ CREATE TABLE `vehicals` (
 --
 
 INSERT INTO `vehicals` (`id`, `category_id`, `brand_id`, `model_id`, `title`, `slug`, `year`, `fuel`, `color`, `mileage`, `price`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(13, 3, 2, 10, 'Verna 2018', 'verna-2018', 2018, 'petrol', 'BLACK', '25', '5000.00', '<p>One look at the all-new Hyundai VERNA and you know it&rsquo;s something that this world has never seen before. There is a mesmerising mystical magnetism and sensuous sportiness in its futuristic design that is truly tantalising. Complimented with a chiselled aerodynamic frame that gives it a furiously fast look. It can best be described in two words.</p>', 0, '2023-03-30 08:39:05', '2024-01-17 05:58:52'),
-(14, 3, 2, 13, 'Creata 2023', 'creata-2023', 2023, 'petrol', 'white', '15', '1500000.00', 'Hyundai CRETA is equipped with home-to-car with Alexa and Google voice assistant, advanced Bluelink app and more. Now with an app on your smart watch and smartphone you have the power to control your car from the comfort of your home or office using Alexa and Google Voice Assistant or Bluelink app.', 1, '2023-03-30 08:47:31', '2023-03-30 11:44:16'),
 (15, 1, 12, 89, 'Active 2015', 'active-2015', 2019, 'petrol', 'white', '30', '15000.00', '<p>Honda Activa 3G is a scooter available at a starting price of Rs. 76,001 in India. It is available in 4 variants and 10 colours with top variant price starting from Rs. 81,999. The Honda Activa 3G is powered by 109.51cc BS6 engine which develops a power of 7.73 bhp and a torque of 8.90 Nm. With both front and rear drum brakes, Honda Activa 6G comes up with&nbsp;</p>', 0, '2023-03-30 08:50:24', '2023-03-30 08:51:21'),
 (16, 1, 20, 79, 'Bullet Classical 350', 'bullet-classical-350', 2018, 'diesal', 'Red', '10', '50000.00', '<p>Through historical references, stories and anecdotes shared by our key collaborators, we would like to take you on a wistful trip down memory lane to live the legacy of the Timeless Classic - from its inception, captured in a monochromatic photograph of the G2 Model, to the journey it took to becoming the most loved motorcycle across the globe.</p>', 0, '2023-03-30 09:01:57', '2023-04-20 23:41:31'),
 (17, 1, 11, 68, 'Pluser 220', 'pluser-220', 2018, 'petrol', 'Black', '15', '50000.00', 'Bajaj Pulsar 220 F is a bike available at a starting price of Rs. 1,36,422 in India. It is available in only 1 variant and 4 colours. The Bajaj Pulsar 220 F is powered by 220cc BS6 engine which develops a power of 20.11 bhp and a torque of 18.55 Nm. With both front and rear disc brakes, Bajaj Pulsar 220 F comes up with anti-locking braking system. This Pulsar 220 F bike weighs 160 kg and has a fuel tank capacity of 15 liters.', 0, '2023-03-30 09:03:58', '2023-03-30 09:03:58'),
 (18, 3, 5, 34, 'Innova 556', 'innova-556', 2014, 'diesal', 'black', '50', '90000.00', 'The Toyota Innova Crysta soldiers on alongside its successor, the Toyota Innova Hycross, as the Japanese brand knows there is no replacement for its formula of ladder-frame chassis and diesel engine, with faultless reliability. Targeted more at the fleet market now, it has shed its petrol engine and auto gearbox, and is now only available with the 2.4 diesel and a manual. You still, however, get seven and eight-seat configurations.', 1, '2023-03-30 09:05:52', '2023-03-30 09:24:23'),
-(19, 3, 4, 28, 'Swift lxi 2015', 'swift-lxi-2015', 2010, 'electric', 'black', '50', '400000.00', '<p>Ex-Showroom Price: ₹6.44 lakhs - ₹9.31 lakhs Fuel economy: 22-31 km/l combined Dimensions: 3,995 mm L x 1,735 mm W x 1,515 mm H Curb weight: 880 to 990 kg Fuel tank capacity: 37 to 55 L Engine: 1.2 L 4-cylinder, 1.2 L 4-cylinder natural gas</p>', 0, '2023-03-30 09:07:57', '2023-03-30 11:16:11'),
 (20, 1, 12, 69, 'SHINE SP', 'dream-yuga', 2012, 'petrol', 'red', '60', '16000.00', '<p>Honda has launched the Dream Yuga with CBS (Combined Braking System), priced at Rs 54,807 (ex-showroom, Delhi). That&#39;s a premium of Rs 560 over the non-CBS variant. Apart from this, the bike remains unchanged. It gets sporty graphics, body-coloured rear view mirrors, rolling resistance tyres and a new colour scheme - black with Sunset brown. In terms of design, the Dream Yuga is virtually identical to its elder sibling, the Honda Shine. It features a no-nonsense design with a basic headlight, clear lens indicators, angular tail light, body-coloured grab rail, and an analogue instrument console featuring two round pods.</p>', 0, '2023-03-30 09:09:36', '2023-04-20 09:26:46'),
 (21, 1, 14, 72, 'Giser 36', 'giser-36', 2016, 'petrol', 'red', '30', '36000.00', 'Honda has launched the Dream Yuga with CBS (Combined Braking System), priced at Rs 54,807 (ex-showroom, Delhi). That\'s a premium of Rs 560 over the non-CBS variant. Apart from this, the bike remains unchanged. It gets sporty graphics, body-coloured rear view mirrors, rolling resistance tyres and a new colour scheme - black with Sunset brown. In terms of design, the Dream Yuga is virtually identical to its elder sibling, the Honda Shine. It features a no-nonsense design with a basic headlight, clear lens indicators, angular tail light, body-coloured grab rail, and an analogue instrument console featuring two round pods.', 0, '2023-03-30 09:12:38', '2023-03-30 09:12:38'),
 (22, 3, 6, 40, 'thar', 'thar', 2020, 'petrol', 'red', '35', '540000.00', NULL, 1, '2023-03-30 09:13:54', '2023-03-30 11:45:24'),
@@ -480,10 +515,7 @@ INSERT INTO `vehicals` (`id`, `category_id`, `brand_id`, `model_id`, `title`, `s
 (24, 1, 20, 80, 'royal enfield', 'royal-enfield', 2016, 'petrol', 'BLACK', '15', '40000.00', NULL, 0, '2023-03-30 09:16:06', '2023-03-30 09:16:06'),
 (25, 3, 3, 23, 'WR-V', 'wr-v', 2018, 'petrol', 'white', '25', '650000.00', NULL, 0, '2023-03-30 11:31:21', '2023-03-30 20:56:44'),
 (26, 1, 13, 71, 'SPLENDOR', 'splendor', 2017, 'petrol', 'black', '15', '15000.00', NULL, 1, '2023-03-30 11:40:53', '2023-03-30 11:46:21'),
-(27, 3, 1, 3, 'Harrier', 'harrier', 2021, 'petrol', 'white', '35', '500000.00', NULL, 0, '2023-03-30 20:55:23', '2023-03-30 20:55:23'),
-(28, 3, 1, 4, 'punch', 'punch', 2021, 'petrol', 'BLUE', '27', '750000.00', NULL, 0, '2023-03-30 21:02:12', '2023-03-30 21:02:12'),
 (29, 3, 1, 5, 'nexon', 'nexon', 2019, 'electric', 'green', '25', '500000.00', NULL, 0, '2023-04-20 05:09:43', '2023-04-20 05:09:43'),
-(33, 3, 4, 25, 'brezza', 'brezza', 2017, 'diesal', 'silver', '19', '300000.00', NULL, 0, '2023-04-20 09:28:00', '2023-04-20 09:29:16'),
 (34, 1, 12, 66, 'livo', 'livo', 2017, 'petrol', 'BLACK', '35', '65000.00', NULL, 0, '2023-04-20 09:30:56', '2023-04-20 09:30:56'),
 (35, 1, 15, 75, 'fz-s', 'fz-s', 2017, 'petrol', 'black', '45', '55000.00', NULL, 0, '2023-04-20 09:33:00', '2023-04-20 09:33:00'),
 (36, 3, 9, 55, 'SELTOS', 'seltos', 2020, 'petrol', 'black', '35', '650000.00', NULL, 0, '2023-04-20 09:37:01', '2023-04-20 09:37:01'),
@@ -527,9 +559,8 @@ INSERT INTO `vehical_galleries` (`id`, `vehical_id`, `file`, `file_type`, `is_fe
 (17, 22, 'WhatsApp Image 2023-03-30 at 6.27.51 PM.jpeg', 'image', 0, '2023-03-30 11:06:42', '2023-03-30 11:06:42'),
 (18, 24, 'continental gt 650.jpeg', 'image', 0, '2023-03-30 11:07:26', '2023-03-30 11:07:26'),
 (19, 24, 'contonental gt 650(1).jpeg', 'image', 0, '2023-03-30 11:07:39', '2023-03-30 11:07:39'),
-(20, 23, 'city.jpg', 'image', 1, '2023-03-30 11:08:20', '2025-02-19 00:51:28'),
-(21, 23, 'city(1).jpg', 'image', 0, '2023-03-30 11:08:31', '2025-02-19 00:51:28'),
-(22, 23, 'WhatsApp Image 2023-03-30 at 6.54.06 PM (2).jpeg', 'image', 0, '2023-03-30 11:09:01', '2025-02-19 00:51:28'),
+(20, 23, 'city.jpg', 'image', 0, '2023-03-30 11:08:20', '2023-03-30 11:08:20'),
+(22, 23, 'WhatsApp Image 2023-03-30 at 6.54.06 PM (2).jpeg', 'image', 0, '2023-03-30 11:09:01', '2023-03-30 11:09:01'),
 (23, 17, 'plusar 125.jpeg', 'image', 0, '2023-03-30 11:10:58', '2023-03-30 11:10:58'),
 (24, 17, 'pulsar.jpeg', 'image', 0, '2023-03-30 11:11:10', '2023-03-30 11:11:10'),
 (26, 25, 'WhatsApp Image 2023-03-30 at 6.19.21 PM.jpeg', 'image', 0, '2023-03-30 11:38:42', '2023-03-30 20:57:19'),
@@ -563,7 +594,8 @@ ALTER TABLE `brands`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `categories_slug_unique` (`slug`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -621,7 +653,9 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `users_slug_unique` (`slug`),
+  ADD UNIQUE KEY `users_phone_unique` (`phone`);
 
 --
 -- Indexes for table `vehicals`
@@ -679,7 +713,7 @@ ALTER TABLE `inquiries`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `models`
@@ -691,13 +725,13 @@ ALTER TABLE `models`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `vehicals`
