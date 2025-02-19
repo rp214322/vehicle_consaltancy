@@ -11,7 +11,8 @@ use Thumbnail;
 
 class VehicalGallery extends Model
 {
-    use HasFactory, Sluggable, SoftDeletes;
+    // use HasFactory, Sluggable, SoftDeletes;
+    use HasFactory, Sluggable;
 
     public function sluggable(): array
     {

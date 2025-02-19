@@ -1,5 +1,5 @@
 @section('title', 'User')
-<form id="editable-form" action="{!! route('admin.users.store') !!}" method="POST">
+<form id="editable-form" action="{!! route('admin.users.store') !!}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Add User </h5>
@@ -34,19 +34,6 @@
                 <input type="password" name="password_confirmation" class="form-control">
             </div>
             <div class="form-group">
-                <label>Gender</label>
-                <select name="gender" class="form-control">
-                    <option value="" selected>-- Select Gender --</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Date of Birth</label>
-                <input type="date" name="dob" class="form-control">
-            </div>
-            <div class="form-group">
                 <label>Country</label>
                 <select class="form-control select2" name="country" id="countrySelect">
                     <option value="">Select Country</option>
@@ -65,7 +52,7 @@
             <div class="form-group">
                 <label>Image</label>
                 <input type="file" name="image" class="form-control">
-            </div>
+            </div>            
         </div>
     </div>
     <div class="modal-footer">

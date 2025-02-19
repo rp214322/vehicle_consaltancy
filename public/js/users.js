@@ -274,8 +274,6 @@ jQuery(function () {
                     .data("geonameid");
                 fetchStates(selectedGeonameId);
             }
-
-            updatePhoneCode(selectedCountryCode);
             stateSelect.trigger("change");
         });
 
@@ -301,20 +299,6 @@ jQuery(function () {
                     stateSelect.trigger("change");
                 })
                 .catch((error) => console.error("API Error (States):", error));
-        }
-
-        function updatePhoneCode(countryCode) {
-            if (countryCode === "CA") {
-                phoneInput.val(
-                    "+1 " + phoneInput.val().replace(/^\+\d+\s*/, "")
-                );
-            } else if (countryCode === "IN") {
-                phoneInput.val(
-                    "+91 " + phoneInput.val().replace(/^\+\d+\s*/, "")
-                );
-            } else {
-                phoneInput.val(phoneInput.val().replace(/^\+\d+\s*/, ""));
-            }
         }
     }
 });

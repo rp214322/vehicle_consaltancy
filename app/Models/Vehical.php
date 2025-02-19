@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vehical extends Model
 {
-    use HasFactory,Sluggable, SoftDeletes;
+    // use HasFactory, Sluggable, SoftDeletes;
+    use HasFactory, Sluggable;
 
     /**
      * Return the sluggable configuration array for this model.

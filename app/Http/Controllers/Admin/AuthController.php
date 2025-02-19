@@ -61,7 +61,7 @@ class AuthController extends Controller
         // Define validation rules
         $rules = [
             'first_name' => 'required|max:30',
-            'last_name' => 'nullable|max:30',
+            'last_name' => 'required|max:30',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'phone' => 'nullable|max:20|unique:users,phone,' . Auth::id(),
             'country' => 'required|string|max:100',
