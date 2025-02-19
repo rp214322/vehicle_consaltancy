@@ -15,6 +15,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "nesbot/carbon": "^2.60",
         "opcodesio/log-viewer": "^3.14",
         "razorpay/razorpay": "^2.9",
         "yajra/laravel-datatables-oracle": "^9.21"
@@ -65,7 +66,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.31"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
