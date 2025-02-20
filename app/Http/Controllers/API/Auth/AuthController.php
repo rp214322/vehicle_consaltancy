@@ -140,7 +140,7 @@ class AuthController extends Controller
 
         $response = [
             'message' => 'Logged in successfully',
-            'access_token' => $token,
+            'token' => $token,
             'data' => $user,
         ];
 

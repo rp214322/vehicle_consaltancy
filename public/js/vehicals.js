@@ -2,8 +2,10 @@ var vehicalsTable = $("#VehicalsTable").DataTable({
     dom: '<"top"lf>tr<"bottom"ip>',
     processing: true,
     serverSide: true,
-    pageLength: 10, // Default page length
+    pageLength: 5, // Default page length
     lengthMenu: [5, 10, 25, 50, 100, 500], // Pagination options
+    scrollY: "60vh",
+    scrollCollapse: true,
     ajax: list,
 
     columns: [

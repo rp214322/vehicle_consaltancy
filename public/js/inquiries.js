@@ -4,6 +4,8 @@ var inquiryTable = $("#InquiryTable").DataTable({
     serverSide: true,
     pageLength: 10, // Default page length
     lengthMenu: [5, 10, 25, 50, 100], // Dropdown for pagination
+    scrollY: "60vh",
+    scrollCollapse: true,
     ajax: list,
 
     columns: [

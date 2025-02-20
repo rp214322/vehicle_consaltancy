@@ -10,15 +10,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Inquiry extends Model
 {
     // use HasFactory, Sluggable, SoftDeletes;
-    use HasFactory, Sluggable;
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
+    use HasFactory;
+    // public function sluggable(): array
+    // {
+    //     return [
+    //         'slug' => [
+    //             'source' => 'name'
+    //         ]
+    //     ];
+    // }
 
     public function user(){
         return $this->belongsTo('App\Models\User');
