@@ -134,7 +134,7 @@
                                         </div>
                                         <div class="car__item__price">
                                             <span class="car-option">{!! $vehical->status ? "Sold" : "For sale" !!}</span>
-                                            <h6>₹ {!! $vehical->price !!} Lakh</h6>
+                                            <h6>₹ {!! $vehical->price !!}</h6>
                                             <a class="favouriteVehical" data-href="{!! route('favourite.vehical',$vehical->id) !!}"><i class="fa {!! in_array($vehical->id,$favourite_vehicals) ? 'fa-heart' : 'fa-heart-o' !!}"></i></a>
                                         </div>
                                     </div>
