@@ -8,7 +8,14 @@
                 <div class="pd-20 card-box mb-30">
                     <div class="clearfix mb-20">
                         <div class="pull-left">
-                            <h4 class="text-black h4">Vehical Gallery</h4>
+                            <div class="clearfix mb-20">
+                                <div class="d-flex flex-column">
+                                    <h4 class="text-black h4 mt-2">Vehical Gallery</h4>
+                                    <a href="{{ route('admin.vehicals.index') }}" class="btn btn-sm btn-secondary">
+                                        <i class="fa fa-arrow-left"></i> Back
+                                    </a>
+                                </div>
+                            </div>                          
                         </div>
                         <div class="pull-right">
                             <div class="pd-20">
