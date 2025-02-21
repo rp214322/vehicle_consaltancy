@@ -15,14 +15,14 @@ class CreateInquriesTable extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('vehical_id')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
+            $table->foreignId('vehical_id')->nullable()->constrained()->nullOnDelete();
+            $table->enum('type', ['buy', 'sell'])->default('buy');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
             $table->text('description')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -20,19 +20,19 @@ class InquiriesController extends Controller
     {
         if($request->ajax())
         {
-            $inquiry = $inquiry->orderBy('id','ASC');
+            $inquiry = $inquiry->with(['vehical'])->orderBy('id','ASC');
             return Datatables::eloquent($inquiry)
-                        ->addColumn('type', function ($inquiry){
+                        ->addColumn('type1', function ($inquiry){
                             return $inquiry->vehical_id ? "Vehical" : "Normal";
+                        })
+                        ->editColumn('type', function ($inquiry) {
+                            return $inquiry->type;
                         })
                         ->editColumn('vehical', function ($inquiry){
                             return $inquiry->vehical ? $inquiry->vehical->title : '-';
                         })
                         ->editColumn('name', function ($inquiry) {
                             return $inquiry->name;
-                        })
-                        ->editColumn('email', function ($inquiry) {
-                            return $inquiry->email;
                         })
                         ->editColumn('phone', function ($inquiry) {
                             return $inquiry->phone;
@@ -46,8 +46,8 @@ class InquiriesController extends Controller
                                     '</div> ';
                             return $status;
                         })
-                        ->editColumn('created', function ($inquiry){
-                            return Carbon::parse($inquiry->created_at)->format('Y-m-d H:i:s');
+                        ->editColumn('created_at', function ($inquiry){
+                            return Carbon::parse($inquiry->created_at)->format('d-m-Y');
                         })
                         ->addColumn('action', function (Inquiry $inquiry) {
                             $editBtn = '<div class="dropdown"><a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

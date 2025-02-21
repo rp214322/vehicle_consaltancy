@@ -16,15 +16,15 @@
                         <table class="data-table table stripe hover nowrap" id="InquiryTable">
                             <thead>
                                 <tr>
-                                    <th class="table-plus datatable-nosort">No</th>
+                                    <th>No</th>
                                     <th>Inquiry For</th>
+                                    <th>Type</th>
                                     <th>Vehical</th>
                                     <th>Name</th>
-                                    <th>Email</th>
                                     <th>Phone</th>
                                     <th>Status</th>
                                     <th>Inquired On</th>
-                                    <th class="datatable-nosort">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>

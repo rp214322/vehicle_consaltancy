@@ -10,13 +10,13 @@ var inquiryTable = $("#InquiryTable").DataTable({
 
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
+        { data: "type1", name: "type1", orderable: true },
         { data: "type", name: "type", orderable: true },
-        { data: "vehical", name: "vehical", orderable: true },
+        { data: "vehical", name: "vehical.title", orderable: true },
         { data: "name", name: "name", orderable: true },
-        { data: "email", name: "email", orderable: true },
         { data: "phone", name: "phone", orderable: true },
         { data: "status", name: "status", orderable: true },
-        { data: "created", name: "created", orderable: true },
+        { data: "created_at", name: "created_at", orderable: true },
         { data: "action", name: "action", orderable: false, width: "10%" },
     ],
     language: {

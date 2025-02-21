@@ -128,9 +128,6 @@
                     <form action="javascript:;" method="post" id="InquiryForm">
                         @csrf
                         <input type="hidden" name="vehical_id" value="{!! $vehical->id !!}">
-                        @if(Auth::check())
-                            <input type="hidden" name="user_id" value="{!! Auth::user()->id !!}">
-                        @endif
                         <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Place Your Inquiry</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

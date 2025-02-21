@@ -34,6 +34,10 @@
                 <input type="password" name="password_confirmation" class="form-control">
             </div>
             <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" name="dob" class="form-control">
+            </div>
+            <div class="form-group">
                 <label>Country</label>
                 <select class="form-control select2" name="country" id="countrySelect">
                     <option value="">Select Country</option>
