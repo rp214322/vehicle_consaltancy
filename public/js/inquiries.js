@@ -1,11 +1,17 @@
 var inquiryTable = $("#InquiryTable").DataTable({
     dom: '<"top"lfB>rt<"bottom"ip>',
+    orderCellsTop: true,
+    order: [[1, "desc"]],
     processing: true,
     serverSide: true,
     pageLength: 10,
     lengthMenu: [5, 10, 25, 50, 100],
-    scrollY: "60vh",
+    scrollY: "600px",
     scrollCollapse: true,
+    responsive: true,
+    fixedHeader: { header: true },
+    columnDefs: [{ responsivePriority: 1, targets: -1 }],
+    select: false,
     ajax: {
         url: list,
         data: function (d) {
@@ -36,41 +42,26 @@ var inquiryTable = $("#InquiryTable").DataTable({
             extend: "copyHtml5",
             text: "Copy",
             className: "btn btn-secondary",
-            exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6, 7],
-            },
         },
         {
             extend: "excelHtml5",
             text: "Excel",
             className: "btn btn-success",
-            exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6, 7],
-            },
         },
         {
             extend: "csvHtml5",
             text: "CSV",
             className: "btn btn-info",
-            exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6, 7],
-            },
         },
         {
             extend: "pdfHtml5",
             text: "PDF",
             className: "btn btn-danger",
-            exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6, 7],
-            },
         },
         {
             extend: "print",
             text: "Print",
             className: "btn btn-primary",
-            exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5, 6, 7],
-            },
         },
     ],
     language: {
@@ -97,10 +88,15 @@ $(".toggle-column").each(function () {
     var column = inquiryTable.column(columnIndex);
     $(this).prop("checked", column.visible());
 });
-
+$('a[data-toggle="tab"]').on("shown.bs.tab click", function (e) {
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+});
+$("div#sidebar").on("transitionend", function (e) {
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+});
 $.fn.dataTable.ext.errMode = "none";
-inquiryTable.on("error.dt", function(e, settings, techNote, message) {
-    console.error('An error occurred:', message);
+inquiryTable.on("error.dt", function (e, settings, techNote, message) {
+    console.error("An error occurred:", message);
     alert("Something went wrong, Please try again later.");
 });
 

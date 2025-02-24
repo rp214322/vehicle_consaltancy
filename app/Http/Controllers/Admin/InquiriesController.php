@@ -71,17 +71,20 @@ class InquiriesController extends Controller
                     return Carbon::parse($inquiry->created_at)->format('d-m-Y');
                 })
                 ->addColumn('action', function (Inquiry $inquiry) {
-                    $editBtn = '<div class="dropdown">
-                    <a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                        <i class="dw dw-more"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                        <a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.inquiries.destroy', $inquiry->id) . '" data-method="delete">
-                            <i class="dw dw-delete-3"></i> Delete
+                    $actionBtn = '<div class="dropdown">
+                        <a class="btn btn-user font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                            <i class="dw dw-more"></i>
                         </a>
-                    </div>
-                </div>';
-                    return $editBtn;
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                            <a href="javascript:;" class="dropdown-item fill_data" data-url="' . route('admin.inquiries.edit', $inquiry->id) . '" data-method="get" title="View">
+                                <i class="dw dw-eye"></i> View
+                            </a>
+                            <a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.inquiries.destroy', $inquiry->id) . '" data-method="delete">
+                                <i class="dw dw-delete-3"></i> Delete
+                            </a>
+                        </div>
+                    </div>';
+                    return $actionBtn;
                 })
                 ->rawColumns(['status', 'show', 'action'])
                 ->make(true);
