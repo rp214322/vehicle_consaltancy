@@ -1,40 +1,19 @@
 var inquiryTable = $("#InquiryTable").DataTable({
-    dom: '<"top"lfB>rt<"bottom"ip>', // Added "B" for buttons
+    dom: '<"top"lfB>rt<"bottom"ip>',
     processing: true,
     serverSide: true,
-    pageLength: 10, // Default page length
-    lengthMenu: [5, 10, 25, 50, 100], // Dropdown for pagination
+    pageLength: 10,
+    lengthMenu: [5, 10, 25, 50, 100],
     scrollY: "60vh",
     scrollCollapse: true,
-    ajax: list,
-    buttons: [
-        {
-            extend: "copyHtml5",
-            text: "Copy",
-            className: "btn btn-secondary",
+    ajax: {
+        url: list,
+        data: function (d) {
+            d.inquiryFor = $("#inquiryForFilter").val();
+            d.type = $("#typeFilter").val();
+            d.status = $("#statusFilter").val();
         },
-        {
-            extend: "excelHtml5",
-            text: "Excel",
-            className: "btn btn-success",
-        },
-        {
-            extend: "csvHtml5",
-            text: "CSV",
-            className: "btn btn-info",
-        },
-        {
-            extend: "pdfHtml5",
-            text: "PDF",
-            className: "btn btn-danger",
-        },
-        {
-            extend: "print",
-            text: "Print",
-            className: "btn btn-primary",
-        },
-    ],
-
+    },
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
         { data: "type1", name: "type1", orderable: true },
@@ -44,24 +23,84 @@ var inquiryTable = $("#InquiryTable").DataTable({
         { data: "phone", name: "phone", orderable: true },
         { data: "status", name: "status", orderable: true },
         { data: "created_at", name: "created_at", orderable: true },
-        { data: "action", name: "action", orderable: false, width: "10%" },
+        {
+            data: "action",
+            name: "action",
+            orderable: false,
+            searchable: false,
+            width: "10%",
+        },
+    ],
+    buttons: [
+        {
+            extend: "copyHtml5",
+            text: "Copy",
+            className: "btn btn-secondary",
+            exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5, 6, 7],
+            },
+        },
+        {
+            extend: "excelHtml5",
+            text: "Excel",
+            className: "btn btn-success",
+            exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5, 6, 7],
+            },
+        },
+        {
+            extend: "csvHtml5",
+            text: "CSV",
+            className: "btn btn-info",
+            exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5, 6, 7],
+            },
+        },
+        {
+            extend: "pdfHtml5",
+            text: "PDF",
+            className: "btn btn-danger",
+            exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5, 6, 7],
+            },
+        },
+        {
+            extend: "print",
+            text: "Print",
+            className: "btn btn-primary",
+            exportOptions: {
+                columns: [0, 1, 2, 3, 4, 5, 6, 7],
+            },
+        },
     ],
     language: {
         emptyTable: "No matching records found",
     },
-    fnDrawCallback: function (oSettings) {
-        // Hide pagination if total records are less than the selected page length
-        if (oSettings.fnRecordsDisplay() <= oSettings._iDisplayLength) {
-            $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
-        } else {
-            $(oSettings.nTableWrapper).find(".dataTables_paginate").show();
-        }
-    },
 });
 
-// Handle Datatable Errors
+// Apply filters
+$("#inquiryForFilter, #typeFilter, #statusFilter").on("change", function () {
+    inquiryTable.draw();
+});
+// Toggle column visibility
+$(".toggle-column").on("change", function () {
+    var columnIndex = $(this).data("column");
+    var column = inquiryTable.column(columnIndex);
+
+    // Toggle visibility based on checkbox state
+    column.visible($(this).prop("checked"));
+});
+
+// Ensure checkboxes reflect initial column visibility
+$(".toggle-column").each(function () {
+    var columnIndex = $(this).data("column");
+    var column = inquiryTable.column(columnIndex);
+    $(this).prop("checked", column.visible());
+});
+
 $.fn.dataTable.ext.errMode = "none";
-inquiryTable.on("error", function () {
+inquiryTable.on("error.dt", function(e, settings, techNote, message) {
+    console.error('An error occurred:', message);
     alert("Something went wrong, Please try again later.");
 });
 
