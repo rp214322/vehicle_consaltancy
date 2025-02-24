@@ -13,7 +13,6 @@ class InquiryFactory extends Factory
     public function definition()
     {
         return [
-            'vehical_id' => Vehical::inRandomOrder()->value('id'), // Random vehical_id (nullable)
             'type' => $this->faker->randomElement(['buy', 'sell']),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
