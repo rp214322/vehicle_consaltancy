@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
+use App\Models\Vehical;
+use Illuminate\Http\Request;
+
+class VehicalController extends Controller
+{
+    public function index()
+    {
+        $vehicals = Vehical::with(['brand', 'vehical_model', 'category', 'gallery'])->get();
+
+        $response = $vehicals->map(function ($vehical) {
+            return $this->formatVehicalResponse($vehical);
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $response
+        ]);
+    }
+
+    /**
+     * Get a specific vehicle with brand, model, category, and gallery.
+     */
+    public function show($id)
+    {
+        $vehical = Vehical::with(['brand', 'vehical_model', 'category', 'gallery'])->find($id);
+
+        if (!$vehical) {
+            return response()->json(['error' => 'Vehicle not found'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $this->formatVehicalResponse($vehical)
+        ]);
+    }
+
+    /**
+     * Format the vehicle response.
+     */
+    private function formatVehicalResponse($vehical)
+    {
+        return [
+            'id' => $vehical->id,
+            'title' => $vehical->title,
+            'year' => $vehical->year,
+            'fuel' => $vehical->fuel,
+            'color' => $vehical->color,
+            'price' => $vehical->price,
+            'description' => $vehical->description,
+            'status' => $vehical->status,
+            'brand' => [
+                'id' => $vehical->brand->id ?? null,
+                'name' => $vehical->brand->name ?? null,
+            ],
+            'model' => [
+                'id' => $vehical->vehical_model->id ?? null,
+                'name' => $vehical->vehical_model->name ?? null,
+            ],
+            'category' => [
+                'id' => $vehical->category->id ?? null,
+                'name' => $vehical->category->name ?? null,
+            ],
+            'gallery' => $vehical->gallery->map(function ($image) {
+                return [
+                    'url' => asset('storage/' . $image->file) // Generates full URL
+                ];
+            })
+        ];
+    }
+}
