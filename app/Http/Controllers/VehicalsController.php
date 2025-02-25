@@ -81,7 +81,6 @@ class VehicalsController extends Controller
 
                 $inquiry = new Inquiry;
                 $inquiry->vehical_id = $request->get('vehical_id');
-                $inquiry->user_id = $request->has('user_id') ? $request->get('user_id') : NULL;
                 $inquiry->name = $request->get('name');
                 $inquiry->email = $request->get('email');
                 $inquiry->phone = $request->get('phone');

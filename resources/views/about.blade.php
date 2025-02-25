@@ -111,23 +111,22 @@
                             <input type="text" name="name" placeholder="Name*" required>
                         </div>
                         <div class="col-lg-6">
-                            <input type="email" name="email" placeholder="Email*" required email>
+                            <input type="email" name="email" placeholder="Email*" required>
                         </div>
                         <div class="col-lg-6">
                             <input type="text" name="phone" placeholder="Phone*" required>
                         </div>
                         <div class="col-lg-6">
-                            <select name="cateogry_id">
-                                <option value="">Choose Our Vehical</option>
-                                @foreach (App\Models\Category::pluck('name','id')->toArray() as $id => $name)
-                                    <option value="{!! $id !!}">{!! $name !!}</option>
-                                @endforeach
+                            <select name="type" required>
+                                <option value="" disabled selected>Select Type</option>
+                                <option value="buy">Buy</option>
+                                <option value="sell">Sell</option>
                             </select>
                         </div>
                     </div>
                     <button type="submit" class="site-btn">Submit Now</button>
                 </form>
-            </div>
+            </div>                       
         </div>
     </div>
 </section>

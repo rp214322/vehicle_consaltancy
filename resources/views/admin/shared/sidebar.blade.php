@@ -46,11 +46,11 @@
                         <span class="micon fa fa-question-circle"></span><span class="mtext">Inquiry</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{!! route('admin.feedbacks.index') !!}" class="dropdown-toggle no-arrow">
                         <span class="micon fa fa-star"></span><span class="mtext">Feedback</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>

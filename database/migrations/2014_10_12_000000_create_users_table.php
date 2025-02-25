@@ -15,22 +15,14 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->enum('role', ['admin', 'customer'])->default('customer');
+            $table->enum('role',['admin','customer'])->default('customer');
             $table->string('first_name');
-            $table->string('last_name')->nullable();
-            $table->string('slug')->unique();
-            $table->string('phone')->unique()->nullable();
+            $table->string('last_name');
+            $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->date('dob')->nullable(); // Added date of birth field
-            $table->string('country')->nullable(); // Country
-            $table->string('state')->nullable(); // State
-            $table->text('address')->nullable(); // Address
-            $table->string('image')->nullable(); // Added image field
-            $table->tinyInteger('status')->default(1);
             $table->rememberToken();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

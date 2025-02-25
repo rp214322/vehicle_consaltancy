@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\API\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\VehicalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,10 @@ Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
 Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {  
     Route::put('update-profile/{id}', [AuthController::class, 'updateProfile']);
+    Route::get('categories', [CategoryController::class, 'index']);
+    Route::get('vehicals', [VehicalController::class, 'index']); // Get all vehicles
+    Route::get('vehicals/{id}', [VehicalController::class, 'show']); // Get vehicle by ID
     Route::post('logout', [AuthController::class, 'logout']);
 });

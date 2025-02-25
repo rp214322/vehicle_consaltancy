@@ -6,38 +6,39 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Image;
-use Thumbnail;
+use Illuminate\Support\Facades\Storage;
+
 
 class VehicalGallery extends Model
 {
-    use HasFactory, Sluggable, SoftDeletes;
+    // use HasFactory, Sluggable, SoftDeletes;
+    use HasFactory;
 
-    public function sluggable(): array
+    // public function sluggable(): array
+    // {
+    //     return [
+    //         'slug' => [
+    //             'source' => 'file_name'
+    //         ]
+    //     ];
+    // }
+
+    public function vehical()
     {
-        return [
-            'slug' => [
-                'source' => 'file_name'
-            ]
-        ];
-    }
-
-    public function vehical(){
         return $this->belongsTo('App\Models\Vehical');
     }
 
-    public function setFileAttribute($file) {
+    public function setFileAttribute($file)
+    {
         $source_path = upload_tmp_path($file);
-        if ($file && file_exists($source_path))
-        {
-            upload_move($file,'gallery');
+        if ($file && file_exists($source_path)) {
+            upload_move($file, 'gallery');
             //Image::make($source_path)->resize(270,155)->save($source_path);
-            upload_move($file,'gallery','thumb');
+            upload_move($file, 'gallery', 'thumb');
             @unlink($source_path);
         }
         $this->attributes['file'] = $file;
-        if ($file == '')
-        {
+        if ($file == '') {
             $this->deleteFile();
             $this->attributes['file'] = "";
         }
@@ -62,27 +63,16 @@ class VehicalGallery extends Model
     //     }
     // }
 
-    public function file_url($type='original')
+    public function file_url($type = 'original')
     {
-        if (!empty($this->file))
-            return upload_url($this->file,'gallery',$type);
-        elseif (!empty($this->file) && file_exists(tmp_path($this->file)))
-            return tmp_url($this->$file);
-        else
-            return asset('images/default-gallery.jpg');
+        if (!empty($this->file)) {
+            return Storage::url($this->file); // Devuelve la URL accesible
+        }
+        return asset('images/default-gallery.jpg'); // Imagen por defecto si no hay archivo
     }
 
-    // public function video_url($type='original')
-    // {
-    //     if (!empty($this->video))
-    //         return upload_url($this->video,'gallery',$type);
-    //     elseif (!empty($this->video) && file_exists(tmp_path($this->video)))
-    //         return tmp_url($this->$video);
-    //     else
-    //         return asset('images/default-gallery.jpg');
-    // }
     public function deleteFile()
     {
-        upload_delete($this->file,'gallery',array('original','thumb'));
+        Storage::delete('public/' . $this->file); // Elimina el archivo del almacenamiento
     }
 }

@@ -98,7 +98,6 @@ class UsersController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required|string|min:8',
             'dob' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other',
             'country' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
             'address' => 'nullable|string',
@@ -107,28 +106,13 @@ class UsersController extends Controller
 
         $messages = [
             'first_name.required' => 'Please enter your first name.',
-            'first_name.string' => 'First name should only contain letters.',
-            'first_name.max' => 'First name should not exceed 255 characters.',
             'last_name.required' => 'Please enter your last name.',
-            'last_name.string' => 'Last name should only contain letters.',
-            'last_name.max' => 'Last name should not exceed 255 characters.',
             'email.required' => 'Please enter your email address.',
-            'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'This email is already registered.',
-            'email.max' => 'Email should not exceed 255 characters.',
             'phone.required' => 'Please enter your phone number.',
-            'phone.numeric' => 'Phone number should only contain digits.',
-            'phone.digits' => 'Phone number should be exactly 10 digits.',
             'phone.unique' => 'This phone number is already taken.',
             'password.required' => 'Please enter a password.',
-            'password.string' => 'Password should be a string.',
-            'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Password and confirmation do not match.',
-            'password_confirmation.required' => 'Please confirm your password.',
-            'password_confirmation.string' => 'Password confirmation should be a string.',
-            'password_confirmation.min' => 'Password confirmation must be at least 8 characters.',
-            'dob.date' => 'Please enter a valid date of birth.',
-            'gender.in' => 'Please select a valid gender option.',
             'image.image' => 'The uploaded file must be an image.',
             'image.mimes' => 'Allowed image formats: jpeg, png, jpg, gif.',
             'image.max' => 'Image size should not exceed 2MB.',
@@ -137,32 +121,34 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return response()->json($validator->getMessageBag()->toArray(), 422);
+            return response()->json($validator->errors(), 422);
         }
 
         try {
-            $user = new User;
-            $user->first_name = $request->get('first_name');
-            $user->last_name = $request->get('last_name');
-            $user->phone = $request->get('phone');
-            $user->email = $request->get('email');
-            $user->dob = $request->get('dob');
-            $user->gender = $request->get('gender');
-            $user->country = $request->get('country');
-            $user->state = $request->get('state');
-            $user->address = $request->get('address');
+            $user = new User();
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->phone = $request->phone;
+            $user->email = $request->email;
+            $user->dob = $request->dob;
+            $user->country = $request->country;
+            $user->state = $request->state;
+            $user->address = $request->address;
             $user->email_verified_at = now();
-            $user->password = Hash::make($request->get('password'));
+            $user->password = Hash::make($request->password);
+
+            // Handle image upload and store in storage/app/public/uploads/users
             if ($request->hasFile('image')) {
-                $imageName = time() . '.' . $request->image->extension();
-                $request->image->move(public_path('uploads/users'), $imageName);
-                $user->image = 'uploads/users/' . $imageName;
+                $originalName = $request->file('image')->getClientOriginalName();
+                $imagePath = $request->file('image')->storeAs('public/uploads/users', time() . '_' . $originalName);
+                $user->image = str_replace('public/', 'storage/', $imagePath); // Convert to storage URL
             }
+
             $user->save();
 
             return response()->json(['success' => 'User created successfully.'], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong, please try again later.'], 422);
+            return response()->json(['error' => 'Something went wrong, please try again later.'], 500);
         }
     }
     /**
@@ -204,7 +190,6 @@ class UsersController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
             'password_confirmation' => 'nullable|string|min:8',
             'dob' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other',
             'country' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'address' => 'nullable|string',
@@ -231,7 +216,6 @@ class UsersController extends Controller
             'password_confirmation.string' => 'Password confirmation should be a string.',
             'password_confirmation.min' => 'Password confirmation must be at least 8 characters.',
             'dob.date' => 'Please enter a valid date of birth.',
-            'gender.in' => 'Please select a valid gender option.',
             'image.image' => 'The uploaded file must be an image.',
             'image.mimes' => 'Allowed image formats: jpeg, png, jpg, gif.',
             'image.max' => 'Image size should not exceed 2MB.',
@@ -250,7 +234,6 @@ class UsersController extends Controller
             $user->phone = $request->get('phone');
             $user->email = $request->get('email');
             $user->dob = $request->get('dob');
-            $user->gender = $request->get('gender');
             $user->country = $request->get('country');
             $user->state = $request->get('state');
             $user->address = $request->get('address');

@@ -1,38 +1,102 @@
 var inquiryTable = $("#InquiryTable").DataTable({
-    dom: '<"top"lf>tr<"bottom"ip>',
+    dom: '<"top"lfB>rt<"bottom"ip>',
+    orderCellsTop: true,
+    order: [[1, "desc"]],
     processing: true,
     serverSide: true,
-    pageLength: 10, // Default page length
-    lengthMenu: [5, 10, 25, 50, 100], // Dropdown for pagination
-    ajax: list,
-
+    pageLength: 10,
+    lengthMenu: [5, 10, 25, 50, 100],
+    scrollY: "600px",
+    scrollCollapse: true,
+    responsive: true,
+    fixedHeader: { header: true },
+    columnDefs: [{ responsivePriority: 1, targets: -1 }],
+    select: false,
+    ajax: {
+        url: list,
+        data: function (d) {
+            d.inquiryFor = $("#inquiryForFilter").val();
+            d.type = $("#typeFilter").val();
+            d.status = $("#statusFilter").val();
+        },
+    },
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
+        { data: "type1", name: "type1", orderable: true },
         { data: "type", name: "type", orderable: true },
-        { data: "vehical", name: "vehical", orderable: true },
+        { data: "vehical", name: "vehical.title", orderable: true },
         { data: "name", name: "name", orderable: true },
-        { data: "email", name: "email", orderable: true },
         { data: "phone", name: "phone", orderable: true },
         { data: "status", name: "status", orderable: true },
-        { data: "created", name: "created", orderable: true },
-        { data: "action", name: "action", orderable: false, width: "10%" },
+        { data: "created_at", name: "created_at", orderable: true },
+        {
+            data: "action",
+            name: "action",
+            orderable: false,
+            searchable: false,
+            width: "10%",
+        },
+    ],
+    buttons: [
+        {
+            extend: "copyHtml5",
+            text: "Copy",
+            className: "btn btn-secondary",
+        },
+        {
+            extend: "excelHtml5",
+            text: "Excel",
+            className: "btn btn-success",
+        },
+        {
+            extend: "csvHtml5",
+            text: "CSV",
+            className: "btn btn-info",
+        },
+        {
+            extend: "pdfHtml5",
+            text: "PDF",
+            className: "btn btn-danger",
+        },
+        {
+            extend: "print",
+            text: "Print",
+            className: "btn btn-primary",
+        },
     ],
     language: {
         emptyTable: "No matching records found",
     },
-    fnDrawCallback: function (oSettings) {
-        // Hide pagination if total records are less than the selected page length
-        if (oSettings.fnRecordsDisplay() <= oSettings._iDisplayLength) {
-            $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
-        } else {
-            $(oSettings.nTableWrapper).find(".dataTables_paginate").show();
-        }
-    },
 });
 
-// Handle Datatable Errors
+// Apply filters
+$("#inquiryForFilter, #typeFilter, #statusFilter").on("change", function () {
+    inquiryTable.draw();
+});
+// Toggle column visibility
+$(".toggle-column").on("change", function () {
+    var columnIndex = $(this).data("column");
+    var column = inquiryTable.column(columnIndex);
+
+    // Toggle visibility based on checkbox state
+    column.visible($(this).prop("checked"));
+});
+
+// Ensure checkboxes reflect initial column visibility
+$(".toggle-column").each(function () {
+    var columnIndex = $(this).data("column");
+    var column = inquiryTable.column(columnIndex);
+    $(this).prop("checked", column.visible());
+});
+$('a[data-toggle="tab"]').on("shown.bs.tab click", function (e) {
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+});
+$("div#sidebar").on("transitionend", function (e) {
+    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+});
 $.fn.dataTable.ext.errMode = "none";
-inquiryTable.on("error", function () {
+inquiryTable.on("error.dt", function (e, settings, techNote, message) {
+    console.error("An error occurred:", message);
     alert("Something went wrong, Please try again later.");
 });
 

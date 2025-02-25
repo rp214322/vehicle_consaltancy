@@ -34,22 +34,15 @@
                 <input type="password" name="password_confirmation" class="form-control">
             </div>
             <div class="form-group">
-                <label>Gender</label>
-                <select name="gender" class="form-control">
-                    <option value="" selected>-- Select Gender --</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            <div class="form-group">
                 <label>Date of Birth</label>
-                <input type="date" name="dob" class="form-control" value="{!! $user->dob->format('Y-m-d') !!}">
+                <input type="date" name="dob" class="form-control" value="{!! $user->dob ? $user->dob->format('Y-m-d') : '' !!}">
             </div>
             <div class="form-group">
                 <label>Country</label>
                 <select class="form-control select2" name="country" id="countrySelect">
                     <option value="">Select Country</option>
+                    <option value="IN" {{ $user->country == 'IN' ? 'selected' : '' }}>India</option>
+                    <option value="CA" {{ $user->country == 'CA' ? 'selected' : '' }}>Canada</option>
                 </select>
             </div>
             <div class="form-group">

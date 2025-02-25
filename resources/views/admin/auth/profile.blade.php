@@ -62,7 +62,7 @@
                             src="{{ asset(Auth::user()->image ? Auth::user()->image : 'images/Default_image.jpg') }}"
                             alt="Profile Photo"
                             class="avatar-photo img-fluid rounded-circle shadow-sm" />
-                        <h5 class="text-center h5 mt-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
+                        <h5 class="text-center h5 mt-3">{{ Auth::user()->first_name }}</h5>
                     </div>
 
                     <div class="profile-info mt-3">
@@ -233,8 +233,6 @@
                     fetchStates(selectedGeonameId);
                 }
 
-                updatePhoneCode(selectedCountryCode);
-
                 stateSelect.select2({
                     theme: 'bootstrap4',
                     width: '100%',
@@ -266,16 +264,6 @@
                         }
                     })
                     .catch(error => console.error("API Error (States):", error));
-            }
-
-            function updatePhoneCode(countryCode) {
-                if (countryCode === "CA") {
-                    phoneInput.val("+1 " + phoneInput.val().replace(/^\+\d+\s*/, ""));
-                } else if (countryCode === "IN") {
-                    phoneInput.val("+91 " + phoneInput.val().replace(/^\+\d+\s*/, ""));
-                } else {
-                    phoneInput.val(phoneInput.val().replace(/^\+\d+\s*/, ""));
-                }
             }
 
             console.log("Country, State, and Phone script initialized");
