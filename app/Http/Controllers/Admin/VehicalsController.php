@@ -21,7 +21,7 @@ class VehicalsController extends Controller
     {
         if($request->ajax())
         {
-            $vehicals = $vehicals->orderBy('id','ASC');
+            $vehicals = $vehicals->orderBy('id','DESC');
             return DataTables::eloquent($vehicals)
                         ->editColumn('category', function ($vehical) {
                             return $vehical->category->name;

@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 
 class VehicalController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $vehicals = Vehical::with(['brand', 'vehical_model', 'category', 'gallery'])->get();
+        $perPage = $request->input('per_page', 10); // Default to 10 items per page
+        $vehicals = Vehical::with(['brand', 'vehical_model', 'category', 'gallery'])
+            ->orderBy('created_at', 'desc') // Order by latest first
+            ->paginate($perPage);
 
         $response = $vehicals->map(function ($vehical) {
             return $this->formatVehicalResponse($vehical);
@@ -18,7 +21,15 @@ class VehicalController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $response
+            'data' => $response,
+            'pagination' => [
+                'current_page' => $vehicals->currentPage(),
+                'total_pages' => $vehicals->lastPage(),
+                'per_page' => $vehicals->perPage(),
+                'total_items' => $vehicals->total(),
+                'next_page_url' => $vehicals->nextPageUrl(),
+                'prev_page_url' => $vehicals->previousPageUrl()
+            ]
         ]);
     }
 
