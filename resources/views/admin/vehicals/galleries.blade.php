@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title','Gallery')
+@section('title', 'Gallery')
 @section('content')
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
@@ -60,68 +60,76 @@
                 <div class="modal-content"></div>
             </div>
         </div>
-        @endpush
+    @endpush
 @endsection
 @section('scripts')
-<script type="text/javascript">
-    window.list = "{!! route('admin.vehical.galleries.index',$vehical_id) !!}";
-</script>
-<script src="{!! asset('js/galleries.js') !!}" type="text/javascript"></script>
-<script src="{!! asset('js/plupload.full.min.js') !!}"></script>
-<script type="text/javascript">
-	var plupload_url = "{{ asset('plupload/upload.php') }}";
-	var plupload_flash = "{{ asset('plupload/Moxie.swf') }}";
-	var plupload_silverlight = "{{asset('plupload/Moxie.xap')}}";
+    <script type="text/javascript">
+        window.list = "{!! route('admin.vehical.galleries.index', $vehical_id) !!}";
+    </script>
+    <script src="{!! asset('js/galleries.js') !!}" type="text/javascript"></script>
+    <script src="{!! asset('js/plupload.full.min.js') !!}"></script>
+    <script type="text/javascript">
+        var uploader = new plupload.Uploader({
+            runtimes: 'html5,flash,silverlight,html4',
+            browse_button: 'pickfiles',
+            container: document.getElementById('container'),
+            url: "{!! route('admin.vehical.galleries.store', $vehical_id) !!}",
+            dragdrop: true,
+            chunk_size: '1mb',
+            filters: {
+                max_file_size: '20mb',
+                mime_types: [
+                    { title: "Image files", extensions: "jpg,png,jpeg" },
+                    { title: "Video files", extensions: "mp4,mkv" },
+                ]
+            },
+            flash_swf_url: "{{ asset('plupload/Moxie.swf') }}",
+            silverlight_xap_url: "{{ asset('plupload/Moxie.xap') }}",
 
-	var uploader = new plupload.Uploader({
-		        runtimes : 'html5,flash,silverlight,html4',
-		        browse_button : 'pickfiles',
-		        container: document.getElementById('container'),
-		        url : plupload_url,
-		        dragdrop: true,
-		        chunk_size: '1mb',
-		        filters : {
-		        	max_file_size : '20mb',
-		            mime_types: [
-		  		    {title : "Image files", extensions : "jpg,png,jpeg"},
-		  			{title : "Video files", extensions : "mp4,mkv"},
-		        	]
-		        },
-		        flash_swf_url : plupload_flash,
-		        silverlight_xap_url : plupload_silverlight,
-		        init: {
-		            PostInit: function() {
-		            },
-		            FilesAdded: function(up, files) {
-		                uploader.start();
-		                jQuery('.loader').fadeToggle('medium');
-		            },
-		            UploadProgress: function(up, file) {
-					    $('#progressbar').fadeIn();
-					    $('#progressbar').css('width', file.percent + '%');
-					  },
-		            UploadComplete: function(up, files){
-		                jQuery.each(files,function(i,file){
-		            		$("#galleryform").append('<input type="hidden" name="files['+i+'][file]" value="'+file.name+'" /> <input type="hidden" name="files['+i+'][type]" value="'+file.type+'" />');
-		            	});
-		            	$.ajax({
-		            		type: "POST",
-		            		url: "{!! route('admin.vehical.galleries.store',$vehical_id) !!}",
-  							data: jQuery("form").serialize(),
-  							success: function (data) {
-					            location.reload();
-					        },
-					        // error: function (error) {
-					        //     alert("Something went wrong, Please try again after sometime.");
-					       	// 	// location.reload();
-					        // }
-		            	});
-		            },
-		            Error: function(up, err) {
-		                alert(err.message);
-		            }
-		        }
-		    });
-		uploader.init();
-</script>
+            init: {
+                PostInit: function () {
+                    console.log("Uploader initialized");
+                },
+                FilesAdded: function (up, files) {
+                    uploader.start();
+                    $('#progressbar').fadeIn();
+                },
+                UploadProgress: function (up, file) {
+                    $('#progressbar').css('width', file.percent + '%');
+                },
+                FileUploaded: function (up, file, response) {
+                    console.log("File uploaded:", response.response);
+                },
+                UploadComplete: function (up, files) {
+                    var formData = new FormData();
+                    formData.append('_token', '{{ csrf_token() }}');
+                    formData.append('vehical_id', '{{ $vehical_id }}');
+
+                    // Append each uploaded file
+                    plupload.each(files, function (file) {
+                        var blob = file.getSource().getSource();
+                        formData.append('files[]', blob, file.name);
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{!! route('admin.vehical.galleries.store', $vehical_id) !!}",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            console.log("Upload Success:", response);
+                            location.reload();
+                        },
+                        error: function (error) {
+                            console.error("Upload Failed:", error);
+                            alert("Something went wrong. Please try again.");
+                        }
+                    });
+                },
+            }
+        });
+
+        uploader.init();
+    </script>
 @endsection
