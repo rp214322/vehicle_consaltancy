@@ -36,11 +36,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'message' => 'User registered successfully',
-            'access_token' => $token,
             'data' => $user
         ], 201);
     }
@@ -163,7 +160,7 @@ class AuthController extends Controller
         $otp = Str::random(6);
         $user->update([
             'password_reset_token' => $otp,
-            'password_reset_token_expiry' => now()->addMinutes(10),
+            'password_reset_token_expiry' => now()->addMinutes(3),
         ]);
 
         // Send OTP via email
