@@ -63,7 +63,7 @@ class VehicalGalleriesController extends Controller
 
         $rules = [
             'files' => 'required|array',
-            'files.*' => 'file|mimes:jpg,jpeg,png,gif,webp|max:2048' // Solo imágenes de hasta 2MB
+            'files.*' => 'file|mimes:jpg,jpeg,png,gif,webp|max:2048' // Allow only images up to 2MB
         ];
 
         $messages = [
@@ -81,15 +81,21 @@ class VehicalGalleriesController extends Controller
         }
 
         try {
+            $vehical = Vehical::findOrFail($vehical_id); // Ensure vehical exists
+
+            // Generate folder name using ID or slug (fallback to ID if slug is empty)
+            $folderName = !empty($vehical->slug) ? $vehical->slug : $vehical_id;
+            $storagePath = "public/gallery/{$folderName}"; // Folder per vehicle
+
             $uploadedFiles = [];
 
             foreach ($request->file('files') as $file) {
                 $fileName = time() . '_' . $file->getClientOriginalName();
-                $filePath = $file->storeAs('public/gallery', $fileName);
+                $filePath = $file->storeAs($storagePath, $fileName); // Store file in custom folder
 
                 $photo = new VehicalGallery();
                 $photo->vehical_id = $vehical_id;
-                $photo->file = str_replace('public/', '', $filePath);
+                $photo->file = str_replace('public/', '', $filePath); // Remove "public/" for proper URL
                 $photo->file_type = $file->getMimeType();
                 $photo->save();
 

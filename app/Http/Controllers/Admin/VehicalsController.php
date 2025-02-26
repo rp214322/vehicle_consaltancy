@@ -54,9 +54,17 @@ class VehicalsController extends Controller
                     return number_format($vehical->price, 2);
                 })
                 ->editColumn('status', function ($vehical) {
-                    return $vehical->status
-                        ? '<span class="badge badge-success">Sold</span>'
-                        : '<span class="badge badge-secondary">UnSold</span>';
+                    $status = $vehical->status ? '<span class="badge badge-success">Sold</span>' : '<span class="badge badge-secondary">UnSold</span>';
+                    $status .= ' <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Change Status
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $vehical->id . '" data-status="1">Sold</a>
+                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $vehical->id . '" data-status="0">UnSold</a>
+                    </div>
+                </div>';
+                    return $status;
                 })
                 ->addColumn('action', function (Vehical $vehical) {
                     return '<div class="dropdown">

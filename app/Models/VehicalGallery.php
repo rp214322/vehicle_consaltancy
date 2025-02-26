@@ -68,7 +68,7 @@ class VehicalGallery extends Model
         if (!empty($this->file)) {
             return Storage::url($this->file); // Devuelve la URL accesible
         }
-        return asset('images/default-gallery.jpg'); // Imagen por defecto si no hay archivo
+        return asset('images/Default_image.jpg'); // Imagen por defecto si no hay archivo
     }
 
     public function deleteFile()
