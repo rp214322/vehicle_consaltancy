@@ -24,7 +24,7 @@ Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
 Route::get('categories', [CategoryController::class, 'index']);
 Route::get('vehicals', [VehicalController::class, 'index']); // Get all vehicles
-Route::get('vehicals/{id}', [VehicalController::class, 'show']); // Get vehicle by ID
+Route::get('vehicals/{identifier}', [VehicalController::class, 'show']); // Get vehicle by ID
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('update-profile/{id}', [AuthController::class, 'updateProfile']);

@@ -36,9 +36,12 @@ class VehicalController extends Controller
     /**
      * Get a specific vehicle with brand, model, category, and gallery.
      */
-    public function show($id)
+    public function show($identifier)
     {
-        $vehical = Vehical::with(['brand', 'vehical_model', 'category', 'gallery'])->find($id);
+        $vehical = Vehical::with(['brand', 'vehical_model', 'category', 'gallery'])
+        ->where('id', $identifier) // Check by ID
+        ->orWhere('slug', $identifier) // Check by Slug
+        ->first();
 
         if (!$vehical) {
             return response()->json(['error' => 'Vehicle not found'], 404);
@@ -57,6 +60,7 @@ class VehicalController extends Controller
     {
         return [
             'id' => $vehical->id,
+            'slug'=> $vehical->slug,
             'title' => $vehical->title,
             'year' => $vehical->year,
             'fuel' => $vehical->fuel,
