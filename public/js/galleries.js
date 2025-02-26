@@ -1,5 +1,5 @@
 var galleryTable = $("#GalleryTable").DataTable({
-    dom: '<"top"lf>tr<"bottom"ip>',
+    dom: '<"top"lfB>rt<"bottom"ip>', // Added "B" for buttons
     processing: true,
     serverSide: true,
     pageLength: 10, // Default page length
@@ -7,10 +7,37 @@ var galleryTable = $("#GalleryTable").DataTable({
     scrollY: "60vh", // Set max height to 60% of viewport height
     scrollCollapse: true, // Allow table height to shrink when less data is shown
     ajax: list,
+    buttons: [
+        {
+            extend: "copyHtml5",
+            text: "Copy",
+            className: "btn btn-secondary",
+        },
+        {
+            extend: "excelHtml5",
+            text: "Excel",
+            className: "btn btn-success",
+        },
+        {
+            extend: "csvHtml5",
+            text: "CSV",
+            className: "btn btn-info",
+        },
+        {
+            extend: "pdfHtml5",
+            text: "PDF",
+            className: "btn btn-danger",
+        },
+        {
+            extend: "print",
+            text: "Print",
+            className: "btn btn-primary",
+        },
+    ],
 
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
-        { data: "file_name", name: "file_name", orderable: true },
+        { data: "file", name: "file", orderable: true },
         { data: "file_type", name: "file_type", orderable: true },
         { data: "is_featured", name: "is_featured", orderable: true },
         { data: "action", name: "action", orderable: false, width: "20%" },
@@ -28,6 +55,19 @@ var galleryTable = $("#GalleryTable").DataTable({
     },
 });
 
+// Toggle column visibility based on checkbox
+$(".toggle-column").on("change", function () {
+    var columnIndex = $(this).data("column");
+    var column = galleryTable.column(columnIndex);
+    column.visible($(this).prop("checked"));
+});
+
+// Ensure checkboxes reflect initial column visibility
+$(".toggle-column").each(function () {
+    var columnIndex = $(this).data("column");
+    var column = galleryTable.column(columnIndex);
+    $(this).prop("checked", column.visible());
+});
 /* Custom Filter: Change page length dynamically */
 $("#gallery_filter").on("change", function () {
     var selectedValue = $(this).val();

@@ -1,17 +1,29 @@
 var vehicalsTable = $("#VehicalsTable").DataTable({
-    dom: '<"top"lf>tr<"bottom"ip>',
+    dom: '<"top"lfB>rt<"bottom"ip>',
     processing: true,
     serverSide: true,
-    pageLength: 5, // Default page length
-    lengthMenu: [5, 10, 25, 50, 100, 500], // Pagination options
+    pageLength: 5,
+    lengthMenu: [5, 10, 25, 50, 100, 500],
     scrollY: "60vh",
     scrollCollapse: true,
-    ajax: list,
-
+    ajax: {
+        url: list,
+        data: function (d) {
+            d.category = $("#categoryFilter").val();
+            d.status = $("#statusFilter").val(); // Send status filter value correctly
+        },
+    },
+    buttons: [
+        { extend: "copyHtml5", text: "Copy", className: "btn btn-secondary" },
+        { extend: "excelHtml5", text: "Excel", className: "btn btn-success" },
+        { extend: "csvHtml5", text: "CSV", className: "btn btn-info" },
+        { extend: "pdfHtml5", text: "PDF", className: "btn btn-danger" },
+        { extend: "print", text: "Print", className: "btn btn-primary" },
+    ],
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
-        { data: "category", name: "category", orderable: true },
-        { data: "brand", name: "brand", orderable: true },
+        { data: "category", name: "category.name", orderable: true },
+        { data: "brand", name: "brand.name", orderable: true },
         { data: "title", name: "title", orderable: true },
         { data: "price", name: "price", orderable: true },
         { data: "status", name: "status", orderable: true },
@@ -20,22 +32,33 @@ var vehicalsTable = $("#VehicalsTable").DataTable({
     language: {
         emptyTable: "No matching records found",
     },
-    fnDrawCallback: function (oSettings) {
-        // Hide pagination when data is less than page limit
-        if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
-            $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
-        } else {
-            $(oSettings.nTableWrapper).find(".dataTables_paginate").show();
-        }
-    },
 });
 
-/* Custom Filter: Change page length dynamically */
-$("#vehical_filter").on("change", function () {
-    var selectedValue = $(this).val();
-    vehicalsTable.page.len(selectedValue).draw();
+// Toggle column visibility
+$(".toggle-column").on("change", function () {
+    var columnIndex = $(this).data("column");
+    var column = vehicalsTable.column(columnIndex);
+    column.visible($(this).prop("checked"));
 });
 
+// Ensure checkboxes reflect initial column visibility
+$(".toggle-column").each(function () {
+    var columnIndex = $(this).data("column");
+    var column = vehicalsTable.column(columnIndex);
+    $(this).prop("checked", column.visible());
+});
+
+// Filter by Category
+$("#categoryFilter").on("change", function () {
+    vehicalsTable.draw();
+});
+
+// Filter by Status
+$("#statusFilter").on("change", function () {
+    vehicalsTable.draw();
+});
+
+// Handle errors
 $.fn.dataTable.ext.errMode = "none";
 vehicalsTable.on("error", function () {
     alert("Something went wrong, Please try again later.");

@@ -24,7 +24,7 @@ class VehicalGalleriesController extends Controller
         if ($request->ajax()) {
             $photos = VehicalGallery::where('vehical_id', $vehical_id)->orderBy('id', 'ASC');
             return DataTables::eloquent($photos)
-                ->editColumn('file_name', function ($photo) {
+                ->editColumn('file', function ($photo) {
                     return '<img src="' . $photo->file_url() . '">';
                 })
                 ->editColumn('file_type', function ($photo) {
@@ -41,7 +41,7 @@ class VehicalGalleriesController extends Controller
                     $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.vehical.galleries.destroy', [$photo->vehical_id, $photo->id]) . '" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
                     return $editBtn;
                 })
-                ->rawColumns(["file_name", "action"])
+                ->rawColumns(["file", "action"])
                 ->make(true);
         } else {
             return view()->make('admin.vehicals.galleries', compact('vehical_id'));
