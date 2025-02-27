@@ -80,6 +80,9 @@ class VehicalsController extends Controller
                             data-method="get">
                             <i class="dw dw-edit2"></i> Edit
                         </a>
+                        <a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.vehicals.destroy', $vehical->id) . '" data-method="delete">
+                                <i class="dw dw-delete-3"></i> Delete
+                            </a>
                     </div>
                 </div>';
                 })
