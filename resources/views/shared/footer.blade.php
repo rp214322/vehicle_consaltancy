@@ -68,9 +68,6 @@
                             <li><a href="#"><i class="fa fa-angle-right"></i> Chevrolet</a></li>
                             <li><a href="#"><i class="fa fa-angle-right"></i> Ferrari</a></li>
                             <li><a href="#"><i class="fa fa-angle-right"></i> Honda</a></li>
-                            @if(Auth::check())
-                                <li><a href="#FeedbackModel" data-toggle="modal" data-target="#FeedbackModel">Feedback</a></li>
-                            @endif
                         </ul>
                     </div>
                 </div>
@@ -84,48 +81,3 @@
     </footer>
     <!-- Footer Section End -->
 
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
-
-    <div class="modal fade bs-example-modal-lg" id="FeedbackModel" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <form action="javascript:;" method="post" id="FeedbackForm">
-                    @csrf
-                    @if(Auth::check())
-                        <input type="hidden" name="user_id" value="{!! Auth::user()->id !!}">
-                    @endif
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Place Your Feedback</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                    <div class="modal_form">
-                        <div class="form-group">
-                            <div class="my-rating"></div>
-                            <input type="hidden" name="rating" id="rateInput">
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea name="description" cols="30" rows="10" class="form-control" placeholder="description" required></textarea>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="javascript:;" type="submit" class="btn btn-primary place_feedback">Submit</a>
-                    </div>
-                    </form>
-            </div>
-        </div>
-    </div>

@@ -27,7 +27,6 @@ Route::get('/favouite/vehical/{id}',[App\Http\Controllers\VehicalsController::cl
 Route::get('/favouite/vehical',[App\Http\Controllers\UsersController::class,'FavouriteList'])->name('favourite.list');
 Route::get('/profile',[\App\Http\Controllers\UsersController::class,'profile'])->name('profile');
 Route::post('/profile',[App\Http\Controllers\UsersController::class,'updateProfile'])->name('update.profile');
-Route::post('/feedback',[App\Http\Controllers\UsersController::class,'StoreFeedback'])->name('feedback');
 Route::get('fetch',[\App\Http\Controllers\Admin\VehicalsController::class,'fetch'])->name('fetchData');
 
 //Admin Section
@@ -68,11 +67,6 @@ Route::middleware('admin')->prefix('admin')->namespace('\App\Http\Controllers\Ad
 
     Route::resource('inquiries',InquiriesController::class);
     Route::post('inquiries/status',[\App\Http\Controllers\Admin\InquiriesController::class,'updateStatus'])->name('inquiries.status');
-
-    Route::resource('feedbacks',FeedbacksController::class);
-    Route::post('feedbacks/status',[\App\Http\Controllers\Admin\FeedbacksController::class,'updateStatus'])->name('feedbacks.status');
-
-
 
 	// Route for Logout
 	Route::post('logout',[\App\Http\Controllers\Admin\AuthController::class,'getLogout'])->name('admin.logout');

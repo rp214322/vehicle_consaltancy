@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Vehical;
-use App\Models\Feedback;
 use Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -71,42 +70,5 @@ class UsersController extends Controller
     {
         $vehicals = Vehical::whereIn('id', Auth::user()->favourite_vehicals()->pluck('vehical_id')->toArray())->get();
         return view('favourite_list', compact('vehicals'));
-    }
-
-    public function StoreFeedback(Request $request)
-    {
-        $rules = array(
-            'rating' => 'required',
-        );
-        $messages = array(
-            'rating.required' => 'Please select rate.',
-        );
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails()) {
-            return response()->json($validator->getMessageBag()->toArray(), 422);
-        }
-        //   try {
-
-        $feedback = new Feedback;
-        $feedback->user_id = $request->has('user_id') ? $request->get('user_id') : NULL;
-        $feedback->rating = $request->get('rating');
-        $feedback->description = $request->get('description');
-        $feedback->save();
-
-        // Mail::send('emails.contact', ['data' => $request->all()], function($message) use($request) {
-        //   $message->to(config()->get('settings.email'));
-        //   $message->subject('Submission from ' . title_case($request->get('name')));
-        // });
-        // Mail::send('emails.thank_you', ['data' => $request->all()], function($message) use($request) {
-        //   $message->to($request->get('email'));
-        //   $message->subject('Thank you for contact us.');
-        // });
-        return response()->json(['success', 'Thank you valuable feedback.'], 200);
-        //   } catch (Exception $e) {
-        //       return redirect()->back()
-        //                       ->withErrors($validator)
-        //                       ->withInput()
-        //                       ->with('error', $e->getMessage());
-        //   }
     }
 }

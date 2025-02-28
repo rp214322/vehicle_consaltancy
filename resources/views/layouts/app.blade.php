@@ -62,40 +62,6 @@
                     form.submit();
                 }
             });
-
-            jQuery(".place_feedback").on("click",function(e){
-                var _f = jQuery("#FeedbackForm");
-                jQuery('#preloder, .loader').show();
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: "{!! route('feedback') !!}",
-                    data: jQuery(_f).serialize(),
-                })
-                .done(function (data) {
-                    jQuery('#preloder, .loader').hide();
-                    jQuery("#FeedbackModel").modal('hide');
-                }).fail(function (error) {
-                    jQuery('#preloder, .loader').hide();
-                    jQuery(_f).find(".has-error").remove();
-                    var response = JSON.parse(error.responseText);
-                    $.each(error.responseJSON, function (key, value) {
-                            var input = '[name=' + key + ']';
-                            jQuery(_f).find(input).parent().find(".has-error").length == 0 ? jQuery(_f).find(input).parent().append("<span class='has-error'>"+ value +"</span>") : jQuery(_f).find(input).parent().find('.has-error').html(value);
-                    });
-                });
-            });
-
-            $(".my-rating").starRating({
-                initialRating: 4,
-                strokeColor: '#894A00',
-                strokeWidth: 10,
-                starSize: 25,
-                minRating: 1,
-                callback: function(currentRating, $el){
-                    $("#rateInput").val(currentRating);
-                }
-            });
         })
     </script>
     @yield('scripts')
