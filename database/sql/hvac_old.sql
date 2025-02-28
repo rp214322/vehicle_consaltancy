@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 28, 2025 at 10:22 AM
+-- Generation Time: Feb 28, 2025 at 06:28 PM
 -- Server version: 8.0.41-0ubuntu0.22.04.1
 -- PHP Version: 8.1.31
 
@@ -135,34 +135,6 @@ INSERT INTO `favourite_vehicals` (`id`, `user_id`, `vehical_id`, `created_at`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `feedback`
---
-
-CREATE TABLE `feedback` (
-  `id` bigint UNSIGNED NOT NULL,
-  `user_id` bigint UNSIGNED NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rating` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`id`, `user_id`, `description`, `rating`, `status`, `created_at`, `updated_at`) VALUES
-(1, 13, 'i recently visite the \"hvsc\" site, i found it to very friendly and it hed some great features.it is a best management system site .', '5', 1, '2023-04-03 07:59:28', '2023-04-03 07:59:28'),
-(3, 24, 'it is a good and help full site.', '4.5', 1, '2023-04-19 23:52:43', '2023-04-19 23:52:43'),
-(4, 49, 'it is a very very usefull site', '5', 1, '2023-04-20 10:02:30', '2023-04-20 10:02:30'),
-(5, 48, 'it is a good responce to site', '4.5', 1, '2023-04-20 10:05:35', '2023-04-20 10:05:35'),
-(6, 50, 'thanks for a good reply and best selling site', '4.5', 1, '2023-04-20 10:07:26', '2023-04-20 10:07:26'),
-(7, 49, 'ef', '2.5', 1, '2023-04-20 22:51:40', '2023-04-20 22:51:40');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `inquiries`
 --
 
@@ -257,7 +229,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2023_03_02_11053_create_models_table', 1),
 (8, '2023_03_03_055628_create_vehicals_table', 1),
 (9, '2023_03_03_055648_create_vehical_galleries_table', 1),
-(11, '2023_03_03_155915_create_feedbacks_table', 1),
 (12, '2023_03_30_055747_create_favourite_vehicals_table', 2),
 (13, '2025_02_19_073650_add_missing_fields_to_users_table', 3),
 (14, '2025_02_19_100630_update_categories_table_add_status_softdeletes', 3),
@@ -558,7 +529,7 @@ INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `phone`, `email`, 
 (32, 'customer', 'Karlee Kovacek PhD', 'Serenity Roob', NULL, 'fern83@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'a2bdC7767U', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
 (33, 'customer', 'Cordell Smitham', 'Jacklyn Hills IV', NULL, 'oswald59@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'YzKOeTA14S', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
 (34, 'customer', 'Rubye Wyman', 'Katlynn O\'Kon', NULL, 'cindy63@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'Uj6YOXosY4', NULL, '2023-04-19 23:24:05', '2025-02-19 22:59:28'),
-(36, 'admin', 'Admin', '-', '+91 7016590780', 'admin@hvac.com', '2023-04-20 00:12:37', '$2y$10$6iHomnC0bb92QSVMp9mDauOvOa0x7piALOwBfZklEeMmPTaVrWBZ2', '2002-03-30', 'IN', 'Gujarat', '605 Titenium Square, Ahmedabad, Gujarat', 'uploads/profiles/1740123137.jpg', 1, 'YmCjXDziSIjQNnzIi94TmR45d9slCFJwoJ168GGYtr7qm2PZER140HI1f6LZ', NULL, '2023-04-20 00:12:37', '2025-02-21 02:02:17'),
+(36, 'admin', 'Admin', '-', '+91 7016590780', 'admin@hvac.com', '2023-04-20 00:12:37', '$2y$10$6iHomnC0bb92QSVMp9mDauOvOa0x7piALOwBfZklEeMmPTaVrWBZ2', '2002-03-30', 'IN', 'Gujarat', '605 Titenium Square, Ahmedabad, Gujarat', 'uploads/profiles/1740123137.jpg', 1, 'OdOihhcAbzOO6XL2oYXQCe5nItapGrPhHYqpDbFjkyMqhDNS8BZzV72egTG5', NULL, '2023-04-20 00:12:37', '2025-02-21 02:02:17'),
 (37, 'customer', 'Thea Greenholt', 'Neoma Shanahan V', NULL, 'dkirlin@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'wFJyxQdCjS', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
 (38, 'customer', 'Mara Witting', 'Jovan Wyman', NULL, 'arch35@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Cz3rWZuwWC', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
 (39, 'customer', 'Casimir Koepp', 'Giovanny Rosenbaum', NULL, 'delaney72@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'Q0hdlOk7A4', NULL, '2023-04-20 00:12:38', '2025-02-19 22:59:26'),
@@ -709,12 +680,6 @@ ALTER TABLE `favourite_vehicals`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `feedback`
---
-ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `inquiries`
 --
 ALTER TABLE `inquiries`
@@ -794,12 +759,6 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `favourite_vehicals`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `feedback`
---
-ALTER TABLE `feedback`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `inquiries`
