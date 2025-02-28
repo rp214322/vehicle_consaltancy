@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 24, 2025 at 05:44 PM
+-- Generation Time: Feb 28, 2025 at 10:22 AM
 -- Server version: 8.0.41-0ubuntu0.22.04.1
 -- PHP Version: 8.1.31
 
@@ -191,8 +191,8 @@ INSERT INTO `inquiries` (`id`, `vehical_id`, `type`, `name`, `email`, `phone`, `
 (4, NULL, 'sell', 'Pratham', 'pratham@gmail.com', '9658965896', NULL, 1, NULL, '2025-02-24 05:51:40', '2025-02-24 05:58:00'),
 (5, NULL, 'buy', 'Nidhi', 'nidhi@gmail.com', '9658965235', NULL, 1, NULL, '2025-01-14 05:52:02', '2025-02-24 05:58:22'),
 (6, 36, 'sell', 'Marilyne Hane', 'terry.bogan@example.org', '620-326-0517', 'Quis sunt quisquam dolor sit ad. Fugit ut qui explicabo rerum impedit ex. Dolorum perferendis suscipit consequatur atque esse eius.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
-(7, 38, 'sell', 'Nathanael Prohaska', 'koelpin.junius@example.net', '(737) 254-8124', 'Cumque quia consectetur quia facere autem. Cum sunt expedita suscipit magni. Consequatur hic laboriosam eligendi nihil qui error architecto. Quaerat dolores eum cumque adipisci earum quibusdam.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
-(8, 38, 'sell', 'Cordie Boyle', 'ralph96@example.com', '985.588.1875', 'Et cumque aut architecto nostrum. Dolorem voluptas ipsum voluptatem. In eligendi omnis reiciendis nostrum aspernatur. Doloremque excepturi sunt accusamus aut.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:59:02'),
+(7, NULL, 'sell', 'Nathanael Prohaska', 'koelpin.junius@example.net', '(737) 254-8124', 'Cumque quia consectetur quia facere autem. Cum sunt expedita suscipit magni. Consequatur hic laboriosam eligendi nihil qui error architecto. Quaerat dolores eum cumque adipisci earum quibusdam.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
+(8, NULL, 'sell', 'Cordie Boyle', 'ralph96@example.com', '985.588.1875', 'Et cumque aut architecto nostrum. Dolorem voluptas ipsum voluptatem. In eligendi omnis reiciendis nostrum aspernatur. Doloremque excepturi sunt accusamus aut.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:59:02'),
 (9, 23, 'buy', 'Leonel Prohaska', 'zpurdy@example.com', '323-856-0903', 'Molestiae nulla qui ut maiores eaque. Deleniti officia harum et quae voluptate. Est voluptatem veritatis qui.', 0, NULL, '2025-01-07 05:55:47', '2025-02-24 06:13:39'),
 (10, NULL, 'buy', 'Carlotta Watsica', 'john.fadel@example.net', '(475) 804-7116', 'Ab provident quia officiis odio est ad. Vel qui doloribus inventore molestiae inventore doloremque. Sint quia explicabo et dolores.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:59:04'),
 (11, 21, 'buy', 'Clara Schowalter', 'harold.grady@example.org', '434-916-9623', 'Perspiciatis rerum fugiat laboriosam officiis. Eum sed ducimus consequatur quia iste. Libero hic ut officiis officia suscipit saepe nisi. Ab repellendus soluta quasi provident consectetur.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
@@ -200,7 +200,7 @@ INSERT INTO `inquiries` (`id`, `vehical_id`, `type`, `name`, `email`, `phone`, `
 (13, 22, 'buy', 'Arjun Dare', 'mschowalter@example.com', '860.441.3291', 'Provident quae fuga ut eligendi enim. Nesciunt aut vitae quos recusandae quod. Qui perspiciatis pariatur qui sed. Occaecati odio omnis ad tempora itaque quasi placeat. Maxime cum nobis nihil debitis.', 0, NULL, '2025-01-07 05:55:47', '2025-02-24 06:13:38'),
 (14, 18, 'sell', 'Dr. Celestino Koch', 'geovanni.bernhard@example.com', '445.308.5132', 'Sunt error molestiae incidunt voluptatem. Et ut et enim explicabo rerum qui. Qui maiores fugiat officia deserunt omnis similique.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:59:12'),
 (15, 20, 'sell', 'Gloria Mertz', 'zemlak.granville@example.org', '+1-351-741-1430', 'Similique perferendis quae error omnis aperiam. Quo eum eveniet quia. Quidem libero nulla dolorem nam beatae non odit.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:59:16'),
-(16, 16, 'sell', 'Bonnie Bosco', 'rau.jared@example.net', '336-449-2641', 'Quia enim quibusdam ea provident. Sunt perferendis facere explicabo enim recusandae id hic odio. Est iure dignissimos totam eius qui architecto. Nobis ut ipsa provident qui sunt et itaque.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
+(16, NULL, 'sell', 'Bonnie Bosco', 'rau.jared@example.net', '336-449-2641', 'Quia enim quibusdam ea provident. Sunt perferendis facere explicabo enim recusandae id hic odio. Est iure dignissimos totam eius qui architecto. Nobis ut ipsa provident qui sunt et itaque.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
 (17, 18, 'sell', 'Maxine Abernathy I', 'wunsch.lourdes@example.org', '+1-651-694-1376', 'Optio velit ab enim sit aut excepturi id. Eius animi amet modi et. Iure eum eveniet rerum animi.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 06:00:50'),
 (18, 17, 'sell', 'Alexandro Mayert', 'golden61@example.com', '+1 (270) 528-8104', 'Autem id mollitia rerum consectetur iusto dolore. In ullam soluta facilis dolor provident aut. Voluptatem et qui fuga quisquam tempore voluptatibus nihil.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 06:00:47'),
 (19, 36, 'buy', 'Conner Parisian', 'stracke.aliya@example.net', '1-475-681-4889', 'Et error dolorum pariatur aliquid voluptate similique magni consequuntur. Similique aut consequatur architecto est. Quasi rem sapiente et adipisci. Aspernatur est quo est id.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 06:00:45'),
@@ -432,7 +432,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (15, 'App\\Models\\User', 62, 'auth_token', '90b4dece22800a40313705ce6bff49893d83c794ba91338d2528519811676137', '[\"*\"]', NULL, '2025-02-20 02:17:00', '2025-02-20 02:17:00'),
 (16, 'App\\Models\\User', 62, 'auth_token', '03ee770ff752b9bc32939826575c0ea6d28bb708d8c56f57e409256e6c493eef', '[\"*\"]', NULL, '2025-02-20 02:17:00', '2025-02-20 02:17:00'),
 (17, 'App\\Models\\User', 62, 'auth_token', 'a567bab8de8c3360399ff78a58f60dac5abc90cdac7ea8a62210fa73e0000032', '[\"*\"]', '2025-02-20 02:25:50', '2025-02-20 02:17:35', '2025-02-20 02:25:50'),
-(19, 'App\\Models\\User', 62, 'auth_token', 'a95fc3e951123a8e0afc5d6c91035cf1e4f4441c849619434c808e085a15af86', '[\"*\"]', '2025-02-20 03:36:17', '2025-02-20 02:28:01', '2025-02-20 03:36:17'),
+(19, 'App\\Models\\User', 62, 'auth_token', 'a95fc3e951123a8e0afc5d6c91035cf1e4f4441c849619434c808e085a15af86', '[\"*\"]', '2025-02-25 23:35:50', '2025-02-20 02:28:01', '2025-02-25 23:35:50'),
 (20, 'App\\Models\\User', 62, 'auth_token', '21925dd60da8aa4868e858840d1923f302948d5bdd5182e069f8f064f1287c6b', '[\"*\"]', NULL, '2025-02-20 06:55:40', '2025-02-20 06:55:40'),
 (21, 'App\\Models\\User', 62, 'auth_token', '0ac279dc56b488093266f15e3fcc174a6ccd1765dbd7822905a5cf17c8fe28e4', '[\"*\"]', NULL, '2025-02-20 07:00:40', '2025-02-20 07:00:40'),
 (22, 'App\\Models\\User', 62, 'auth_token', '4fbc125f1111826e57d36308472c40a1679a49474b39ad166432f51840189a1f', '[\"*\"]', NULL, '2025-02-20 07:00:40', '2025-02-20 07:00:40'),
@@ -474,7 +474,25 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (58, 'App\\Models\\User', 62, 'auth_token', '56ada6ff8fa74692524b11ed956591058365d0cc5de0226e753dc20f92473933', '[\"*\"]', NULL, '2025-02-20 07:00:50', '2025-02-20 07:00:50'),
 (59, 'App\\Models\\User', 62, 'auth_token', '74a6d3f6c2fd2e02e59bacc01ce74148a7d81b62e14a7b2c373a654c225440c0', '[\"*\"]', NULL, '2025-02-20 07:00:50', '2025-02-20 07:00:50'),
 (60, 'App\\Models\\User', 62, 'auth_token', '919066ae2970bc01e8e58141cce02221efa634927823be76f4607d38be67f430', '[\"*\"]', NULL, '2025-02-20 07:00:50', '2025-02-20 07:00:50'),
-(61, 'App\\Models\\User', 62, 'auth_token', 'f33c6fc1dfc988e9f42388e6e8d3c6df21db050a2d2d8a8ed6a7508568e95da2', '[\"*\"]', NULL, '2025-02-20 07:00:51', '2025-02-20 07:00:51');
+(61, 'App\\Models\\User', 62, 'auth_token', 'f33c6fc1dfc988e9f42388e6e8d3c6df21db050a2d2d8a8ed6a7508568e95da2', '[\"*\"]', NULL, '2025-02-20 07:00:51', '2025-02-20 07:00:51'),
+(62, 'App\\Models\\User', 62, 'auth_token', '08b51dd4a6c03e54b62d92f4668fc52fe412c5af1bc5e390c22f7f0b71a6eb04', '[\"*\"]', NULL, '2025-02-25 00:59:57', '2025-02-25 00:59:57'),
+(64, 'App\\Models\\User', 62, 'auth_token', '22d6ca6246593d7b48c8108884f87e885dfdbfdd0b30781c16242857b41d957a', '[\"*\"]', '2025-02-25 01:20:54', '2025-02-25 01:20:23', '2025-02-25 01:20:54'),
+(65, 'App\\Models\\User', 62, 'auth_token', '085ad4112f4bdaa8650cada45478a342cb88dee13bc18213b69671f302273e80', '[\"*\"]', '2025-02-25 01:31:57', '2025-02-25 01:26:42', '2025-02-25 01:31:57'),
+(66, 'App\\Models\\User', 62, 'auth_token', 'db0f63f7f6a27d907560edf18f3525cc52bd93513cbbeb93734219ec7a936039', '[\"*\"]', '2025-02-25 23:36:50', '2025-02-25 03:52:10', '2025-02-25 23:36:50'),
+(67, 'App\\Models\\User', 62, 'auth_token', '4371d2efb431de0d06a8e028eab62d5911d42235f5259cc75cac084dda44f466', '[\"*\"]', '2025-02-25 03:58:07', '2025-02-25 03:57:45', '2025-02-25 03:58:07'),
+(68, 'App\\Models\\User', 66, 'auth_token', '23a67ebf311f653d327e6cff78d2fac659b47a71025d41cda89a00e2f575758e', '[\"*\"]', '2025-02-25 23:42:14', '2025-02-25 23:31:40', '2025-02-25 23:42:14'),
+(69, 'App\\Models\\User', 67, 'auth_token', 'b625205ebf25e0f7c7c2260a0df96c6f3320d56892f3b86a85e9c4cf1b3fdbbc', '[\"*\"]', NULL, '2025-02-26 02:25:56', '2025-02-26 02:25:56'),
+(70, 'App\\Models\\User', 67, 'auth_token', '63dd630a3f6d2d54a2a61ee5ca2a186c53e611380fc3b28b3b636d79f9d11c4a', '[\"*\"]', NULL, '2025-02-26 05:05:27', '2025-02-26 05:05:27'),
+(71, 'App\\Models\\User', 67, 'auth_token', '058f6d9a34af9a9be930d9ae8be5defbc9ac02795c4898c2c24541e48a05058b', '[\"*\"]', NULL, '2025-02-26 05:05:28', '2025-02-26 05:05:28'),
+(72, 'App\\Models\\User', 67, 'auth_token', 'cdaccb94cca4bf41536b0515660a41b345a6aa4309329a9ac0cbd8b88c8d1389', '[\"*\"]', NULL, '2025-02-26 05:05:28', '2025-02-26 05:05:28'),
+(73, 'App\\Models\\User', 67, 'auth_token', 'ce00c6cb00b3eb6e3aa60218df402c123c47dd5331ac44c24dc0c9fedabe5515', '[\"*\"]', NULL, '2025-02-26 05:05:29', '2025-02-26 05:05:29'),
+(74, 'App\\Models\\User', 67, 'auth_token', '5d903a3ebd9470c121f6a23eb2541aaade273702a0729fb760ea9315595f4f04', '[\"*\"]', NULL, '2025-02-26 05:05:29', '2025-02-26 05:05:29'),
+(75, 'App\\Models\\User', 67, 'auth_token', '58a1f85b671d469afa1e8d818d37a4c824efedae2b01da2a382df5ac6ce9cc64', '[\"*\"]', NULL, '2025-02-26 05:05:29', '2025-02-26 05:05:29'),
+(76, 'App\\Models\\User', 67, 'auth_token', 'ad92e3783f5c587c37f9faf065e8737d0fab2a8b2648304382fa0f234668e034', '[\"*\"]', NULL, '2025-02-26 05:05:29', '2025-02-26 05:05:29'),
+(77, 'App\\Models\\User', 67, 'auth_token', '0f28e317cca2bf74a6bce87553c7cc9cf5aed9b38d4dfaca96a7a5a6eb73c1e5', '[\"*\"]', NULL, '2025-02-26 05:05:29', '2025-02-26 05:05:29'),
+(78, 'App\\Models\\User', 67, 'auth_token', '50e1705768f44545905a9e8e830a215afab475bcf244f94eb95f4ddc8e03513d', '[\"*\"]', NULL, '2025-02-26 05:05:30', '2025-02-26 05:05:30'),
+(79, 'App\\Models\\User', 67, 'auth_token', '6191875c1bf3df085fcde4e1eed667c638f17a7bbffb759c2eaf09f2dcce970e', '[\"*\"]', NULL, '2025-02-26 05:05:30', '2025-02-26 05:05:30'),
+(80, 'App\\Models\\User', 67, 'auth_token', 'e63e47758695acbd28f92af44d2e144fc5c949c3849a003881ad78e65455057b', '[\"*\"]', NULL, '2025-02-26 05:05:30', '2025-02-26 05:05:30');
 
 -- --------------------------------------------------------
 
@@ -540,7 +558,7 @@ INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `phone`, `email`, 
 (32, 'customer', 'Karlee Kovacek PhD', 'Serenity Roob', NULL, 'fern83@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'a2bdC7767U', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
 (33, 'customer', 'Cordell Smitham', 'Jacklyn Hills IV', NULL, 'oswald59@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'YzKOeTA14S', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
 (34, 'customer', 'Rubye Wyman', 'Katlynn O\'Kon', NULL, 'cindy63@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'Uj6YOXosY4', NULL, '2023-04-19 23:24:05', '2025-02-19 22:59:28'),
-(36, 'admin', 'Admin', '-', '+91 7016590780', 'admin@hvac.com', '2023-04-20 00:12:37', '$2y$10$6iHomnC0bb92QSVMp9mDauOvOa0x7piALOwBfZklEeMmPTaVrWBZ2', '2002-03-30', 'IN', 'Gujarat', '605 Titenium Square, Ahmedabad, Gujarat', 'uploads/profiles/1740123137.jpg', 1, 'DbfRSNXFg1bacUKqoGtbEeZlWosGOV6Ksx94oP7rVNG81ezIuckW7YRqUBvq', NULL, '2023-04-20 00:12:37', '2025-02-21 02:02:17'),
+(36, 'admin', 'Admin', '-', '+91 7016590780', 'admin@hvac.com', '2023-04-20 00:12:37', '$2y$10$6iHomnC0bb92QSVMp9mDauOvOa0x7piALOwBfZklEeMmPTaVrWBZ2', '2002-03-30', 'IN', 'Gujarat', '605 Titenium Square, Ahmedabad, Gujarat', 'uploads/profiles/1740123137.jpg', 1, 'YmCjXDziSIjQNnzIi94TmR45d9slCFJwoJ168GGYtr7qm2PZER140HI1f6LZ', NULL, '2023-04-20 00:12:37', '2025-02-21 02:02:17'),
 (37, 'customer', 'Thea Greenholt', 'Neoma Shanahan V', NULL, 'dkirlin@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'wFJyxQdCjS', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
 (38, 'customer', 'Mara Witting', 'Jovan Wyman', NULL, 'arch35@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Cz3rWZuwWC', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
 (39, 'customer', 'Casimir Koepp', 'Giovanny Rosenbaum', NULL, 'delaney72@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'Q0hdlOk7A4', NULL, '2023-04-20 00:12:38', '2025-02-19 22:59:26'),
@@ -568,7 +586,9 @@ INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `phone`, `email`, 
 (62, 'customer', 'Rohan', 'Chauhan', '9658965899', 'rohan4@gmail.com', NULL, '$2y$10$GmoysaK234N2OhyOEnDeAOYsAwtIdjjatmFanEuLfcc3Su5VqJbtK', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 08:46:38', '2025-02-19 08:46:38'),
 (63, 'customer', 'Paras', 'Malaviya', '9652365256', 'paras@gmail.com', NULL, '$2y$10$cCBY7BoyAJi9UtkIFecsDuBuV95vvY5z97aCJkOMkWxjMB9dFQtWu', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-20 00:50:34', '2025-02-20 00:53:41'),
 (64, 'customer', 'Rohan', 'Chauhan', '9658965399', 'rohan2@gmail.com', NULL, '$2y$10$Hm1M4Y2n5VKyLEt/79vVguhqlw0C/701EMX6aNrHtt4P2oV4SSG.u', '2025-02-13', 'IN', 'Karnataka', NULL, NULL, 1, NULL, NULL, '2025-02-20 02:17:30', '2025-02-21 03:59:36'),
-(65, 'customer', 'Urjit', 'Patel', '6589659658', 'urjit@gmail.com', '2025-02-21 04:05:19', '$2y$10$qKeOKt9W2j4K5CDQ6h5AI.q2igVT45N1S5lRuByIHyduESTePil5m', '2025-02-07', 'IN', 'Goa', 'fdf', NULL, 1, NULL, NULL, '2025-02-21 04:05:19', '2025-02-21 04:05:19');
+(65, 'customer', 'Urjit', 'Patel', '6589659658', 'urjit@gmail.com', '2025-02-21 04:05:19', '$2y$10$qKeOKt9W2j4K5CDQ6h5AI.q2igVT45N1S5lRuByIHyduESTePil5m', '2025-02-07', 'IN', 'Goa', 'fdf', NULL, 1, NULL, NULL, '2025-02-21 04:05:19', '2025-02-21 04:05:19'),
+(66, 'customer', 'Rohan', 'Chauhan', '9658965869', 'rohan22@gmail.com', NULL, '$2y$10$Mdnj12EVWu5wb2lpBXBLNOdBfVVlsrKFnndOFB/8ySHkcNFjxqVeK', '1990-05-15', 'IN', 'Gujarat', '123 Main Street, Los Angeles', 'http://127.0.0.1:8001/storage/profile_images/profile_66_1740546234.png', 1, NULL, NULL, '2025-02-25 23:31:12', '2025-02-25 23:33:54'),
+(67, 'customer', 'Rohan', 'Chauhan', '9658965392', 'rohanf22@gmail.com', NULL, '$2y$10$RnA/usHcXBaSqg0SEaNf0uNPETWVNpcHH2oRdsssBC7zffHAIc0UW', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-26 02:25:46', '2025-02-26 02:25:46');
 
 -- --------------------------------------------------------
 
@@ -599,8 +619,6 @@ CREATE TABLE `vehicals` (
 --
 
 INSERT INTO `vehicals` (`id`, `category_id`, `brand_id`, `model_id`, `title`, `slug`, `year`, `fuel`, `color`, `mileage`, `price`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(15, 1, 12, 89, 'Active', 'active-2015', 2019, 'petrol', 'white', '30', '15000.00', NULL, 0, '2023-03-30 08:50:24', '2025-02-21 00:13:31'),
-(16, 1, 20, 79, 'Bullet Classical 350', 'bullet-classical-350', 2018, 'diesal', 'Red', '10', '50000.00', NULL, 1, '2023-03-30 09:01:57', '2025-02-20 23:02:08'),
 (17, 1, 11, 68, 'Pluser 220', 'pluser-220', 2018, 'petrol', 'Black', '15', '50000.00', NULL, 0, '2023-03-30 09:03:58', '2023-03-30 09:03:58'),
 (18, 3, 5, 34, 'Innova 556', 'innova-556', 2014, 'diesal', 'black', '50', '90000.00', NULL, 0, '2023-03-30 09:05:52', '2025-02-20 23:02:48'),
 (20, 1, 12, 69, 'SHINE SP', 'dream-yuga', 2012, 'petrol', 'red', '60', '16000.00', NULL, 1, '2023-03-30 09:09:36', '2025-02-20 23:03:19'),
@@ -612,10 +630,9 @@ INSERT INTO `vehicals` (`id`, `category_id`, `brand_id`, `model_id`, `title`, `s
 (26, 1, 13, 71, 'SPLENDOR', 'splendor', 2017, 'petrol', 'black', '15', '15000.00', NULL, 0, '2023-03-30 11:40:53', '2025-02-20 23:05:38'),
 (29, 3, 1, 5, 'Tata Nexon EV', 'nexon', 2019, 'electric', 'green', '25', '500000.00', NULL, 0, '2023-04-20 05:09:43', '2025-02-21 00:15:37'),
 (34, 1, 12, 66, 'livo', 'livo', 2017, 'petrol', 'BLACK', '35', '65000.00', NULL, 0, '2023-04-20 09:30:56', '2025-02-20 01:50:38'),
-(35, 1, 15, 75, 'fz-s', 'fz-s', 2017, 'petrol', 'black', '45', '55000.00', NULL, 0, '2023-04-20 09:33:00', '2023-04-20 09:33:00'),
+(35, 1, 15, 75, 'fz-s', 'fz-s', 2017, 'petrol', 'black', '45', '55000.00', NULL, 0, '2023-04-20 09:33:00', '2025-02-26 02:20:19'),
 (36, 3, 9, 55, 'SELTOS', 'seltos', 2020, 'petrol', 'black', '35', '650000.00', NULL, 0, '2023-04-20 09:37:01', '2023-04-20 09:37:01'),
-(37, 3, 5, 32, 'FORTUNER', 'fortuner', 2021, 'petrol', 'White', '45', '3500000.00', NULL, 0, '2023-04-20 09:40:49', '2025-02-20 23:07:14'),
-(38, 3, 10, 65, 'KODIAQ', 'kodiaq', 2018, 'diesal', 'BLACK', '55', '100000.00', NULL, 0, '2023-04-20 09:45:17', '2023-04-20 09:45:17');
+(37, 3, 5, 32, 'FORTUNER', 'fortuner', 2021, 'petrol', 'White', '45', '3500000.00', NULL, 0, '2023-04-20 09:40:49', '2025-02-20 23:07:14');
 
 -- --------------------------------------------------------
 
@@ -638,32 +655,29 @@ CREATE TABLE `vehical_galleries` (
 --
 
 INSERT INTO `vehical_galleries` (`id`, `vehical_id`, `file`, `file_type`, `is_featured`, `created_at`, `updated_at`) VALUES
-(3, 13, 'VERANA.jpg', 'image', 1, '2023-03-30 08:39:41', '2023-03-30 08:39:55'),
-(5, 15, 'WhatsApp Image 2023-03-30 at 7.51.03 PM.jpeg', 'image', 1, '2023-03-30 08:59:03', '2025-02-20 23:01:38'),
-(6, 14, 'alczar.jpg', 'image', 0, '2023-03-30 09:20:23', '2023-03-30 09:20:23'),
-(7, 16, 'classic 350.jpeg', 'image', 1, '2023-03-30 09:21:08', '2023-04-02 06:58:23'),
-(9, 18, 'innova(1).jpg', 'image', 1, '2023-03-30 09:22:07', '2025-02-20 23:02:42'),
-(11, 21, 'access125.jpeg', 'image', 0, '2023-03-30 09:22:51', '2025-02-20 23:03:40'),
-(12, 21, 'access125(1).jpeg', 'image', 1, '2023-03-30 09:23:03', '2025-02-20 23:03:40'),
-(13, 20, 'shine sp(1).jpeg', 'image', 1, '2023-03-30 11:04:17', '2025-02-20 23:03:05'),
-(15, 19, 'swift(2).jpg', 'image', 0, '2023-03-30 11:05:47', '2023-03-30 11:05:47'),
-(16, 22, 'WhatsApp Image 2023-03-30 at 6.27.52 PM.jpeg', 'image', 1, '2023-03-30 11:06:24', '2025-02-20 23:04:08'),
-(18, 24, 'continental gt 650.jpeg', 'image', 1, '2023-03-30 11:07:26', '2025-02-20 23:05:01'),
-(20, 23, 'city.jpg', 'image', 1, '2023-03-30 11:08:20', '2025-02-20 23:04:35'),
-(23, 17, 'plusar 125.jpeg', 'image', 1, '2023-03-30 11:10:58', '2025-02-20 23:02:27'),
-(26, 25, 'WhatsApp Image 2023-03-30 at 6.19.21 PM.jpeg', 'image', 1, '2023-03-30 11:38:42', '2025-02-20 23:05:22'),
-(27, 26, 'splendor plus.jpeg', 'image', 1, '2023-03-30 11:41:24', '2025-02-20 23:05:35'),
-(28, 27, 'harreir.jpg', 'image', 0, '2023-03-30 20:55:57', '2023-03-30 20:55:57'),
-(29, 27, 'harrier(1).jpg', 'image', 0, '2023-03-30 20:56:07', '2023-03-30 20:56:07'),
-(31, 28, 'punch.jpg', 'image', 0, '2023-03-30 21:04:01', '2023-03-30 21:04:01'),
-(32, 29, 'WhatsApp Image 2023-03-30 at 6.24.19 PM.jpeg', 'image', 1, '2023-04-20 05:13:50', '2023-04-20 05:14:30'),
-(34, 33, 'brezza.jpg', 'image', 0, '2023-04-20 09:28:52', '2023-04-20 09:28:52'),
-(35, 34, 'livo.jpeg', 'image', 1, '2023-04-20 09:31:24', '2023-04-20 09:31:49'),
-(36, 34, 'livo(1).jpeg', 'image', 0, '2023-04-20 09:31:38', '2023-04-20 09:31:49'),
-(37, 36, 'WhatsApp Image 2023-03-30 at 6.07.54 PM.jpeg', 'image', 1, '2023-04-20 09:37:24', '2025-02-20 23:06:37'),
-(38, 35, 'fz-s.jpeg', 'image', 1, '2023-04-20 09:37:53', '2025-02-20 23:06:29'),
-(40, 37, 'WhatsApp Image 2023-03-30 at 6.20.02 PM (1).jpeg', 'image', 1, '2023-04-20 09:41:57', '2025-02-20 23:07:00'),
-(41, 38, 'WhatsApp Image 2023-03-30 at 6.14.22 PM.jpeg', 'image', 1, '2023-04-20 09:46:49', '2025-02-20 23:07:29');
+(93, 39, 'gallery/test/1740555306_pulsar.jpeg', 'image/jpeg', 0, '2025-02-26 02:05:06', '2025-02-26 02:14:18'),
+(94, 39, 'gallery/test/1740555306_plusar 125.jpeg', 'image/jpeg', 1, '2025-02-26 02:05:06', '2025-02-26 02:14:18'),
+(95, 38, 'gallery/kodiaq/1740555793_car-8.jpg', 'image/jpeg', 1, '2025-02-26 02:13:13', '2025-02-26 02:14:33'),
+(96, 38, 'gallery/kodiaq/1740555793_car-6.jpg', 'image/jpeg', 0, '2025-02-26 02:13:13', '2025-02-26 02:14:33'),
+(97, 37, 'gallery/fortuner/1740660071_WhatsApp Image 2023-03-30 at 6.20.02 PM (1).jpeg', 'image/jpeg', 1, '2025-02-27 07:11:11', '2025-02-27 07:11:15'),
+(98, 36, 'gallery/seltos/1740717559_WhatsApp Image 2023-03-30 at 6.07.54 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:09:19', '2025-02-27 23:09:23'),
+(99, 35, 'gallery/fz-s/1740717598_fz-s.jpeg', 'image/jpeg', 1, '2025-02-27 23:09:58', '2025-02-27 23:10:02'),
+(100, 34, 'gallery/livo/1740717618_livo.jpeg', 'image/jpeg', 1, '2025-02-27 23:10:18', '2025-02-27 23:10:22'),
+(101, 29, 'gallery/nexon/1740717656_WhatsApp Image 2023-03-30 at 6.24.19 PM.jpeg', 'image/jpeg', 0, '2025-02-27 23:10:56', '2025-02-27 23:11:03'),
+(102, 29, 'gallery/nexon/1740717656_WhatsApp Image 2023-03-30 at 6.24.20 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:10:56', '2025-02-27 23:11:03'),
+(103, 26, 'gallery/splendor/1740717796_splendor plus.jpeg', 'image/jpeg', 1, '2025-02-27 23:13:16', '2025-02-27 23:13:20'),
+(104, 25, 'gallery/wr-v/1740717836_WhatsApp Image 2023-03-30 at 6.19.21 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:13:56', '2025-02-27 23:14:00'),
+(105, 24, 'gallery/royal-enfield/1740717864_classic 350(1).jpeg', 'image/jpeg', 0, '2025-02-27 23:14:24', '2025-02-27 23:14:31'),
+(106, 24, 'gallery/royal-enfield/1740717864_classic 350.jpeg', 'image/jpeg', 1, '2025-02-27 23:14:24', '2025-02-27 23:14:31'),
+(107, 23, 'gallery/city/1740717887_city.jpg', 'image/jpeg', 1, '2025-02-27 23:14:47', '2025-02-27 23:14:51'),
+(108, 22, 'gallery/thar/1740717916_WhatsApp Image 2023-03-30 at 6.27.52 PM.jpeg', 'image/jpeg', 0, '2025-02-27 23:15:16', '2025-02-27 23:15:25'),
+(109, 22, 'gallery/thar/1740717916_WhatsApp Image 2023-03-30 at 6.27.51 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:15:16', '2025-02-27 23:15:25'),
+(110, 21, 'gallery/giser-36/1740717959_access125.jpeg', 'image/jpeg', 1, '2025-02-27 23:15:59', '2025-02-27 23:16:08'),
+(111, 21, 'gallery/giser-36/1740717959_access125(1).jpeg', 'image/jpeg', 0, '2025-02-27 23:15:59', '2025-02-27 23:16:08'),
+(112, 20, 'gallery/dream-yuga/1740717994_shine sp(1).jpeg', 'image/jpeg', 1, '2025-02-27 23:16:34', '2025-02-27 23:16:45'),
+(113, 20, 'gallery/dream-yuga/1740717994_shine sp.jpeg', 'image/jpeg', 0, '2025-02-27 23:16:34', '2025-02-27 23:16:45'),
+(114, 18, 'gallery/innova-556/1740718034_WhatsApp Image 2023-03-30 at 6.20.02 PM (1).jpeg', 'image/jpeg', 1, '2025-02-27 23:17:14', '2025-02-27 23:17:18'),
+(115, 17, 'gallery/pluser-220/1740718134_plusar 125.jpeg', 'image/jpeg', 1, '2025-02-27 23:18:54', '2025-02-27 23:18:58');
 
 --
 -- Indexes for dumped tables
@@ -809,25 +823,25 @@ ALTER TABLE `models`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `vehicals`
 --
 ALTER TABLE `vehicals`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `vehical_galleries`
 --
 ALTER TABLE `vehical_galleries`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- Constraints for dumped tables

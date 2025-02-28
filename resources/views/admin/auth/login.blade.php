@@ -9,7 +9,7 @@
         <div class="container">
 			<div class="row align-items-center">
 				<div class="col-md-6 col-lg-7">
-					<img src="{!! asset('images/login-page-img.png') !!}" alt="">
+					<img src="{!! asset('front/img/chooseus-video.png') !!}" alt="">
 				</div>
 				<div class="col-md-6 col-lg-5">
 					<div class="login-box bg-white box-shadow border-radius-10">

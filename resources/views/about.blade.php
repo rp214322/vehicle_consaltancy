@@ -32,34 +32,6 @@
                 </div>
             </div>
         </div>
-        <div class="about__feature">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="about__feature__item">
-                        <img src="{{ asset('front/img/about/af-1.png') }}" alt="">
-                        <h5>Quality Assurance System</h5>
-                        <p>It seems though that some of the biggest problems with the internet advertising trends
-                            are the lack of</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="about__feature__item">
-                        <img src="{{ asset('front/img/about/af-2.png') }}" alt="">
-                        <h5>Accurate Testing Processes</h5>
-                        <p>Where do you register your complaints? How can you protest in any form against companies
-                            whose</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="about__feature__item">
-                        <img src="{{ asset('front/img/about/af-3.png') }}" alt="">
-                        <h5>Infrastructure Integration Technology</h5>
-                        <p>So in final analysis: it’s true, I hate peeping Toms, but if I had to choose, I’d take
-                            one any day over an</p>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="about__pic">
@@ -277,8 +249,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title client-title">
-                    <span>Partner</span>
-                    <h2>Our Clients</h2>
+                    <span>Brand</span>
+                    <h2>Our Top Brands</h2>
                 </div>
             </div>
         </div>
