@@ -72,7 +72,7 @@
                     <div class="card-box pd-10">
                         <div class="profile-photo">
                             <img id="profileImagePreview"
-                                src="{{ asset(Auth::user()->image ? Auth::user()->image : 'images/Default_image.jpg') }}"
+                                 src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images/Default_image.jpg') }}"
                                 alt="Profile Photo" class="avatar-photo img-fluid rounded-circle shadow-sm" />
                             <h5 class="h5 mt-3">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h5>
                         </div>
