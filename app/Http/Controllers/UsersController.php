@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Vehical;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -19,13 +19,12 @@ class UsersController extends Controller
 
     public function updateProfile(Request $request)
     {
-        // dd($request->all());
         $rules = [
             'first_name' => 'required|max:30',
             'last_name' => 'nullable|max:30',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'phone' => 'nullable|max:20|unique:users,phone,' . Auth::id(),
-            'country' => 'required|string|max:100',
+            'country' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:100',
             'address' => 'nullable|string|max:255',
             'dob' => 'nullable|date',
@@ -55,10 +54,16 @@ class UsersController extends Controller
         }
 
         if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+
+            // Upload new image
             $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/profiles'), $imageName);
-            $user->image = 'uploads/profiles/' . $imageName;
+            $imageName = 'profile_' . $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->storeAs('profile_images', $imageName, 'public');
+            $user->image = $imagePath; // Save path in DB
         }
 
         $user->save();

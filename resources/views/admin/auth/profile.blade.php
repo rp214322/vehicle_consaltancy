@@ -57,13 +57,12 @@
             <div class="col-lg-4 col-md-6 col-sm-12 mb-30">
                 <div class="card-box height-100-p pd-20">
                     <div class="profile-photo text-center">
-                        </label>
                         <img id="profileImagePreview"
-                            src="{{ asset(Auth::user()->image ? Auth::user()->image : 'images/Default_image.jpg') }}"
+                            src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images/Default_image.jpg') }}"
                             alt="Profile Photo"
                             class="avatar-photo img-fluid rounded-circle shadow-sm" />
                         <h5 class="text-center h5 mt-3">{{ Auth::user()->first_name }}</h5>
-                    </div>
+                    </div>                    
 
                     <div class="profile-info mt-3">
                         <h5 class="mb-3 text-blue">Contact Information</h5>

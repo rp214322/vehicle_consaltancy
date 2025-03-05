@@ -5,7 +5,7 @@
         <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                 <span class="user-icon">
-                    <img src="{{ asset(Auth::user()->image ? Auth::user()->image : 'images/Default_image.jpg') }}" alt="" />
+                    <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images/Default_image.jpg') }}" alt="" />
                 </span>
                 <span class="user-name">{!! Auth::user()->first_name !!}</span>
             </a>

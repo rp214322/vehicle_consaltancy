@@ -99,13 +99,14 @@ class AuthController extends Controller
 
     public function updateProfile(Request $request, $id)
     {
-        Log::info('Profile Update_Request', $request->all());
+        Log::info('Profile Update Request', $request->all());
 
         $user = User::find($id);
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
         }
 
+        // Validation Rules
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
@@ -115,24 +116,45 @@ class AuthController extends Controller
             'state' => 'nullable|string|max:255',
             'address' => 'required|string|max:500',
             'dob' => 'nullable|date|before:today',
-            'image' => 'nullable|string',
+            'image' => 'nullable|string', // Base64 encoded image
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
         if ($request->has('image')) {
             $imageData = $request->image;
-            $imageName = 'profile_' . $user->id . '_' . time() . '.png';
+            $extension = 'png'; // Default extension (use PNG if not found)
+            
+            // Check if the base64 string contains the prefix
+            if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $matches)) {
+                $extension = $matches[1]; // Extract extension (png, jpg, jpeg, etc.)
+                $imageData = substr($imageData, strpos($imageData, ',') + 1); // Remove prefix
+            }
+            
+            // Decode base64 string
+            $imageData = base64_decode($imageData);
+            
+            // Validate decoding
+            if ($imageData === false) {
+                return response()->json(['error' => 'Invalid base64 image'], 400);
+            }
+            
+            // Generate a unique filename
+            $imageName = 'profile_' . $user->id . '_' . time() . '.' . $extension;
             $imagePath = 'profile_images/' . $imageName;
-            Storage::disk('public')->put($imagePath, base64_decode($imageData));
+            
+            // Store image in public storage
+            Storage::disk('public')->put($imagePath, $imageData);
+            
+            // Generate URL (store with base64 prefix for retrieval)
             $imageUrl = asset('storage/' . $imagePath);
         } else {
             $imageUrl = $user->image;
         }
 
+        // Update user profile
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -142,16 +164,14 @@ class AuthController extends Controller
             'state' => $request->state,
             'address' => $request->address,
             'dob' => $request->dob,
-            'image' => $imageUrl,
+            'image' => $imageUrl, // Store the image URL in the database
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
-
+        
         $response = [
             'message' => 'Profile updated successfully',
-            'user' => $user,
+            'user' => $user
         ];
-
-        Log::info('User Profile Updated', $response);
 
         return response()->json($response);
     }
