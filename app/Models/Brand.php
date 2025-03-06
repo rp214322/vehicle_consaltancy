@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Brand extends Model
 {
-    // use HasFactory, Sluggable, SoftDeletes;
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, SoftDeletes;
     public function sluggable(): array
     {
         return [

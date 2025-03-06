@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\VehicalModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class VehicalsController extends Controller
@@ -281,18 +282,22 @@ class VehicalsController extends Controller
     public function fetch(Request $request)
     {
         $option = '<option value="">Select</option>';
+
         if ($request->has('id') && $request->has('type')) {
             $data = [];
+
             if ($request->type == "brand") {
-                $data = Brand::where('category_id', $request->id)->pluck('name', 'id')->toArray();
+                $data = Brand::where('category_id', $request->id)->get(['id', 'name']);
             } elseif ($request->type == "model") {
-                $data = VehicalModel::where('brand_id', $request->id)->pluck('name', 'id')->toArray();
+                $data = VehicalModel::where('brand_id', $request->id)->get(['id', 'name']);
             }
 
-            foreach ($data as $key => $value) {
-                $option .= '<option value="' . $key . '">' . $value . '</option>';
+            foreach ($data as $item) {
+                $slug = Str::slug($item->name); // Generate slug from name
+                $option .= '<option value="' . $item->id . '" data-slug="' . $slug . '">' . $item->name . '</option>';
             }
         }
-        return $option;
+
+        return response()->json($option);
     }
 }
