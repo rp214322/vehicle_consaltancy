@@ -11,6 +11,7 @@ use App\Models\Inquiry;
 use App\Models\FavouriteVehical;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class VehicalsController extends Controller
 {
@@ -21,6 +22,7 @@ class VehicalsController extends Controller
      */
     public function index(Request $request)
     {
+        Log::info('Request',$request->all());
         $perPage = $request->get('per_page', 10);
         $sortBy = $request->get('sort_by', 'desc');
 
@@ -81,6 +83,14 @@ class VehicalsController extends Controller
 
         // Fetch favorite vehicles if the user is logged in
         $favourite_vehicals = Auth::check() ? Auth::user()->favourite_vehicals()->pluck('vehical_id')->toArray() : [];
+
+        Log::info('Response Data:', [
+            'vehicals' => $vehicals->items(),
+            'total' => $vehicals->total(),
+            'current_page' => $vehicals->currentPage(),
+            'per_page' => $vehicals->perPage(),
+            'favourite_vehicals' => $favourite_vehicals
+        ]);
 
         return view('vehicals.index', compact('request', 'vehicals', 'favourite_vehicals'));
     }
