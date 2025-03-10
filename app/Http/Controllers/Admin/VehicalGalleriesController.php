@@ -56,11 +56,6 @@ class VehicalGalleriesController extends Controller
      */
     public function store(Request $request, $vehical_id)
     {
-        Log::info('Image Upload Request Received', [
-            'vehical_id' => $vehical_id,
-            'request_data' => $request->all(),
-        ]);
-
         $rules = [
             'files' => 'required|array',
             'files.*' => 'file|mimes:jpg,jpeg,png,gif,webp|max:2048' // Allow only images up to 2MB
@@ -74,9 +69,6 @@ class VehicalGalleriesController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
-            Log::error('Validation Failed', [
-                'errors' => $validator->errors()
-            ]);
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
@@ -102,20 +94,12 @@ class VehicalGalleriesController extends Controller
                 $uploadedFiles[] = Storage::url($photo->file);
             }
 
-            Log::info('Images Uploaded Successfully', [
-                'vehical_id' => $vehical_id,
-                'uploaded_files' => $uploadedFiles
-            ]);
-
             return response()->json([
                 'success' => true,
                 'message' => 'VehicalGallery created successfully.',
                 'files' => $uploadedFiles
             ], 200);
         } catch (\Exception $e) {
-            Log::error('Image Upload Error', [
-                'error_message' => $e->getMessage()
-            ]);
             return response()->json(["error" => "Something went wrong, please try again later."], 500);
         }
     }

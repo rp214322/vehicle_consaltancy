@@ -21,7 +21,6 @@ class AuthController extends Controller
         } elseif (Cookie::get('auth_remember')) {
             $user_id = Crypter::decrypt(Cookie::get('auth_remember'));
             Auth::login($user_id);
-            Log::info('Admin login via remember cookie', ['admin_id' => $user_id]);
             return redirect()->route('admin.dashboard')->with('success', 'You have logged in successfully.');
         }
         return view('admin.auth.login');
@@ -34,10 +33,8 @@ class AuthController extends Controller
         $credentials = array($field => $value, 'password' => $request->get('password'), 'role' => 'admin');
 
         if (Auth::attempt($credentials)) {
-            Log::info('Admin login successful', ['admin_id' => Auth::id(), 'email' => $value]);
             return redirect()->route('admin.dashboard')->with('success', 'You have logged in successfully.');
         } else {
-            Log::warning('Admin login failed', ['email' => $value]);
             return redirect()->back()->with('error', "Invalid email or password.")->withInput($request->except('password'));
         }
     }
@@ -45,7 +42,6 @@ class AuthController extends Controller
     public function getLogout()
     {
         $admin_id = Auth::id();
-        Log::info('Admin logout', ['admin_id' => $admin_id]);
 
         Auth::logout();
         return redirect()->route('admin.login');
@@ -139,12 +135,8 @@ class AuthController extends Controller
             $user->password = $new_pass;
             $user->save();
 
-            Log::info('Admin password changed', ['admin_id' => $user->id]);
-
             return redirect()->back()->with('success', 'Your password was successfully changed');
         } else {
-            Log::warning('Admin password change failed - Incorrect old password', ['admin_id' => Auth::id()]);
-
             return redirect()->back()->with('error', 'Please enter the correct old password');
         }
     }

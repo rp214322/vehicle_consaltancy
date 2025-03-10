@@ -39,9 +39,9 @@ class VehicalController extends Controller
     public function show($identifier)
     {
         $vehical = Vehical::with(['brand', 'vehical_model', 'category', 'gallery'])
-        ->where('id', $identifier) // Check by ID
-        ->orWhere('slug', $identifier) // Check by Slug
-        ->first();
+            ->where('id', $identifier) // Check by ID
+            ->orWhere('slug', $identifier) // Check by Slug
+            ->first();
 
         if (!$vehical) {
             return response()->json(['error' => 'Vehicle not found'], 404);
@@ -60,7 +60,7 @@ class VehicalController extends Controller
     {
         return [
             'id' => $vehical->id,
-            'slug'=> $vehical->slug,
+            'slug' => $vehical->slug,
             'title' => $vehical->title,
             'year' => $vehical->year,
             'fuel' => $vehical->fuel,
@@ -82,7 +82,8 @@ class VehicalController extends Controller
             ],
             'gallery' => $vehical->gallery->map(function ($image) {
                 return [
-                    'url' => asset('storage/' . $image->file) // Generates full URL
+                    'url' => asset('storage/' . $image->file), // Generates full URL
+                    'is_featured' => $image->is_featured, // Include featured status
                 ];
             })
         ];

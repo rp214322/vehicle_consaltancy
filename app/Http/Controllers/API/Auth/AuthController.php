@@ -17,8 +17,6 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        Log::info('Register Request:', $request->all());
-
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
@@ -44,14 +42,10 @@ class AuthController extends Controller
             'data' => $user
         ];
 
-        Log::info('Register Response:', $response);
-
         return response()->json($response, 201);
     }
     public function login(Request $request)
     {
-        Log::info('Login Request:', $request->all());
-
         $validator = Validator::make($request->all(), [
             'email' => 'nullable|email',
             'phone' => 'nullable|string',
@@ -92,15 +86,11 @@ class AuthController extends Controller
             'data' => $user,
         ];
 
-        Log::info('User Logged In', $response);
-
         return response()->json($response);
     }
 
     public function updateProfile(Request $request, $id)
     {
-        Log::info('Profile Update Request', $request->all());
-
         $user = User::find($id);
         if (!$user) {
             return response()->json(['message' => 'User not found'], 404);
@@ -178,21 +168,15 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Log::info('Logout Request Payload', $request->all());
-
         $request->user()->currentAccessToken()->delete();
 
         $response = ['message' => 'Successfully logged out'];
-
-        Log::info('Logout Response', $response);
 
         return response()->json($response);
     }
 
     public function forgotPassword(Request $request)
     {
-        Log::info('Forgot Password Request Payload', $request->all());
-
         $validator = Validator::make($request->all(), ['email' => 'required|email']);
 
         if ($validator->fails()) {
@@ -219,8 +203,6 @@ class AuthController extends Controller
 
     public function verifyOtp(Request $request)
     {
-        Log::info('Verify OTP Request Payload', $request->all());
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'otp' => 'required|string',
@@ -244,8 +226,6 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
-        Log::info('Reset Password Request Payload', $request->all());
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'otp' => 'required|string',
