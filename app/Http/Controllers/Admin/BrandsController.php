@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -19,49 +20,45 @@ class BrandsController extends Controller
     public function index(Request $request, Brand $brands)
     {
         if ($request->ajax()) {
-            $brands = $brands->with(['category'])->orderBy('id', 'DESC');
+            $brands = $brands->orderBy('id', 'DESC');
+
+            // Category Filter
+            if ($request->has('category') && !empty($request->category)) {
+                $brands->whereHas('category', function ($query) use ($request) {
+                    $query->where('id', $request->category);
+                });
+            }
+
             return DataTables::eloquent($brands)
-                ->filterColumn('status', function ($query, $keyword) {
-                    if (strtolower($keyword) === 'active') {
-                        $query->where('status', 1);
-                    } elseif (strtolower($keyword) === 'inactive' || strtolower($keyword) === 'inactive') {
-                        $query->where('status', 0);
-                    }
-                })
                 ->editColumn('name', function ($brand) {
                     return $brand->name;
                 })
-                ->editColumn('category', function ($brand) {
-                    return $brand->category->name;
+                ->editColumn('image', function ($brand) {
+                    if ($brand->image) {
+                        return '<img src="' . asset("storage/" . $brand->image) . '" width="50" class="img-thumbnail">';
+                    }
+                    return '<img src="' . asset("images/Default_image.jpg") . '" width="50" class="img-thumbnail">'; // Default image
                 })
-                ->editColumn('status', function ($brand) {
-                    $statusText = $brand->status == 1 ? 'Active' : 'Inactive';
-                    $statusClass = $brand->status == 1 ? 'badge-success' : 'badge-secondary';
-
-                    $status = '<span class="badge ' . $statusClass . '">' . $statusText . '</span>';
-                    $status .= ' <div class="btn-group">
-                                <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Change Status
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $brand->id . '" data-status="1">Active</a>
-                                    <a href="javascript:void(0);" class="dropdown-item change_status" data-id="' . $brand->id . '" data-status="0">Inactive</a>
-                                </div>
-                            </div>';
-                    return $status;
+                ->addColumn('action', function ($brand) {
+                    return '<div class="dropdown">
+                        <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                            <i class="dw dw-more"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                            <a href="javascript:;" class="dropdown-item fill_data" data-url="' . route('admin.brands.edit', $brand->id) . '" data-method="GET">
+                                <i class="dw dw-edit2"></i> Edit
+                            </a>
+                            <a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.brands.destroy', $brand->id) . '" data-method="DELETE">
+                                <i class="dw dw-delete-3"></i> Delete
+                            </a>
+                        </div>
+                    </div>';
                 })
-                ->addColumn('action', function (brand $brand) {
-
-                    $editBtn = '<div class="dropdown"><a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">';
-                    $editBtn .= '<a href="javascript:;" class="dropdown-item fill_data" data-url="' . route('admin.brands.edit', $brand->id) . '" data-method="get"><i class="dw dw-edit2"></i> Edit</a>';
-                    $editBtn .= '<a href="javascript:;" class="dropdown-item btn-delete" data-url="' . route('admin.brands.destroy', $brand->id) . '" data-method="delete"><i class="dw dw-delete-3"></i> Delete</a></div>';
-                    return $editBtn;
-                })
-                ->rawColumns(["status", "action"])
+                ->rawColumns(["image", "action"]) // Mark image as raw HTML
                 ->make(true);
         } else {
-            return view()->make('admin.brands.index');
+            $categories = Category::all(); // Fetch categories for the filter dropdown
+            return view('admin.brands.index', compact('categories'));
         }
     }
     /**
@@ -82,26 +79,48 @@ class BrandsController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = array(
+        $rules = [
             'name' => 'required',
             'category_id' => 'required',
-        );
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048', // Allow images up to 2MB
+        ];
+
         $messages = [
             'name.required' => 'Please enter brand name.',
-            'category_id.required' => 'Please select category',
+            'category_id.required' => 'Please select a category.',
+            'image.image' => 'Only image files are allowed.',
+            'image.mimes' => 'Allowed formats: JPG, PNG, GIF, WEBP.',
+            'image.max' => 'Image size must not exceed 2MB.',
         ];
+
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
-            return response()->json($validator->getMessageBag()->toArray(), 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
+
         try {
             $brand = new Brand;
             $brand->category_id = $request->get('category_id');
             $brand->name = $request->get('name');
+
+            // Check if an image is uploaded
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('public/brands', $fileName); // Store file in brands folder
+
+                $brand->image = str_replace('public/', '', $filePath); // Store relative path
+            }
+
             $brand->save();
-            return response()->json(['success', 'Brand updated successfully.'], 200);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Brand created successfully.',
+                'data' => $brand
+            ], 200);
         } catch (\Exception $e) {
-            return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
+            return response()->json(["error" => "Something went wrong, please try again later."], 500);
         }
     }
     /**
@@ -133,25 +152,53 @@ class BrandsController extends Controller
      */
     public function update(Request $request, Brand $brand)
     {
-        $rules = array(
+        $rules = [
             'name' => 'required',
             'category_id' => 'required',
-        );
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048', // Image max 2MB
+        ];
+
         $messages = [
             'name.required' => 'Please enter brand name.',
-            'category_id.required' => 'Please select Category.',
+            'category_id.required' => 'Please select a category.',
+            'image.image' => 'Only image files are allowed.',
+            'image.mimes' => 'Allowed formats: JPG, PNG, GIF, WEBP.',
+            'image.max' => 'Image size must not exceed 2MB.',
         ];
+
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
-            return response()->json($validator->getMessageBag()->toArray(), 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
+
         try {
             $brand->name = $request->get('name');
             $brand->category_id = $request->get('category_id');
+
+            // Check if a new image is uploaded
+            if ($request->hasFile('image')) {
+                // Delete the old image if it exists
+                if ($brand->image && \Storage::exists('public/' . $brand->image)) {
+                    \Storage::delete('public/' . $brand->image);
+                }
+
+                // Store the new image
+                $file = $request->file('image');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $filePath = $file->storeAs('public/brands', $fileName);
+
+                $brand->image = str_replace('public/', '', $filePath); // Store relative path
+            }
+
             $brand->save();
-            return response()->json(['success', 'Brand updated successfully.'], 200);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Brand updated successfully.',
+                'data' => $brand
+            ], 200);
         } catch (\Exception $e) {
-            return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
+            return response()->json(["error" => "Something went wrong, please try again later."], 500);
         }
     }
     /**
@@ -165,17 +212,6 @@ class BrandsController extends Controller
         try {
             $brand->delete();
             return response()->json(['success', 'Brand deleted successfully'], 200);
-        } catch (\Exception $e) {
-            return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
-        }
-    }
-    public function updateStatus(Request $request)
-    {
-        try {
-            $brand = Brand::find($request->id);
-            $brand->status = $request->get('status');
-            $brand->save();
-            return response()->json(['success', 'Brand Status updated successfully'], 200);
         } catch (\Exception $e) {
             return response()->json(["error" => "Something went wrong, Please try after sometime."], 422);
         }

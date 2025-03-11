@@ -44,13 +44,16 @@ class VehicalController extends Controller
             ->first();
 
         if (!$vehical) {
-            return response()->json(['error' => 'Vehicle not found'], 404);
+            return response()->json([
+                'success' => false,
+                'error' => 'Vehicle not found'
+            ], 404); // 404 Not Found
         }
 
         return response()->json([
             'success' => true,
             'data' => $this->formatVehicalResponse($vehical)
-        ]);
+        ], 200); // 200 OK
     }
 
     /**
@@ -71,6 +74,7 @@ class VehicalController extends Controller
             'brand' => [
                 'id' => $vehical->brand->id ?? null,
                 'name' => $vehical->brand->name ?? null,
+                'image' => $vehical->brand->image ? asset('storage/' . $vehical->brand->image) : null,
             ],
             'model' => [
                 'id' => $vehical->vehical_model->id ?? null,

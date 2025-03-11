@@ -1,25 +1,54 @@
 var brandsTable = $("#BrandsTable").DataTable({
-    dom: '<"top"lf>tr<"bottom"ip>',
+    dom: '<"top"lfB>rt<"bottom"ip>', // Added "B" for buttons
     processing: true,
     serverSide: true,
-    pageLength: 10, // Default page length
-    lengthMenu: [5, 10, 25, 50, 100, 500], // Pagination options
-    scrollY: "60vh", // Set max height to 60% of viewport height
-    scrollCollapse: true, // Allow table height to shrink when less data is shown
-    ajax: list,
-
+    pageLength: 5,
+    lengthMenu: [5, 10, 25, 50, 100, 500],
+    scrollY: "60vh",
+    scrollCollapse: true,
+    ajax: {
+        url: list,
+        data: function (d) {
+            d.category = $("#categoryFilter").val(); // Send category filter value
+        }
+    },
+    buttons: [
+        {
+            extend: "copyHtml5",
+            text: "Copy",
+            className: "btn btn-secondary",
+        },
+        {
+            extend: "excelHtml5",
+            text: "Excel",
+            className: "btn btn-success",
+        },
+        {
+            extend: "csvHtml5",
+            text: "CSV",
+            className: "btn btn-info",
+        },
+        {
+            extend: "pdfHtml5",
+            text: "PDF",
+            className: "btn btn-danger",
+        },
+        {
+            extend: "print",
+            text: "Print",
+            className: "btn btn-primary",
+        },
+    ],
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
+        { data: "image", name: "image", orderable: false }, // Ensure this column is included
         { data: "name", name: "name", orderable: true },
-        { data: "category", name: "category.name", orderable: true },
-        { data: "status", name: "status", orderable: true },
         { data: "action", name: "action", orderable: false, width: "10%" },
     ],
     language: {
         emptyTable: "No matching records found",
     },
     fnDrawCallback: function (oSettings) {
-        // Hide pagination when data is less than the selected page limit
         if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
             $(oSettings.nTableWrapper).find(".dataTables_paginate").hide();
         } else {
@@ -28,10 +57,28 @@ var brandsTable = $("#BrandsTable").DataTable({
     },
 });
 
-/* Custom Filter: Change page length dynamically */
-$("#brand_filter").on("change", function () {
-    var selectedValue = $(this).val();
-    brandsTable.page.len(selectedValue).draw();
+$(document).ready(function () {
+    var table = $("#BrandsTable").DataTable(); // Ensure correct table variable
+
+    $(".toggle-column").on("change", function () {
+        var columnIndex = $(this).data("column");
+        var column = table.column(columnIndex);
+
+        // Toggle visibility based on checkbox state
+        column.visible($(this).prop("checked"));
+    });
+
+    // ✅ Ensure checkboxes reflect initial column visibility
+    $(".toggle-column").each(function () {
+        var columnIndex = $(this).data("column");
+        var column = table.column(columnIndex);
+        $(this).prop("checked", column.visible());
+    });
+
+    // Category Filter
+    $("#categoryFilter").on("change", function () {
+        table.draw();
+    });
 });
 
 $.fn.dataTable.ext.errMode = "none";
@@ -40,8 +87,7 @@ brandsTable.on("error", function () {
 });
 
 jQuery(function () {
-    var m = document.getElementById("BrandModel"),
-        table = document.getElementById("BrandsTable");
+    var m = document.getElementById("BrandModel");
 
     var rack_types = {
         init: function () {
@@ -71,19 +117,25 @@ jQuery(function () {
                 });
             });
         },
+
         fire: function (_this, action) {
             var _f = _this.closest("form");
             var method =
                 action === "save" ? _f.attr("method") : _this.data("method");
             var url = action === "save" ? _f.attr("action") : _this.data("url");
-            var data =
-                action === "delete"
-                    ? {
-                          _token: jQuery('meta[name="csrf-token"]').attr(
-                              "content"
-                          ),
-                      }
-                    : _f.serialize();
+
+            var data, contentType, processData;
+            if (action === "delete") {
+                data = {
+                    _token: jQuery('meta[name="csrf-token"]').attr("content"),
+                };
+                contentType = "application/x-www-form-urlencoded";
+                processData = true;
+            } else {
+                data = new FormData(_f[0]); // Use FormData for file upload
+                contentType = false;
+                processData = false;
+            }
 
             var ajax = {
                 fire: function () {
@@ -91,6 +143,10 @@ jQuery(function () {
                         type: method,
                         url: url,
                         data: data,
+                        contentType: contentType,
+                        processData: processData,
+                        cache: false,
+                        enctype: "multipart/form-data",
                     })
                         .done(function (response) {
                             ajax.success(response);
@@ -99,6 +155,7 @@ jQuery(function () {
                             ajax.error(response);
                         });
                 },
+
                 success: function (response) {
                     brandsTable.ajax.reload();
 
@@ -110,22 +167,31 @@ jQuery(function () {
                         jQuery(m).modal("hide");
                     } else if (action === "save") {
                         jQuery(m).modal("hide");
+                        _f[0].reset(); // Reset form fields
                     }
                 },
+
                 error: function (error) {
-                    jQuery(_f).find(".has-error").remove();
-                    var response = JSON.parse(error.responseText);
-                    $.each(error.responseJSON, function (key, value) {
-                        var input = "[name=" + key + "]";
-                        jQuery(_f)
-                            .find(input)
-                            .parent()
-                            .append(
-                                "<span class='has-error'>" + value + "</span>"
-                            );
-                    });
+                    jQuery(_f).find(".invalid-feedback").remove(); // Remove old errors
+
+                    if (error.responseJSON && error.responseJSON.errors) {
+                        $.each(
+                            error.responseJSON.errors,
+                            function (key, value) {
+                                var input = "[name='" + key + "']";
+                                jQuery(_f)
+                                    .find(input)
+                                    .after(
+                                        "<div class='invalid-feedback d-block'>" +
+                                            value +
+                                            "</div>"
+                                    );
+                            }
+                        );
+                    }
                 },
             };
+
             ajax.fire();
         },
     };
@@ -134,38 +200,11 @@ jQuery(function () {
         init: function () {
             jQuery(m).on("hidden.bs.modal", function () {
                 jQuery(this).find("form")[0].reset();
-                jQuery(this).find(".has-error").remove();
+                jQuery(this).find(".invalid-feedback").remove();
             });
         },
     };
 
     rack_types.init();
     model.init();
-    // Status Update Handler
-    $(document).on("click", ".change_status", function () {
-        var status = $(this).data("status");
-        var id = $(this).data("id");
-
-        $.ajax({
-            url: updateStatus,
-            type: "POST",
-            dataType: "json",
-            headers: {
-                "X-CSRF-TOKEN": jQuery('meta[name="csrf-token"]').attr(
-                    "content"
-                ),
-            },
-            data: {
-                id: id,
-                status: status,
-            },
-            success: function (response) {
-                // Reload DataTable to reflect changes
-                brandsTable.ajax.reload(null, false);
-            },
-            error: function (xhr) {
-                alert("Failed to update status: " + xhr.responseText);
-            },
-        });
-    });
 });
