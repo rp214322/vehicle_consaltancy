@@ -53,10 +53,6 @@ class CategoryController extends Controller
         if (!empty($adminEmails)) {
             // Send email to all admins
             Mail::to($adminEmails)->send(new AdminInquiryMail($inquiry));
-            /*
-            Queue
-            
-            */
         }
 
         // Send email to user
