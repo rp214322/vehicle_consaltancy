@@ -28,7 +28,7 @@ class CategoryController extends Controller
         // Validate request using Validator
         $validator = Validator::make($request->all(), [
             'vehical_id' => 'nullable|exists:vehicals,id',
-            'type' => 'required|in:buy,sell',
+            'type' => 'nullable|in:buy,sell',
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
