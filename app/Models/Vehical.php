@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vehical extends Model
 {
-    // use HasFactory, Sluggable, SoftDeletes;
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, SoftDeletes;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -27,7 +26,9 @@ class Vehical extends Model
     }
 
     public static $fules = [
+        "petrol+cng" => "Petrol + CNG",
         "petrol" => "Petrol",
+        "cng" => "CNG",
         "diesal" => "Diesal",
         "electric" => "Electric"
     ];

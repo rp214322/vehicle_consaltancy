@@ -36,6 +36,15 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
+                                <label for="fuelFilter">Filter by Fuel:</label>
+                                <select id="fuelFilter" class="form-control">
+                                    <option value="">All</option>
+                                    @foreach(App\Models\Vehical::$fules as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
                                 <label>Show Columns:</label>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="columnToggleDropdown"

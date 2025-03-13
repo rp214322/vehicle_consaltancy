@@ -33,6 +33,11 @@ class VehicalsController extends Controller
                 });
             }
 
+            // Fuel Filter
+            if ($request->filled('fuel')) {
+                $vehicals->where('fuel', $request->fuel);
+            }
+            
             // Status Filter - Convert to integer (0 or 1)
             if ($request->filled('status')) {
                 $statusValue = $request->status === 'Sold' ? 1 : 0; // Convert "Sold" to 1, "UnSold" to 0
@@ -122,8 +127,6 @@ class VehicalsController extends Controller
             'color' => 'required',
             'mileage' => 'required',
             'price' => 'required'
-
-
         );
         $messages = [
             'category_id.required' => 'Please select brand.',
@@ -151,7 +154,8 @@ class VehicalsController extends Controller
             $vehical->color = $request->get('color');
             $vehical->mileage = $request->get('mileage');
             $vehical->price = $request->get('price');
-            $vehical->description = $request->get('description');
+            $vehical->technical = $request->get('technical');
+            $vehical->feature_option = $request->get('feature_option');
             $vehical->save();
             return response()->json(['success', 'Vehical created successfully.'], 200);
         } catch (\Exception $e) {
@@ -201,8 +205,6 @@ class VehicalsController extends Controller
             'color' => 'required',
             'mileage' => 'required',
             'price' => 'required'
-
-
         );
         $messages = [
             'category_id.required' => 'Please select brand.',
@@ -230,7 +232,8 @@ class VehicalsController extends Controller
             $vehical->color = $request->get('color');
             $vehical->mileage = $request->get('mileage');
             $vehical->price = $request->get('price');
-            $vehical->description = $request->get('description');
+            $vehical->technical = $request->get('technical');
+            $vehical->feature_option = $request->get('feature_option');
             $vehical->save();
             return response()->json(['success', 'Vehical updated successfully.'], 200);
         } catch (\Exception $e) {

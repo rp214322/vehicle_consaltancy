@@ -69,7 +69,8 @@ class VehicalController extends Controller
             'fuel' => $vehical->fuel,
             'color' => $vehical->color,
             'price' => $vehical->price,
-            'description' => $vehical->description,
+            'technical' => $vehical->technical,
+            'feature_option' => $vehical->feature_option,
             'status' => $vehical->status,
             'brand' => [
                 'id' => $vehical->brand->id ?? null,

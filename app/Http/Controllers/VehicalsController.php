@@ -22,7 +22,7 @@ class VehicalsController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->get('per_page', 10);
+        $perPage = $request->get('per_page', 9);
         $sortBy = $request->get('sort_by', 'desc');
 
         $query = Vehical::query();

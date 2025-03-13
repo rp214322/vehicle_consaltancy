@@ -11,6 +11,7 @@ var vehicalsTable = $("#VehicalsTable").DataTable({
         data: function (d) {
             d.category = $("#categoryFilter").val();
             d.status = $("#statusFilter").val(); // Send status filter value correctly
+            d.fuel = $("#fuelFilter").val(); // Send selected fuel type
         },
     },
     buttons: [
@@ -50,6 +51,11 @@ $(".toggle-column").each(function () {
 
 // Filter by Category
 $("#categoryFilter").on("change", function () {
+    vehicalsTable.draw();
+});
+
+// Filter by Fuel
+$("#fuelFilter").on("change", function () {
     vehicalsTable.draw();
 });
 

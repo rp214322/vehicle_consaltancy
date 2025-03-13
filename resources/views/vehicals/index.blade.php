@@ -22,74 +22,68 @@
     <section class="car spad">
         <div class="container">
             <div class="row">
-                {{-- <div class="col-lg-3">
+                <div class="col-lg-12 mb-4">
                     <div class="car__sidebar">
-                        <div class="car__search">
-                            <h5>Search</h5>
-                            <form action="javascript:;">
-                                <input type="text" placeholder="Search...">
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </form>
-                        </div>
-                        <div class="car__filter">
-                            <h5>Filter</h5>
-                            <form action="javascript:;">
-                                <select id="CategoryId" name="category_id">
-                                    <option data-display=" ">Select</option>
-                                    @foreach (App\Models\Category::pluck('name','id')->toArray() as $id => $name)
-                                        <option value="{!! $id !!}" {!! $request->has('category_id') && $request->category_id == $id ? 'selected' : '' !!}>{!! $name !!}</option>
-                                    @endforeach
-                                </select>
-                                <select id="BrandId" name="brand_id">
-                                    <option data-display=" ">Select</option>
-                                    @foreach (App\Models\Brand::pluck('name','id')->toArray() as $id => $name )
-                                    <option value="{!!  $id  !!}">{!!  $name !!}</option>
-                                    @endforeach
-                                </select>
-                                <select id="ModelId" name="model_id">
-                                    <option data-display=" ">Select</option>
-                                    @foreach (App\Models\VehicalModel::pluck('name','id')->toArray() as $id => $name )
-                                    <option value="{!!  $id  !!}">{!!  $name !!}</option>
-                                    @endforeach
-                                </select>
-                                <select id="year" name="year">
-                                    <option data-display=" ">Select</option>
-                                    @for ($i=0;$i < 23;$i++)
-                                        <option value="{!! Carbon\Carbon::now()->subYear($i)->format('Y') !!}">{!! Carbon\Carbon::now()->subYear($i)->format('Y') !!}</option>
-                                    @endfor
-                                </select>
-                                <select id="mileage" name="mileage">
-                                    <option data-display=" ">Select</option>
-                                    @for ($i=10;$i < 35;$i++)
-                                        <option value="{!! $i !!}">{!! $i !!}</option>
-                                    @endfor
-                                </select>
-                                <select>
-                                    <option value="">Colors</option>
-                                    <option value="">Red</option>
-                                    <option value="">Blue</option>
-                                    <option value="">Black</option>
-                                    <option value="">Yellow</option>
-                                </select>
-                                <div class="filter-price">
-                                    <p>Price:</p>
-                                    <div class="price-range-wrap">
-                                        <div class="filter-price-range"></div>
-                                        <div class="range-slider">
-                                            <div class="price-input">
-                                                <input type="text" id="filterAmount">
-                                            </div>
-                                        </div>
-                                    </div>
+                      <div class="car__filter">
+                        <h5>Vehicle Filter</h5>
+                        <form action="#">
+                          <div class="filter-row">
+                            <select>
+                              <option data-display="Category">Select Category</option>
+                              <option value="">Acura</option>
+                              <option value="">Audi</option>
+                              <option value="">Bentley</option>
+                              <option value="">BMW</option>
+                              <option value="">Bugatti</option>
+                            </select>
+                            <select>
+                              <option data-display="Brand">Select Brand</option>
+                              <option value="">Q3</option>
+                              <option value="">A4</option>
+                              <option value="">AVENTADOR</option>
+                            </select>
+                            <select>
+                              <option data-display="Model">Select Model</option>
+                              <option value="">Q3</option>
+                              <option value="">A4</option>
+                              <option value="">AVENTADOR</option>
+                            </select>
+                          </div>
+                  
+                          <div class="filter-row">
+                            <select>
+                              <option data-display="Year">Select Year</option>
+                              <option value="">2021</option>
+                              <option value="">2022</option>
+                              <option value="">2023</option>
+                            </select>
+                            <select>
+                              <option data-display="Fuel Type">Select Fuel Type</option>
+                              <option value="">Petrol</option>
+                              <option value="">Diesel</option>
+                              <option value="">Electric</option>
+                            </select>
+                            <div class="filter-price">
+                              <p>Price:</p>
+                              <div class="price-range-wrap">
+                                <div class="filter-price-range"></div>
+                                <div class="range-slider">
+                                  <div class="price-input">
+                                    <input type="text" id="filterAmount" />
+                                  </div>
                                 </div>
-                                <div class="car__filter__btn">
-                                    <button type="submit" class="site-btn">Reset FIlter</button>
-                                </div>
-                            </form>
-                        </div>
+                              </div>
+                            </div>
+                          </div>
+                  
+                          <div class="car__filter__btn">
+                            <button type="submit" class="site-btn">Reset Filter</button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                </div> --}}
-                <div class="col-lg-12">
+                  </div>                  
+                  <div class="col-lg-12">
                     <div class="car__filter__option">
                         <div class="row">
                             <div class="col-lg-6 col-md-6">

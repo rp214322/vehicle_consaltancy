@@ -51,9 +51,11 @@
             <input type="text" name="color" class="form-control" placeholder="Color" required>
             <label>Price</label>
             <input type="text" name="price" class="form-control" placeholder="Price" required>
-            <label>Description</label>
-            <textarea name="description" id="description" class="form-control" placeholder="description"></textarea>
-    </div>
+            <label>Technical</label>
+            <textarea name="technical" id="technical" class="form-control" placeholder="technical"></textarea>
+            <label>Features & Options</label>
+            <textarea name="feature_option" id="feature_option" class="form-control" placeholder="feature_option"></textarea>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -68,6 +70,9 @@
         allowedContent:true
     };
     $(document).ready(function() {
-        var editor = CKEDITOR.replace( 'description',options);
+        var editor = CKEDITOR.replace( 'technical',options);
+    });
+    $(document).ready(function() {
+        var editor = CKEDITOR.replace( 'feature_option',options);
     });
     </script>
