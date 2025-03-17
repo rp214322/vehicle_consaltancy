@@ -22,6 +22,7 @@ class VehicalsController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request->all());
         $perPage = $request->get('per_page', 9);
         $sortBy = $request->get('sort_by', 'desc');
 
@@ -56,14 +57,9 @@ class VehicalsController extends Controller
             $query->where('year', $request->year);
         }
 
-        // Filter by color
-        if ($request->has('color') && $request->color) {
-            $query->where('color', $request->color);
-        }
-
-        // Filter by mileage
-        if ($request->has('mileage') && $request->mileage) {
-            $query->where('mileage', $request->mileage);
+        // Filter by Fuel
+        if ($request->has('fuel') && $request->fuel) {
+            $query->where('fuel', $request->fuel);
         }
 
         // Filter by price range
