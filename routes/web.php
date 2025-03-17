@@ -1,6 +1,6 @@
 <?php
 
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +34,7 @@ Route::get('admin/login',[\App\Http\Controllers\Admin\AuthController::class,'get
 Route::post('admin/login',[\App\Http\Controllers\Admin\AuthController::class,'postLogin'])->name('admin.post.login');
 Route::get('admin/forgotpassword',[\App\Http\Controllers\Admin\AuthController::class,'getPassword'])->name('admin.forgotpassword');
 
-Route::middleware('admin')->prefix('admin')->namespace('\App\Http\Controllers\Admin')->name('admin.')->group(function(){
+Route::middleware('admin')->prefix('admin')->name('admin.')->group(function(){
 
 	Route::get('/',[\App\Http\Controllers\Admin\DashboardController::class,'index'])->name('dashboard');
 
@@ -50,21 +50,21 @@ Route::middleware('admin')->prefix('admin')->namespace('\App\Http\Controllers\Ad
     Route::get('settings',[\App\Http\Controllers\Admin\DashboardController::class,'settings'])->name('setting');
     Route::post('settings',[\App\Http\Controllers\Admin\DashboardController::class,'post_settings'])->name('post.setting');
 
-    Route::resource('users',UsersController::class);
+    Route::resource('users',\App\Http\Controllers\Admin\UsersController::class);
     Route::post('users/status',[\App\Http\Controllers\Admin\UsersController::class,'updateStatus'])->name('users.status');
 
-    Route::resource('categories',CategoriesController::class);
+    Route::resource('categories',\App\Http\Controllers\Admin\CategoriesController::class);
 
-    Route::resource('brands',BrandsController::class);
+    Route::resource('brands',\App\Http\Controllers\Admin\BrandsController::class);
 
-    Route::resource('models',ModelsController::class);
+    Route::resource('models',\App\Http\Controllers\Admin\ModelsController::class);
 
-    Route::resource('vehicals',VehicalsController::class);
+    Route::resource('vehicals',\App\Http\Controllers\Admin\VehicalsController::class);
     Route::post('vehicals/status',[\App\Http\Controllers\Admin\VehicalsController::class,'updateStatus'])->name('vehicals.status');
 
-    Route::resource('vehical.galleries',VehicalGalleriesController::class);
+    Route::resource('vehical.galleries',\App\Http\Controllers\Admin\VehicalGalleriesController::class);
 
-    Route::resource('inquiries',InquiriesController::class);
+    Route::resource('inquiries',\App\Http\Controllers\Admin\InquiriesController::class);
     Route::post('inquiries/status',[\App\Http\Controllers\Admin\InquiriesController::class,'updateStatus'])->name('inquiries.status');
 
 	// Route for Logout
