@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 18, 2025 at 12:08 PM
+-- Generation Time: Mar 18, 2025 at 12:44 PM
 -- Server version: 8.0.41-0ubuntu0.22.04.1
 -- PHP Version: 8.1.31
 
@@ -45,7 +45,7 @@ CREATE TABLE `brands` (
 
 INSERT INTO `brands` (`id`, `category_id`, `name`, `slug`, `image`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 3, 'TATA', 'tata', NULL, 1, '2023-03-28 08:32:23', '2023-03-28 22:40:48', NULL),
-(2, 3, 'HYUNDAI', 'hyundai', 'brands/1741679653_hundai.jpeg', 1, '2023-03-28 08:33:42', '2025-03-11 02:24:13', NULL),
+(2, 3, 'HYUNDAI', 'hyundai', NULL, 1, '2023-03-28 08:33:42', '2025-03-11 02:24:13', NULL),
 (3, 3, 'HONDA', 'honda', NULL, 1, '2023-03-28 08:57:46', '2023-03-28 22:41:14', NULL),
 (4, 3, 'MARUTI SUZUKI', 'maruti-suzuki', NULL, 1, '2023-03-28 22:43:35', '2023-03-28 22:43:35', NULL),
 (5, 3, 'TOYOTA', 'toyota', NULL, 1, '2023-03-28 22:44:01', '2023-03-28 22:44:13', NULL),
@@ -64,10 +64,10 @@ INSERT INTO `brands` (`id`, `category_id`, `name`, `slug`, `image`, `status`, `c
 (21, 1, 'KTM', 'ktm', NULL, 1, '2023-03-29 07:08:58', '2023-03-29 07:08:58', NULL),
 (22, 1, 'BMW', 'bmw', NULL, 1, '2023-03-29 23:20:13', '2025-03-11 02:29:36', NULL),
 (23, 1, 'JUPITER', 'jupiter-123', NULL, 1, '2024-05-31 10:18:20', '2025-03-11 02:21:53', '2025-03-11 02:21:53'),
-(25, 1, 'Test', 'test', 'brands/1741675113_Screenshot from 2025-03-10 17-52-46.png', 1, '2025-03-11 01:08:33', '2025-03-11 02:21:47', '2025-03-11 02:21:47'),
+(25, 1, 'Test', 'test', NULL, 1, '2025-03-11 01:08:33', '2025-03-11 02:21:47', '2025-03-11 02:21:47'),
 (26, 3, 'test', 'test-2', NULL, 1, '2025-03-11 01:12:07', '2025-03-11 02:21:43', '2025-03-11 02:21:43'),
-(27, 3, 'Test Test', 'test-3', 'brands/1741675718_Screenshot from 2025-03-10 16-07-31.png', 1, '2025-03-11 01:18:38', '2025-03-11 02:21:40', '2025-03-11 02:21:40'),
-(28, 3, 'Test Test', 'test-test', 'brands/1741679450_Screenshot from 2025-03-05 18-13-27.png', 1, '2025-03-11 02:13:38', '2025-03-11 02:21:36', '2025-03-11 02:21:36');
+(27, 3, 'Test Test', 'test-3', NULL, 1, '2025-03-11 01:18:38', '2025-03-11 02:21:40', '2025-03-11 02:21:40'),
+(28, 3, 'Test Test', 'test-test', NULL, 1, '2025-03-11 02:13:38', '2025-03-11 02:21:36', '2025-03-11 02:21:36');
 
 -- --------------------------------------------------------
 
@@ -125,15 +125,6 @@ CREATE TABLE `favourite_vehicals` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `favourite_vehicals`
---
-
-INSERT INTO `favourite_vehicals` (`id`, `user_id`, `vehical_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(9, 36, 37, '2023-04-20 09:49:04', '2023-04-20 09:49:04', NULL),
-(11, 36, 22, '2023-04-20 09:49:16', '2023-04-20 09:49:16', NULL),
-(25, 67, 37, '2025-03-06 06:35:38', '2025-03-06 06:35:38', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -154,36 +145,6 @@ CREATE TABLE `inquiries` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `inquiries`
---
-
-INSERT INTO `inquiries` (`id`, `vehical_id`, `type`, `name`, `email`, `phone`, `description`, `status`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 23, 'buy', 'Rohan Chauhan', 'rohan2@gmail.com', '9658965399', 'fdgfdgdfg', 1, NULL, '2025-02-21 04:11:01', '2025-02-24 05:58:58'),
-(2, NULL, 'sell', 'Paras', 'paras@gmail.com', '9652365896', 'fdgd', 1, NULL, '2025-02-21 04:20:09', '2025-02-24 05:35:04'),
-(4, NULL, 'sell', 'Pratham', 'pratham@gmail.com', '9658965896', NULL, 1, NULL, '2025-02-24 05:51:40', '2025-02-24 05:58:00'),
-(7, NULL, 'sell', 'Nathanael Prohaska', 'koelpin.junius@example.net', '(737) 254-8124', 'Cumque quia consectetur quia facere autem. Cum sunt expedita suscipit magni. Consequatur hic laboriosam eligendi nihil qui error architecto. Quaerat dolores eum cumque adipisci earum quibusdam.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
-(8, NULL, 'sell', 'Cordie Boyle', 'ralph96@example.com', '985.588.1875', 'Et cumque aut architecto nostrum. Dolorem voluptas ipsum voluptatem. In eligendi omnis reiciendis nostrum aspernatur. Doloremque excepturi sunt accusamus aut.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:59:02'),
-(9, 23, 'buy', 'Leonel Prohaska', 'zpurdy@example.com', '323-856-0903', 'Molestiae nulla qui ut maiores eaque. Deleniti officia harum et quae voluptate. Est voluptatem veritatis qui.', 1, NULL, '2025-01-07 05:55:47', '2025-03-12 04:20:33'),
-(11, 21, 'buy', 'Clara Schowalter', 'harold.grady@example.org', '434-916-9623', 'Perspiciatis rerum fugiat laboriosam officiis. Eum sed ducimus consequatur quia iste. Libero hic ut officiis officia suscipit saepe nisi. Ab repellendus soluta quasi provident consectetur.', 1, NULL, '2025-02-24 05:55:47', '2025-02-24 05:55:47'),
-(13, 22, 'buy', 'Arjun Dare', 'mschowalter@example.com', '860.441.3291', 'Provident quae fuga ut eligendi enim. Nesciunt aut vitae quos recusandae quod. Qui perspiciatis pariatur qui sed. Occaecati odio omnis ad tempora itaque quasi placeat. Maxime cum nobis nihil debitis.', 0, NULL, '2025-01-07 05:55:47', '2025-02-24 06:13:38'),
-(16, NULL, 'sell', 'Bonnie Bosco', 'rau.jared@example.net', '336-449-2641', 'Quia enim quibusdam ea provident. Sunt perferendis facere explicabo enim recusandae id hic odio. Est iure dignissimos totam eius qui architecto. Nobis ut ipsa provident qui sunt et itaque.', 1, NULL, '2025-02-24 05:55:47', '2025-03-12 04:18:27'),
-(19, 36, 'buy', 'Conner Parisian', 'stracke.aliya@example.net', '1-475-681-4889', 'Et error dolorum pariatur aliquid voluptate similique magni consequuntur. Similique aut consequatur architecto est. Quasi rem sapiente et adipisci. Aspernatur est quo est id.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 06:00:45'),
-(21, 37, 'buy', 'Mr. Chandler Daniel Sr.', 'nayeli00@example.com', '+1-573-537-9350', 'Totam consectetur placeat omnis perferendis aut. Consequatur est vel qui asperiores qui voluptatem. A inventore modi voluptas est neque nemo consequatur.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 06:00:42'),
-(24, 25, 'buy', 'Americo Jenkins', 'pierce28@example.com', '+1-248-701-4257', 'Et rerum cumque et accusantium sit consequatur. Culpa voluptatem omnis eligendi neque ut omnis. Molestiae sit consequatur est corporis aspernatur. Quisquam qui qui aperiam.', 0, NULL, '2025-02-24 05:55:47', '2025-02-24 06:00:39'),
-(26, NULL, 'sell', 'Chris Stoltenberg', 'lulu.huel@example.net', '+1-310-603-8245', 'Repudiandae sed quo ipsa. Fugiat aliquam magnam numquam et totam. Commodi minus numquam ipsum aut voluptatem qui quia fugit. Ea voluptatem sed quo veritatis sapiente.', 1, NULL, '2025-02-24 06:26:14', '2025-03-12 04:18:28'),
-(27, NULL, 'sell', 'Reba Nader', 'fpurdy@example.org', '(475) 629-9634', 'Enim et dolor eum velit dolores quo. Cumque et necessitatibus est non voluptatum. Odio quisquam excepturi ut voluptas id fuga. Maxime rerum qui officia quis. Quo quis ipsa in dicta.', 1, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:14'),
-(29, NULL, 'sell', 'Julien Blick', 'sipes.audreanne@example.com', '+1 (984) 853-7436', 'Amet sunt qui sint pariatur dolor. Autem ut quia et ut rerum natus fugit. Suscipit sit ut qui soluta incidunt. Sint exercitationem ratione et explicabo eos.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:14'),
-(30, NULL, 'sell', 'Madie Ankunding', 'jarrett.kuvalis@example.net', '(919) 605-5228', 'Impedit quisquam repellat et minima. Consectetur quia explicabo et ea voluptatem dolorem impedit. Qui aut sunt voluptas et. Quaerat voluptatem vel pariatur ad cum ut.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:14'),
-(37, NULL, 'sell', 'Erin Morar', 'estevan92@example.com', '1-817-754-1296', 'Omnis quasi tempora quos et. Laboriosam at qui rerum incidunt numquam quia. Nulla amet doloremque necessitatibus minima itaque quasi veritatis sed.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:54'),
-(39, NULL, 'sell', 'Dr. Ethel Boyer', 'wiza.ayana@example.org', '586-201-5465', 'Ut adipisci tempora et sunt ullam earum earum. Aut possimus distinctio iusto id. Porro dolor ut fugit mollitia amet sint. Incidunt ad dolor magnam amet rerum recusandae.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:14'),
-(41, NULL, 'sell', 'Kim Runolfsson I', 'kelsie69@example.com', '1-272-890-4500', 'Esse ea est ea aliquid et. Voluptatum beatae hic rem fugit ea ipsam. Nihil odit temporibus placeat quibusdam. Deserunt debitis qui quo incidunt.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:50'),
-(42, NULL, 'sell', 'Mrs. Meagan Stokes V', 'abner68@example.net', '+1-682-277-4006', 'Explicabo id quia veniam et sequi a. Earum deleniti ut fugiat non et cum omnis. Aspernatur nobis officiis praesentium eos et. In qui qui animi suscipit officia cumque quis.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:49'),
-(43, NULL, 'sell', 'Nakia Zemlak', 'savion94@example.org', '+1-731-320-4029', 'Quibusdam et aut accusamus nihil quia. Aliquam est est eos sunt et beatae iure. Eligendi est voluptates animi quis commodi ut sint. Rerum et qui corporis consectetur deleniti.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:14'),
-(45, NULL, 'sell', 'Susie Kessler', 'louie32@example.org', '+1.731.978.3430', 'Nulla optio eos voluptate aliquam sit. Sequi cupiditate consequatur assumenda. Nesciunt qui omnis sed a ullam. Doloremque sed cupiditate cumque. Vel enim iure et autem quidem nulla.', 0, NULL, '2025-02-24 06:26:14', '2025-02-24 06:26:14'),
-(51, NULL, 'sell', 'John Doe', 'rp214322@gmail.com', '1234567890', 'I am interested in this vehicle.', 0, NULL, '2025-03-12 00:05:56', '2025-03-12 00:05:56'),
-(53, 21, 'buy', 'John Doe', 'rp214322@gmail.com', '1234567890', 'I am interested in this vehicle.', 0, NULL, '2025-03-12 04:13:22', '2025-03-12 04:13:22');
-
 -- --------------------------------------------------------
 
 --
@@ -192,8 +153,8 @@ INSERT INTO `inquiries` (`id`, `vehical_id`, `type`, `name`, `email`, `phone`, `
 
 CREATE TABLE `jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint UNSIGNED NOT NULL,
   `reserved_at` int UNSIGNED DEFAULT NULL,
   `available_at` int UNSIGNED NOT NULL,
@@ -523,71 +484,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `phone`, `email`, `email_verified_at`, `password`, `dob`, `country`, `state`, `address`, `image`, `status`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(2, 'customer', 'Helga Fadel', 'Cindy Johnston IV', NULL, 'calista35@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'z0MTdUug2l', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(3, 'customer', 'Marcelo Stiedemann', 'Lenny Torp', NULL, 'lhessel@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'YwmkhPtdLU', NULL, '2023-03-28 08:18:43', '2025-02-19 22:58:49'),
-(4, 'customer', 'Delilah Kozey', 'Mr. Mckenzie Tromp', NULL, 'sstark@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'TuerWfDVik', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(5, 'customer', 'Marcellus Towne', 'Prof. Steve Grant IV', NULL, 'cleveland.macejkovic@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'IaaWL9TRNK', NULL, '2023-03-28 08:18:43', '2025-02-19 22:58:59'),
-(6, 'customer', 'Leone Reinger I', 'Adah Collier I', NULL, 'nathan47@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'YGMbpSHfbL', NULL, '2023-03-28 08:18:43', '2025-02-19 22:59:09'),
-(7, 'customer', 'Berenice Hammes', 'Barbara Fisher II', NULL, 'lyla40@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '1ql0q8DvLO', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(8, 'customer', 'Lloyd Corwin', 'Amya Mayer', NULL, 'vschmeler@example.org', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'uiVhISNj7c', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(9, 'customer', 'Ms. Stacy Haag', 'Theresa Kunze', NULL, 'alockman@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'o6cFZQBtg8', NULL, '2023-03-28 08:18:43', '2025-02-19 22:59:04'),
-(10, 'customer', 'Miss Yasmeen Kemmer Sr.', 'Emilie Koch', NULL, 'kianna.murray@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '0lpS0MgVHg', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(11, 'customer', 'Dr. Novella Nikolaus MD', 'Beryl Haley', NULL, 'stokes.nicholas@example.net', '2023-03-28 08:18:43', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '6gTey1uJDi', NULL, '2023-03-28 08:18:43', '2023-03-28 08:18:43'),
-(13, 'admin', 'yash', 'patel', '9157541292', 'ritesh.patel@shivlab.com', '2023-04-02 04:54:16', '$2y$10$aH5mh9LjKaDcJ4iqyJc9UuccEIfyX2vZSCRAE4gT.EYipaBPg73jS', NULL, NULL, NULL, NULL, NULL, 1, 'eYUvAQ5ju69bJ9jrCx1Hq2pxOTAmFttiCKRMnlFTsadu7YKEyOBvI8YS0lwI', NULL, '2023-04-02 04:54:16', '2025-03-11 00:49:57'),
-(14, 'customer', 'Lue Cartwright', 'Amira Schaefer', NULL, 'bins.payton@example.com', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'nwUAc8Nt9z', NULL, '2023-04-02 04:54:18', '2025-02-19 22:59:07'),
-(15, 'customer', 'Matt Von', 'Bernie Christiansen', NULL, 'schmeler.leilani@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'vP54A5pAqP', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(16, 'customer', 'Audrey Kemmer', 'Grant Sawayn', NULL, 'cankunding@example.com', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'ouyGjSCH3H', NULL, '2023-04-02 04:54:18', '2025-02-19 22:59:02'),
-(17, 'customer', 'Prof. Alfredo Waters PhD', 'Hector Macejkovic PhD', NULL, 'marisol36@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '9gA9BWYtg1', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(18, 'customer', 'Ollie Torp III', 'Beth Bayer', NULL, 'johns.gennaro@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '7PSnVlB6Vn', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(19, 'customer', 'Annamarie Paucek', 'Prof. Freddie Pouros Sr.', NULL, 'lgreenholt@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '6Nik6ILKQR', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(20, 'customer', 'Ayla Schroeder', 'Kallie Barrows', NULL, 'rollin.romaguera@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'kzX2CkAQd2', NULL, '2023-04-02 04:54:18', '2025-02-19 22:59:20'),
-(21, 'customer', 'Celestino Cummerata', 'Lula Wehner', NULL, 'von.frederic@example.org', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'cELQbLHHeE', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(22, 'customer', 'Marilyne Heaney', 'Gillian Bartoletti', NULL, 'zhyatt@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'rSqXgrcUpK', NULL, '2023-04-02 04:54:18', '2023-04-02 04:54:18'),
-(23, 'customer', 'Adelia Kautzer', 'Mr. Nels Medhurst MD', NULL, 'lmacejkovic@example.net', '2023-04-02 04:54:18', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, '2JmetXdnT7', NULL, '2023-04-02 04:54:19', '2025-02-19 22:59:17'),
-(24, 'admin', 'devanshi', 'ballar', '9824732223', 'devanshiballer12i@gmail.com', '2023-04-19 23:24:03', '$2y$10$K0On/LOsSXRLRZrlJCv1uOmwIwM4z/PumNDcT94UfjX5/AkZAWRTG', NULL, NULL, NULL, NULL, NULL, 1, 'JCaKrkTA1tAsS8NG5hteS8TH3FRx1HJGWpzO4z3DF60yTAiuoU9u1Dlol9TE', NULL, '2023-04-19 23:24:03', '2023-04-19 23:58:23'),
-(25, 'customer', 'Luther Hauck', 'Toy Reinger', NULL, 'cummerata.nicholaus@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'T9wtRIb4ME', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(26, 'customer', 'Tiana Quigley', 'Casey Predovic', NULL, 'ijohnston@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '3GBLo7aE8A', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(27, 'customer', 'Ettie Pouros', 'Talia Swaniawski Sr.', NULL, 'jayson.jenkins@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'NEd6Gk36Ke', NULL, '2023-04-19 23:24:05', '2025-02-19 22:59:15'),
-(28, 'customer', 'Audie Trantow', 'Stella Kertzmann', '6686', 'eve25@example.net', '2023-04-19 23:24:05', '$2y$10$WSXQqgpYCPqYWNjI7bLtBu.yUjTUEHLfJvQtKRroBnfJpXpsqqeBy', NULL, NULL, NULL, NULL, NULL, 1, 'Y0ydlasTMIBbLSZMv9BOPbHGsYIeuBenulRq5UZIqTmSO4Y8X0NdA6nsyvVQ', NULL, '2023-04-19 23:24:05', '2023-04-20 06:05:17'),
-(29, 'customer', 'Charity Schneider', 'Mr. Kay Stanton III', NULL, 'isadore10@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'NEnc48XCbV', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(30, 'customer', 'Ted Mann', 'Prof. Gay Harris IV', NULL, 'jheidenreich@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, '5sFi26SSpy', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(31, 'customer', 'Dr. Gracie Cassin', 'Lonnie Nikolaus', NULL, 'ferry.faustino@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'F4BsYdp9un', NULL, '2023-04-19 23:24:05', '2025-02-19 22:59:30'),
-(32, 'customer', 'Karlee Kovacek PhD', 'Serenity Roob', NULL, 'fern83@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'a2bdC7767U', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(33, 'customer', 'Cordell Smitham', 'Jacklyn Hills IV', NULL, 'oswald59@example.net', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'YzKOeTA14S', NULL, '2023-04-19 23:24:05', '2023-04-19 23:24:05'),
-(34, 'customer', 'Rubye Wyman', 'Katlynn O\'Kon', NULL, 'cindy63@example.com', '2023-04-19 23:24:05', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'Uj6YOXosY4', NULL, '2023-04-19 23:24:05', '2025-02-19 22:59:28'),
-(36, 'admin', 'Admin', '-', '+91 7016590780', 'admin@hvac.com', '2023-04-20 00:12:37', '$2y$10$6iHomnC0bb92QSVMp9mDauOvOa0x7piALOwBfZklEeMmPTaVrWBZ2', '2002-03-30', 'CA', NULL, '605 Titenium Square, Ahmedabad, Gujarat', 'profile_images/profile_36_1741334792.png', 1, '1cY3LsEcAay75OZ2gpGx2E0t2fVGZ9jZSC3SY1N7MNtOyO76nYPjv3VQcOEV', NULL, '2023-04-20 00:12:37', '2025-03-07 02:36:32'),
-(37, 'customer', 'Thea Greenholt', 'Neoma Shanahan V', NULL, 'dkirlin@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'wFJyxQdCjS', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(38, 'customer', 'Mara Witting', 'Jovan Wyman', NULL, 'arch35@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Cz3rWZuwWC', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(39, 'customer', 'Casimir Koepp', 'Giovanny Rosenbaum', NULL, 'delaney72@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'Q0hdlOk7A4', NULL, '2023-04-20 00:12:38', '2025-02-19 22:59:26'),
-(40, 'customer', 'Ethelyn Mueller', 'Earnestine Heller IV', NULL, 'mbreitenberg@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'cMwvyLWcTD', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(41, 'customer', 'Demario Reynolds', 'Steve Deckow V', NULL, 'nicklaus.monahan@example.org', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'R5lUt2CDU9', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(42, 'customer', 'Arden Mitchell', 'Rupert O\'Keefe', NULL, 'toy.marquardt@example.net', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, '88tRlP36oE', NULL, '2023-04-20 00:12:38', '2025-02-19 22:59:39'),
-(43, 'customer', 'Gunner Howe', 'Lamar Schumm', NULL, 'wiza.giovanny@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'eIHRg3c5DH', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(44, 'customer', 'Olen Hyatt', 'Emmett Jacobi Sr.', NULL, 'oborer@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'LqLtPWbSee', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(45, 'customer', 'Hal Schulist', 'Chance Boyer', NULL, 'mprosacco@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 0, 'EsUBEZ8Vob', NULL, '2023-04-20 00:12:38', '2025-02-19 22:59:37'),
-(46, 'customer', 'Skye Denesik', 'Dr. Jaquan Beahan II', NULL, 'carmela.bergnaum@example.com', '2023-04-20 00:12:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, NULL, 1, 'Td8yC64PPz', NULL, '2023-04-20 00:12:38', '2023-04-20 00:12:38'),
-(47, 'customer', 'test', 'test', '97997', 'test1@gmail.com', NULL, '$2y$10$GP7AAn0Fs2eRpThmo.7hs.C4kEMc1nf9PxqqKoJGTOu/F7yEkoOOe', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2023-04-20 06:19:28', '2023-04-20 06:19:28'),
-(49, 'customer', 'julee', 'patel', '9909339543', 'julee993@gamil.com', '2023-04-20 09:56:30', '$2y$10$gpo7knG4.cC1EWWPLDQJ7.d2zRp0GU3w4UdhJ8PHDJCEqBOmVWx1y', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2023-04-20 09:56:30', '2023-04-20 09:56:30'),
-(50, 'customer', 'shivay', 'patel', '9909365298', 'shivu81222@gmail.com', '2023-04-20 09:58:39', '$2y$10$yLKrfZ.3MyKUh6kOsS5TDOkV8dG.cHR/Rqx5BLYNi3ydJZPMMj9C.', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2023-04-20 09:58:39', '2025-02-19 22:59:35'),
-(51, 'customer', 'Man', 'Patel', '+91 3656563256', 'man@gmail.com', NULL, '$2y$10$R1uwSnYf34sGFDkXnrn.AeIssfMDo1MjK41v3svNaf2I6o9ZxMwyC', '2025-02-13', 'IN', 'Gujarat', 'dfgdg', 'uploads/profiles/1740033592.jpg', 1, NULL, NULL, '2023-10-11 08:15:09', '2025-02-20 01:09:52'),
-(52, 'customer', 'abhi', 'patel', '9313533288', 'abhaypatel2354@gmail.com', '2024-05-31 09:25:37', '$2y$10$.o1fZHPdIFeV47rPu.5D8O/bDFb/nK0eGlRA6dM/q1TEnXK6tCLxC', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2024-05-31 09:25:37', '2024-05-31 09:25:37'),
-(53, 'customer', 'Ronak', 'Patel', '9664725001', 'ronakp2912@gmail.com', NULL, '$2y$10$FB7Jbza.VhHKSBDwu3T34uu0yfUSjZmq34oF.DA3u7g603iWLkZYC', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2025-02-19 06:45:54', '2025-02-19 05:54:17', '2025-02-19 06:45:54'),
-(54, 'customer', 'Prasant', 'chanvda', '9589658965', 'prasant@gmail.com', '2025-02-19 06:05:39', '$2y$10$3GvSY757KhFoVYA5qkiiKOlGAEIORfwNdpigu4WulRloyCxii013.', '2025-02-13', 'IN', 'Assam', 'dgdgfdfdf', NULL, 0, NULL, NULL, '2025-02-19 06:05:39', '2025-02-19 06:53:15'),
-(55, 'customer', 'Prasant', 'chavda', '9658745896', 'prasant1@gmail.com', '2025-02-19 06:31:14', '$2y$10$o/L7DEYFX6/r8S1sIDTpVeuAeDpvhw5hnjnMIFFHxhf3wPq3t6cZe', NULL, 'IN', 'Goa', 'fgfd', NULL, 1, NULL, NULL, '2025-02-19 06:31:14', '2025-02-19 06:31:14'),
-(56, 'customer', 'Deep', 'Sapariya', '9652145266', 'deep.patel@shivlab.com', NULL, '$2y$10$xAo1zvaxWwiTOCcW7sfCGOSs9PJdWQ.QOU.qSFp9hhhcXhWKOeMU.', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 07:33:25', '2025-02-19 07:33:25'),
-(57, 'customer', 'Manan', 'Bhalala', '9652365214', 'manan.bhalala@shivlab.com', NULL, '$2y$10$5vUupIfedcqZOXXod8TE0.xUv1XDbrCCd6Ptr3H9WR2buOi/OtUI.', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 07:34:26', '2025-02-19 07:34:26'),
-(58, 'customer', 'Yogesh', 'bhau', '9652365216', 'yogest@gmil.com', NULL, '$2y$10$NH8YGrBd6SqfVbWRfWKik.OGXxGT/4vMXIq/hfJTx1lasJyn.xDYy', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2025-02-19 07:35:24', '2025-02-19 22:59:46'),
-(59, 'customer', 'Mahesh', 'Savaliya', '9632563256', 'mana.bhalala@shivlab.com', NULL, '$2y$10$qhXr9kW0mHqMGDoWkK547e9D3ezytsFxOo0IyY9Sf3okxzQQ4weJW', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 07:53:50', '2025-02-19 07:56:12'),
-(60, 'customer', 'Rohan', 'Chauhan', '9658965896', 'rohan@gmail.com', NULL, '$2y$10$l6I4xK15hTXy3916rUUTm.lsK7Z06qFE3hhad6wK5A.RTniRLhJSu', '1990-05-15', 'IN', 'Gujarat', '123 Main Street, Los Angeles', 'http://192.168.1.87:8000/storage/profile_images/profile_60_1739971800.png', 1, NULL, NULL, '2025-02-19 07:56:58', '2025-02-19 08:00:00'),
-(61, 'customer', 'Rohan', 'Chauhan', '9658965893', 'rohan3@gmail.com', NULL, '$2y$10$dC3MPSDzaoALjd/6linoYO/UdMoAJG3DV3fZbRHIsp4ZmUaSuEGj.', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, '2025-02-19 08:00:31', '2025-02-19 22:59:50'),
-(62, 'customer', 'Rohan', 'Chauhan', '9658965899', 'rohan4@gmail.com', NULL, '$2y$10$GmoysaK234N2OhyOEnDeAOYsAwtIdjjatmFanEuLfcc3Su5VqJbtK', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-19 08:46:38', '2025-02-19 08:46:38'),
-(63, 'customer', 'Paras', 'Malaviya', '9652365256', 'paras@gmail.com', NULL, '$2y$10$cCBY7BoyAJi9UtkIFecsDuBuV95vvY5z97aCJkOMkWxjMB9dFQtWu', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-02-20 00:50:34', '2025-02-20 00:53:41'),
-(64, 'customer', 'Rohan', 'Chauhan', '9658965399', 'rohan2@gmail.com', NULL, '$2y$10$Hm1M4Y2n5VKyLEt/79vVguhqlw0C/701EMX6aNrHtt4P2oV4SSG.u', '2025-02-13', 'IN', 'Karnataka', NULL, NULL, 1, NULL, NULL, '2025-02-20 02:17:30', '2025-02-21 03:59:36'),
-(65, 'customer', 'Urjit', 'Patel', '6589659658', 'urjit@gmail.com', '2025-02-21 04:05:19', '$2y$10$qKeOKt9W2j4K5CDQ6h5AI.q2igVT45N1S5lRuByIHyduESTePil5m', '2025-02-07', 'IN', 'Goa', 'fdf', NULL, 1, NULL, NULL, '2025-02-21 04:05:19', '2025-02-21 04:05:19'),
-(66, 'customer', 'Rohan', 'Chauhan', '9658965869', 'rohan22@gmail.com', NULL, '$2y$10$SrmdStwGscYeeKrVhVVwVuOwxGsJrlVAcGHtfg3sWwWBIeZ.UVa3O', '1990-05-15', 'IN', 'Gujarat', '123 Main Street, Los Angeles', 'http://127.0.0.1:8000/storage/profile_images/profile_66_1741326525.png', 1, NULL, NULL, '2025-02-25 23:31:12', '2025-03-07 00:18:45'),
-(67, 'customer', 'Rohan', 'Chauhan', '9658965392', 'rohanf22@gmail.com', NULL, '$2y$10$RnA/usHcXBaSqg0SEaNf0uNPETWVNpcHH2oRdsssBC7zffHAIc0UW', NULL, NULL, NULL, NULL, 'profile_images/profile_67_1741345183.png', 1, NULL, NULL, '2025-02-26 02:25:46', '2025-03-07 05:29:43'),
-(69, 'customer', 'test', 'tesr', '9658965236', 'riteshpshivlab10@gmail.com', NULL, '$2y$10$xYK5YWEnTCiRvV4Fn.id4.Q174AkCMMulHtIKfbwpvmFedPzyu8gq', NULL, NULL, NULL, NULL, NULL, 1, '928EbstMJriU9kHGdcRxbtXqHaKL1q6JJtgJgCoUQ1RkPY5UrYFhu70IFRm1', NULL, '2025-03-05 02:17:52', '2025-03-05 02:20:22'),
-(70, 'customer', 'Ritesh', 'Patel', '7016590780', 'rp214322@gmail.com', NULL, '$2y$10$MD92jxPB/i1tgzpqvSaqCOvqSC0lvp8OmwhqIJsXO06aIJhlUdAsy', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, '2025-03-05 04:22:12', '2025-03-05 04:22:12');
+(71, 'admin', 'Admin', NULL, NULL, 'ritesh.patel@shivlab.com', '2025-03-18 01:41:17', '$2y$10$hGIqHXfTgW3Uy.czpGgp1OMW1qOsRLl0mCH4tP1wwOOQ3dUIm1dzu', NULL, NULL, NULL, NULL, NULL, 1, 'BMxalTtx55', NULL, '2025-03-18 01:41:17', '2025-03-18 01:41:17');
 
 -- --------------------------------------------------------
 
@@ -610,8 +507,8 @@ CREATE TABLE `vehicals` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `technical` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `feature_option` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `technical` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `feature_option` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -843,7 +740,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `vehicals`

@@ -17,11 +17,5 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
         ]);
-        Category::create([
-            'name' => '2 Wheels',
-        ]);
-        Category::create([
-            'name' => '4 Wheels',
-        ]);
     }
 }
