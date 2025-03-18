@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,17 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class VehicalGallery extends Model
 {
-    // use HasFactory, Sluggable, SoftDeletes;
-    use HasFactory;
-
-    // public function sluggable(): array
-    // {
-    //     return [
-    //         'slug' => [
-    //             'source' => 'file_name'
-    //         ]
-    //     ];
-    // }
+    use HasFactory, SoftDeletes;
+    protected $table = 'vehical_galleries';
 
     public function vehical()
     {

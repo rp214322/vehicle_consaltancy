@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 17, 2025 at 03:12 PM
+-- Generation Time: Mar 18, 2025 at 12:08 PM
 -- Server version: 8.0.41-0ubuntu0.22.04.1
 -- PHP Version: 8.1.31
 
@@ -121,20 +121,18 @@ CREATE TABLE `favourite_vehicals` (
   `user_id` bigint UNSIGNED DEFAULT NULL,
   `vehical_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `favourite_vehicals`
 --
 
-INSERT INTO `favourite_vehicals` (`id`, `user_id`, `vehical_id`, `created_at`, `updated_at`) VALUES
-(9, 36, 37, '2023-04-20 09:49:04', '2023-04-20 09:49:04'),
-(10, 36, 13, '2023-04-20 09:49:14', '2023-04-20 09:49:14'),
-(11, 36, 22, '2023-04-20 09:49:16', '2023-04-20 09:49:16'),
-(12, 36, 16, '2023-04-20 09:49:35', '2023-04-20 09:49:35'),
-(13, 36, 15, '2023-04-20 09:49:49', '2023-04-20 09:49:49'),
-(25, 67, 37, '2025-03-06 06:35:38', '2025-03-06 06:35:38');
+INSERT INTO `favourite_vehicals` (`id`, `user_id`, `vehical_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(9, 36, 37, '2023-04-20 09:49:04', '2023-04-20 09:49:04', NULL),
+(11, 36, 22, '2023-04-20 09:49:16', '2023-04-20 09:49:16', NULL),
+(25, 67, 37, '2025-03-06 06:35:38', '2025-03-06 06:35:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -243,7 +241,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (28, '2025_03_11_111940_create_jobs_table', 11),
 (29, '2025_03_13_074325_update_vehicals_table', 12),
 (30, '2025_03_13_080622_update_slug_unique_in_vehicals_table', 13),
-(31, '2025_03_13_080849_update_color_mileage_not_null_in_vehicals_table', 14);
+(31, '2025_03_13_080849_update_color_mileage_not_null_in_vehicals_table', 14),
+(32, '2025_03_17_125332_add_soft_deletes_to_vehical_galleries', 15),
+(33, '2025_03_18_062828_add_foreign_keys_to_favourite_vehicals_table', 16);
 
 -- --------------------------------------------------------
 
@@ -649,39 +649,36 @@ CREATE TABLE `vehical_galleries` (
   `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_featured` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `vehical_galleries`
 --
 
-INSERT INTO `vehical_galleries` (`id`, `vehical_id`, `file`, `file_type`, `is_featured`, `created_at`, `updated_at`) VALUES
-(93, 39, 'gallery/test/1740555306_pulsar.jpeg', 'image/jpeg', 0, '2025-02-26 02:05:06', '2025-02-26 02:14:18'),
-(94, 39, 'gallery/test/1740555306_plusar 125.jpeg', 'image/jpeg', 1, '2025-02-26 02:05:06', '2025-02-26 02:14:18'),
-(95, 38, 'gallery/kodiaq/1740555793_car-8.jpg', 'image/jpeg', 1, '2025-02-26 02:13:13', '2025-02-26 02:14:33'),
-(96, 38, 'gallery/kodiaq/1740555793_car-6.jpg', 'image/jpeg', 0, '2025-02-26 02:13:13', '2025-02-26 02:14:33'),
-(97, 37, 'gallery/fortuner/1740660071_WhatsApp Image 2023-03-30 at 6.20.02 PM (1).jpeg', 'image/jpeg', 1, '2025-02-27 07:11:11', '2025-02-27 07:11:15'),
-(98, 36, 'gallery/seltos/1740717559_WhatsApp Image 2023-03-30 at 6.07.54 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:09:19', '2025-02-27 23:09:23'),
-(99, 35, 'gallery/fz-s/1740717598_fz-s.jpeg', 'image/jpeg', 1, '2025-02-27 23:09:58', '2025-02-27 23:10:02'),
-(100, 34, 'gallery/livo/1740717618_livo.jpeg', 'image/jpeg', 1, '2025-02-27 23:10:18', '2025-02-27 23:10:22'),
-(101, 29, 'gallery/nexon/1740717656_WhatsApp Image 2023-03-30 at 6.24.19 PM.jpeg', 'image/jpeg', 0, '2025-02-27 23:10:56', '2025-02-27 23:11:03'),
-(102, 29, 'gallery/nexon/1740717656_WhatsApp Image 2023-03-30 at 6.24.20 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:10:56', '2025-02-27 23:11:03'),
-(103, 26, 'gallery/splendor/1740717796_splendor plus.jpeg', 'image/jpeg', 1, '2025-02-27 23:13:16', '2025-02-27 23:13:20'),
-(104, 25, 'gallery/wr-v/1740717836_WhatsApp Image 2023-03-30 at 6.19.21 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:13:56', '2025-02-27 23:14:00'),
-(105, 24, 'gallery/royal-enfield/1740717864_classic 350(1).jpeg', 'image/jpeg', 0, '2025-02-27 23:14:24', '2025-02-27 23:14:31'),
-(106, 24, 'gallery/royal-enfield/1740717864_classic 350.jpeg', 'image/jpeg', 1, '2025-02-27 23:14:24', '2025-02-27 23:14:31'),
-(107, 23, 'gallery/city/1740717887_city.jpg', 'image/jpeg', 1, '2025-02-27 23:14:47', '2025-02-27 23:14:51'),
-(108, 22, 'gallery/thar/1740717916_WhatsApp Image 2023-03-30 at 6.27.52 PM.jpeg', 'image/jpeg', 0, '2025-02-27 23:15:16', '2025-02-27 23:15:25'),
-(109, 22, 'gallery/thar/1740717916_WhatsApp Image 2023-03-30 at 6.27.51 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:15:16', '2025-02-27 23:15:25'),
-(110, 21, 'gallery/giser-36/1740717959_access125.jpeg', 'image/jpeg', 1, '2025-02-27 23:15:59', '2025-02-27 23:16:08'),
-(111, 21, 'gallery/giser-36/1740717959_access125(1).jpeg', 'image/jpeg', 0, '2025-02-27 23:15:59', '2025-02-27 23:16:08'),
-(112, 20, 'gallery/dream-yuga/1740717994_shine sp(1).jpeg', 'image/jpeg', 1, '2025-02-27 23:16:34', '2025-02-27 23:16:45'),
-(113, 20, 'gallery/dream-yuga/1740717994_shine sp.jpeg', 'image/jpeg', 0, '2025-02-27 23:16:34', '2025-02-27 23:16:45'),
-(114, 18, 'gallery/innova-556/1740718034_WhatsApp Image 2023-03-30 at 6.20.02 PM (1).jpeg', 'image/jpeg', 1, '2025-02-27 23:17:14', '2025-02-27 23:17:18'),
-(115, 17, 'gallery/pluser-220/1740718134_plusar 125.jpeg', 'image/jpeg', 1, '2025-02-27 23:18:54', '2025-02-27 23:18:58'),
-(117, 40, 'gallery/test/1741853954_Screenshot from 2025-03-05 18-44-05.png', 'image/png', 1, '2025-03-13 02:49:14', '2025-03-13 02:49:18'),
-(118, 40, 'gallery/test/1741853954_Screenshot from 2025-03-06 11-28-48.png', 'image/png', 0, '2025-03-13 02:49:14', '2025-03-13 02:49:18');
+INSERT INTO `vehical_galleries` (`id`, `vehical_id`, `file`, `file_type`, `is_featured`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(97, 37, 'gallery/fortuner/1740660071_WhatsApp Image 2023-03-30 at 6.20.02 PM (1).jpeg', 'image/jpeg', 1, '2025-02-27 07:11:11', '2025-02-27 07:11:15', NULL),
+(98, 36, 'gallery/seltos/1740717559_WhatsApp Image 2023-03-30 at 6.07.54 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:09:19', '2025-02-27 23:09:23', NULL),
+(99, 35, 'gallery/fz-s/1740717598_fz-s.jpeg', 'image/jpeg', 1, '2025-02-27 23:09:58', '2025-02-27 23:10:02', NULL),
+(100, 34, 'gallery/livo/1740717618_livo.jpeg', 'image/jpeg', 1, '2025-02-27 23:10:18', '2025-02-27 23:10:22', NULL),
+(101, 29, 'gallery/nexon/1740717656_WhatsApp Image 2023-03-30 at 6.24.19 PM.jpeg', 'image/jpeg', 0, '2025-02-27 23:10:56', '2025-02-27 23:11:03', NULL),
+(102, 29, 'gallery/nexon/1740717656_WhatsApp Image 2023-03-30 at 6.24.20 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:10:56', '2025-02-27 23:11:03', NULL),
+(103, 26, 'gallery/splendor/1740717796_splendor plus.jpeg', 'image/jpeg', 1, '2025-02-27 23:13:16', '2025-02-27 23:13:20', NULL),
+(104, 25, 'gallery/wr-v/1740717836_WhatsApp Image 2023-03-30 at 6.19.21 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:13:56', '2025-02-27 23:14:00', NULL),
+(105, 24, 'gallery/royal-enfield/1740717864_classic 350(1).jpeg', 'image/jpeg', 0, '2025-02-27 23:14:24', '2025-02-27 23:14:31', NULL),
+(106, 24, 'gallery/royal-enfield/1740717864_classic 350.jpeg', 'image/jpeg', 1, '2025-02-27 23:14:24', '2025-02-27 23:14:31', NULL),
+(107, 23, 'gallery/city/1740717887_city.jpg', 'image/jpeg', 1, '2025-02-27 23:14:47', '2025-02-27 23:14:51', NULL),
+(108, 22, 'gallery/thar/1740717916_WhatsApp Image 2023-03-30 at 6.27.52 PM.jpeg', 'image/jpeg', 0, '2025-02-27 23:15:16', '2025-02-27 23:15:25', NULL),
+(109, 22, 'gallery/thar/1740717916_WhatsApp Image 2023-03-30 at 6.27.51 PM.jpeg', 'image/jpeg', 1, '2025-02-27 23:15:16', '2025-02-27 23:15:25', NULL),
+(110, 21, 'gallery/giser-36/1740717959_access125.jpeg', 'image/jpeg', 1, '2025-02-27 23:15:59', '2025-02-27 23:16:08', NULL),
+(111, 21, 'gallery/giser-36/1740717959_access125(1).jpeg', 'image/jpeg', 0, '2025-02-27 23:15:59', '2025-02-27 23:16:08', NULL),
+(112, 20, 'gallery/dream-yuga/1740717994_shine sp(1).jpeg', 'image/jpeg', 1, '2025-02-27 23:16:34', '2025-02-27 23:16:45', NULL),
+(113, 20, 'gallery/dream-yuga/1740717994_shine sp.jpeg', 'image/jpeg', 0, '2025-02-27 23:16:34', '2025-02-27 23:16:45', NULL),
+(114, 18, 'gallery/innova-556/1740718034_WhatsApp Image 2023-03-30 at 6.20.02 PM (1).jpeg', 'image/jpeg', 1, '2025-02-27 23:17:14', '2025-02-27 23:17:18', NULL),
+(115, 17, 'gallery/pluser-220/1740718134_plusar 125.jpeg', 'image/jpeg', 1, '2025-02-27 23:18:54', '2025-02-27 23:18:58', NULL),
+(117, 40, 'gallery/test/1741853954_Screenshot from 2025-03-05 18-44-05.png', 'image/png', 1, '2025-03-13 02:49:14', '2025-03-13 02:49:18', NULL),
+(118, 40, 'gallery/test/1741853954_Screenshot from 2025-03-06 11-28-48.png', 'image/png', 0, '2025-03-13 02:49:14', '2025-03-13 02:49:18', NULL);
 
 --
 -- Indexes for dumped tables
@@ -713,7 +710,9 @@ ALTER TABLE `failed_jobs`
 -- Indexes for table `favourite_vehicals`
 --
 ALTER TABLE `favourite_vehicals`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `favourite_vehicals_vehical_id_foreign` (`vehical_id`),
+  ADD KEY `favourite_vehicals_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `inquiries`
@@ -779,7 +778,8 @@ ALTER TABLE `vehicals`
 -- Indexes for table `vehical_galleries`
 --
 ALTER TABLE `vehical_galleries`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `vehical_galleries_vehical_id_foreign` (`vehical_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -825,7 +825,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `models`
@@ -868,6 +868,13 @@ ALTER TABLE `brands`
   ADD CONSTRAINT `brands_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `favourite_vehicals`
+--
+ALTER TABLE `favourite_vehicals`
+  ADD CONSTRAINT `favourite_vehicals_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `favourite_vehicals_vehical_id_foreign` FOREIGN KEY (`vehical_id`) REFERENCES `vehicals` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `inquiries`
 --
 ALTER TABLE `inquiries`
@@ -886,6 +893,12 @@ ALTER TABLE `vehicals`
   ADD CONSTRAINT `vehicals_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `vehicals_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `vehicals_model_id_foreign` FOREIGN KEY (`model_id`) REFERENCES `models` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `vehical_galleries`
+--
+ALTER TABLE `vehical_galleries`
+  ADD CONSTRAINT `vehical_galleries_vehical_id_foreign` FOREIGN KEY (`vehical_id`) REFERENCES `vehicals` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
