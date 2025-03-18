@@ -16,6 +16,41 @@
                             </a>
                         </div>
                     </div>
+                    <!-- Filter UI -->
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label>Show Columns:</label>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" 
+                                        id="columnToggleDropdown" data-toggle="dropdown" 
+                                        aria-haspopup="true" aria-expanded="false">
+                                    Select Columns
+                                </button>
+                                <div class="dropdown-menu p-3" aria-labelledby="columnToggleDropdown">
+                                    <div class="form-check">
+                                        <input class="form-check-input toggle-column" type="checkbox" 
+                                            data-column="0" checked id="col0">
+                                        <label class="form-check-label" for="col0">ID</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input toggle-column" type="checkbox" 
+                                            data-column="1" checked id="col1">
+                                        <label class="form-check-label" for="col1">Model Name</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input toggle-column" type="checkbox" 
+                                            data-column="2" checked id="col2">
+                                        <label class="form-check-label" for="col2">Brand Name</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input toggle-column" type="checkbox" 
+                                            data-column="3" checked id="col3">
+                                        <label class="form-check-label" for="col3">Action</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="pb-20">
                         <table class="data-table table stripe hover nowrap" id="ModelTable">
                             <thead>

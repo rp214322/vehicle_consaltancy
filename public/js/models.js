@@ -1,5 +1,5 @@
 var modelTable = $("#ModelTable").DataTable({
-    dom: '<"top"lf>tr<"bottom"ip>',
+    dom: '<"top"lfB>rt<"bottom"ip>', // Added "B" for buttons
     processing: true,
     serverSide: true,
     pageLength: 10, // Default page length
@@ -7,7 +7,33 @@ var modelTable = $("#ModelTable").DataTable({
     scrollY: "60vh", // Set max height to 60% of viewport height
     scrollCollapse: true, // Allow table height to shrink when less data is shown
     ajax: list,
-
+    buttons: [
+        {
+            extend: "copyHtml5",
+            text: "Copy",
+            className: "btn btn-secondary",
+        },
+        {
+            extend: "excelHtml5",
+            text: "Excel",
+            className: "btn btn-success",
+        },
+        {
+            extend: "csvHtml5",
+            text: "CSV",
+            className: "btn btn-info",
+        },
+        {
+            extend: "pdfHtml5",
+            text: "PDF",
+            className: "btn btn-danger",
+        },
+        {
+            extend: "print",
+            text: "Print",
+            className: "btn btn-primary",
+        },
+    ],
     columns: [
         { data: "id", name: "id", orderable: true, width: "4%" },
         { data: "name", name: "name", orderable: true },
@@ -26,6 +52,22 @@ var modelTable = $("#ModelTable").DataTable({
         }
     },
 });
+
+$(".toggle-column").on("change", function () {
+    var columnIndex = $(this).data("column");
+    var column = modelTable.column(columnIndex); // Ensure this targets the correct table
+
+    // Toggle visibility based on checkbox state
+    column.visible($(this).prop("checked"));
+});
+
+// ✅ Ensure checkboxes reflect initial column visibility
+$(".toggle-column").each(function () {
+    var columnIndex = $(this).data("column");
+    var column = modelTable.column(columnIndex);
+    $(this).prop("checked", column.visible());
+});
+
 
 /* Custom Filter: Change page length dynamically */
 $("#model_filter").on("change", function () {
