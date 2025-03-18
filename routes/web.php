@@ -21,8 +21,8 @@ Route::get('/about',[\App\Http\Controllers\HomeController::class,'about'])->name
 Route::get('/contact',[\App\Http\Controllers\HomeController::class,'contact'])->name('contact');
 Route::get('/vehicals',[\App\Http\Controllers\VehicalsController::class,'index'])->name('vehicals.list');
 Route::get('/vehical/{slug}',[\App\Http\Controllers\VehicalsController::class,'show'])->name('vehical.show');
-Route::post('/vehical/inquiry',[App\Http\Controllers\VehicalsController::class,'StoreInquiry'])->name('vehical.inquiry');
-Route::post('/inquiry',[App\Http\Controllers\HomeController::class,'StoreInquiry'])->name('store.inquiry');
+Route::post('/inquiry', [App\Http\Controllers\HomeController::class, 'storeInquiry'])->name('store.inquiry');
+Route::post('/send-inquiry', [App\Http\Controllers\HomeController::class, 'sendInquiry'])->name('send.inquiry');
 Route::get('/favouite/vehical/{id}',[App\Http\Controllers\VehicalsController::class,'FavouriteVehical'])->name('favourite.vehical');
 Route::get('/favouite/vehical',[App\Http\Controllers\UsersController::class,'FavouriteList'])->name('favourite.list');
 Route::get('/profile',[\App\Http\Controllers\UsersController::class,'profile'])->name('profile');
@@ -47,8 +47,6 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function(){
 	Route::post('password',[\App\Http\Controllers\Admin\AuthController::class,'postPassword'])->name('post.password');
 
 	// Route for Setting
-    Route::get('settings',[\App\Http\Controllers\Admin\DashboardController::class,'settings'])->name('setting');
-    Route::post('settings',[\App\Http\Controllers\Admin\DashboardController::class,'post_settings'])->name('post.setting');
 
     Route::resource('users',\App\Http\Controllers\Admin\UsersController::class);
     Route::post('users/status',[\App\Http\Controllers\Admin\UsersController::class,'updateStatus'])->name('users.status');

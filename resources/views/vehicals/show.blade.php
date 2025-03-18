@@ -65,6 +65,7 @@
                     </div>                    
                 </div>
                 <div class="col-lg-3">
+                    <div id="flashMessageContainer"></div>
                     <div class="car__details__sidebar">
                         <div class="car__details__sidebar__model">
                             <ul>
@@ -96,38 +97,44 @@
             <div class="modal-content">
                 <form action="javascript:;" method="post" id="InquiryForm">
                     @csrf
-                    <input type="hidden" name="vehical_id" value="{!! $vehical->id !!}">
+                    <input type="hidden" name="vehical_id" value="{!! $vehical->id !!}"> <!-- Vehicle ID included -->
+                
                     <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Place Your Inquiry</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <h5 class="modal-title">Place Your Inquiry</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
                     </div>
+                
                     <div class="modal-body">
-                    <div class="modal_form">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Name" value="{!! Auth::check() ? Auth::user()->first_name . ' ' . Auth::user()->last_name : '' !!}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Email" value="{!! Auth::check() ? Auth::user()->email : '' !!}" required email>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" name="phone" class="form-control" placeholder="Phone" value="{!! Auth::check() ? Auth::user()->phone : '' !!}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea name="description" cols="30" rows="10" class="form-control" placeholder="description" required></textarea>
+                        <div class="modal_form">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="Name" 
+                                       value="{!! Auth::check() ? Auth::user()->first_name . ' ' . Auth::user()->last_name : '' !!}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="Email" 
+                                       value="{!! Auth::check() ? Auth::user()->email : '' !!}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" name="phone" class="form-control" placeholder="Phone" 
+                                       value="{!! Auth::check() ? Auth::user()->phone : '' !!}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" placeholder="Description" required></textarea>
+                            </div>
                         </div>
                     </div>
-                    </div>
+                
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="javascript:;" type="submit" class="btn btn-primary place_inquiry">Submit</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a href="javascript:;" class="btn btn-primary place_inquiry">Submit</a>
                     </div>
-                    </form>
+                </form>                
             </div>
         </div>
     </div>
@@ -135,25 +142,40 @@
 @section('scripts')
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery(".place_inquiry").on("click",function(e){
-            var _f = jQuery("#InquiryForm");
+        jQuery(".place_inquiry").on("click", function (e) {
+            var _form = jQuery("#InquiryForm");
             jQuery('#preloder, .loader').show();
             e.preventDefault();
+
             $.ajax({
                 type: "POST",
-                url: "{!! route('vehical.inquiry') !!}",
-                data: jQuery(_f).serialize(),
+                url: "{!! route('store.inquiry') !!}", // Using single API
+                data: _form.serialize(),
             })
-            .done(function (data) {
+            .done(function (response) {
                 jQuery('#preloder, .loader').hide();
                 jQuery("#InquiryModel").modal('hide');
-            }).fail(function (error) {
+                // Display success message in a flash message
+                var successMessage = '<div class="alert alert-success alert-dismissible fade show" role="alert">'
+                    + response.message
+                    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+                    + '<span aria-hidden="true">&times;</span></button></div>';
+
+                jQuery("#flashMessageContainer").html(successMessage);
+
+            })
+            .fail(function (error) {
                 jQuery('#preloder, .loader').hide();
-                jQuery(_f).find(".has-error").remove();
+                _form.find(".has-error").remove();
                 var response = JSON.parse(error.responseText);
-                $.each(error.responseJSON, function (key, value) {
-                        var input = '[name=' + key + ']';
-                        jQuery(_f).find(input).parent().find(".has-error").length == 0 ? jQuery(_f).find(input).parent().append("<span class='has-error'>"+ value +"</span>") : jQuery(_f).find(input).parent().find('.has-error').html(value);
+
+                $.each(response.errors, function (key, value) {
+                    var input = '[name=' + key + ']';
+                    if (_form.find(input).parent().find(".has-error").length === 0) {
+                        _form.find(input).parent().append("<span class='has-error'>" + value + "</span>");
+                    } else {
+                        _form.find(input).parent().find('.has-error').html(value);
+                    }
                 });
             });
         });

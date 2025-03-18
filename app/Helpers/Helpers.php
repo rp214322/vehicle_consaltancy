@@ -1,5 +1,7 @@
 <?php
 
+use Aws\S3\S3Client;
+
 function upload_tmp_path($file) {
   return public_path() . "/tmp/$file";
 }
@@ -34,7 +36,14 @@ function upload_move($file,$model,$variation=false,$source=false) {
   $source = $source ? $source : upload_tmp_path($file);
   $target = upload_path($file,$model,$variation);
   if($use_aws) {
-      $s3 = AWS::createClient('s3');
+    $s3 = new S3Client([
+      'version' => 'latest',
+      'region'  => env('AWS_DEFAULT_REGION'),
+      'credentials' => [
+          'key'    => env('AWS_ACCESS_KEY_ID'),
+          'secret' => env('AWS_SECRET_ACCESS_KEY'),
+      ],
+  ]);
       $s3->putObject(array(
             'Bucket'     => env('AWS_S3_BUCKET'),
             'Key'        => $target,
@@ -57,7 +66,14 @@ function upload_delete($file,$model,$variations=false) {
   $use_aws = env('AWS_STATUS',false);    
   if($use_aws) {
     $aws_path = upload_path($file,$model,$variations,true);
-    $s3 = AWS::createClient('s3');
+    $s3 = new S3Client([
+      'version' => 'latest',
+      'region'  => env('AWS_DEFAULT_REGION'),
+      'credentials' => [
+          'key'    => env('AWS_ACCESS_KEY_ID'),
+          'secret' => env('AWS_SECRET_ACCESS_KEY'),
+      ],
+  ]);
     $s3->deleteObject(array(
           'Bucket'     => env('AWS_S3_BUCKET'),
           'Key'        => $aws_path,          

@@ -72,11 +72,11 @@
                         <p>Posters had been a very beneficial marketing tool because it had paved to deliver an
                             effective message that conveyed customer’s</p>
                     </div>
-                    <a href="#">Contact Us</a>
+                    <a href="{{ route('contact') }}">Contact Us</a>
                 </div>
             </div>
             <div class="col-lg-6 offset-lg-1 col-md-6">
-                <form action="{!! route('store.inquiry') !!}" method="post" class="call__form">
+                <form id="inquiryForm" action="{!! route('store.inquiry') !!}" method="post" class="call__form">
                     @csrf
                     <div class="row">
                         <div class="col-lg-6">
@@ -98,6 +98,8 @@
                     </div>
                     <button type="submit" class="site-btn">Submit Now</button>
                 </form>
+                <!-- Flash Message -->
+                <div id="flashMessage" style="display:none; padding: 10px; background: #28a745; color: #fff; text-align: center; margin-top: 10px;"></div>                
             </div>                       
         </div>
     </div>
@@ -299,4 +301,43 @@
     </div>
 </div>
 <!-- Clients End -->
+@endsection
+@section('scripts')
+<script>
+    jQuery(document).ready(function () {
+    jQuery("#inquiryForm").on("submit", function (e) {
+        e.preventDefault(); // Prevent page reload
+
+        var formData = jQuery(this).serialize(); // Serialize form data
+
+        jQuery.ajax({
+            type: "POST",
+            url: "{!! route('store.inquiry') !!}", // Form action URL
+            data: formData,
+            beforeSend: function () {
+                jQuery(".site-btn").prop("disabled", true).text("Submitting...");
+            },
+            success: function (response) {
+                // Show success message
+                jQuery("#flashMessage").text(response.message).fadeIn();
+
+                // Hide message after 3 seconds
+                setTimeout(function () {
+                    jQuery("#flashMessage").fadeOut();
+                }, 3000);
+
+                // Reset form fields
+                jQuery("#inquiryForm")[0].reset();
+
+                jQuery(".site-btn").prop("disabled", false).text("Submit Now");
+            },
+            error: function (error) {
+                var response = JSON.parse(error.responseText);
+                alert("Error: " + response.message);
+                jQuery(".site-btn").prop("disabled", false).text("Submit Now");
+            }
+        });
+    });
+});
+</script>
 @endsection

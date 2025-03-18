@@ -92,51 +92,6 @@ class VehicalsController extends Controller
         $vehical = Vehical::where('slug', $slug)->latest()->first();
         return view('vehicals.show', compact('request', 'vehical'));
     }
-
-    public function StoreInquiry(Request $request)
-    {
-        $rules = array(
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'numeric',
-        );
-        $messages = array(
-            'name.required' => 'Please enter your contact name.',
-            'email.required' => 'Please enter your email address.',
-            'email.email' => 'Please enter valid email address.',
-            'phone.numeric' => 'Please enter only digits in phone number.',
-        );
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails()) {
-            return response()->json($validator->getMessageBag()->toArray(), 422);
-        }
-        //   try {
-
-        $inquiry = new Inquiry;
-        $inquiry->vehical_id = $request->get('vehical_id');
-        $inquiry->name = $request->get('name');
-        $inquiry->email = $request->get('email');
-        $inquiry->phone = $request->get('phone');
-        $inquiry->description = $request->get('description');
-        $inquiry->save();
-
-        // Mail::send('emails.contact', ['data' => $request->all()], function($message) use($request) {
-        //   $message->to(config()->get('settings.email'));
-        //   $message->subject('Submission from ' . title_case($request->get('name')));
-        // });
-        // Mail::send('emails.thank_you', ['data' => $request->all()], function($message) use($request) {
-        //   $message->to($request->get('email'));
-        //   $message->subject('Thank you for contact us.');
-        // });
-        return response()->json(['success', 'Thank you for inquir us. We will get back to you soon.'], 200);
-        //   } catch (Exception $e) {
-        //       return redirect()->back()
-        //                       ->withErrors($validator)
-        //                       ->withInput()
-        //                       ->with('error', $e->getMessage());
-        //   }
-    }
-
     public function FavouriteVehical($id)
     {
         try {

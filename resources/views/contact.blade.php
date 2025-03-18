@@ -43,19 +43,34 @@
             </div>
             <div class="col-lg-6 col-md-6">
               <div class="contact__form">
-                <form action="#">
-                  <div class="row">
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+              @endif
+              @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+              @endif
+              <form action="{{ route('send.inquiry') }}" method="POST">
+                @csrf
+                <div class="row">
                     <div class="col-lg-6">
-                      <input type="text" placeholder="Name" />
+                        <input type="text" name="name" placeholder="Name" value="{{ old('name') }}" required />
                     </div>
                     <div class="col-lg-6">
-                      <input type="text" placeholder="Email" />
+                        <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required />
                     </div>
-                  </div>
-                  <input type="text" placeholder="Subject" />
-                  <textarea placeholder="Your Question"></textarea>
-                  <button type="submit" class="site-btn">Submit Now</button>
-                </form>
+                </div>
+                <input type="text" name="subject" placeholder="Subject" value="{{ old('subject') }}" required />
+                <textarea name="message" placeholder="Your Question" required>{{ old('message') }}</textarea>
+                <button type="submit" class="site-btn">Submit Now</button>
+              </form>
               </div>
             </div>
           </div>
