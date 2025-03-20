@@ -75,6 +75,6 @@
             </div>
           </div>
         </div>
-      </section>
-      <!-- Contact Section End -->
+    </section>
+    <!-- Contact Section End -->
 @endsection

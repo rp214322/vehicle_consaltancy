@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
@@ -178,8 +179,8 @@ class BrandsController extends Controller
             // Check if a new image is uploaded
             if ($request->hasFile('image')) {
                 // Delete the old image if it exists
-                if ($brand->image && \Storage::exists('public/' . $brand->image)) {
-                    \Storage::delete('public/' . $brand->image);
+                if ($brand->image && Storage::exists('public/' . $brand->image)) {
+                    Storage::delete('public/' . $brand->image);
                 }
 
                 // Store the new image

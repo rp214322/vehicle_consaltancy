@@ -19,8 +19,6 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "opcodesio/log-viewer": "^3.14",
-        "razorpay/razorpay": "^2.9",
         "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {

@@ -160,7 +160,6 @@
                 },
             }
         });
-
         uploader.init();
     </script>
 @endsection
