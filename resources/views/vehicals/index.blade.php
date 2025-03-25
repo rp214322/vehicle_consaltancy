@@ -22,7 +22,7 @@
     <section class="car spad">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 mb-4">
+                <div class="col-lg-3">
                     <div class="car__sidebar">
                       <div class="car__filter">
                         <h5>Vehicle Filter</h5>
@@ -75,7 +75,7 @@
                       </div>
                     </div>
                   </div>                  
-                  <div class="col-lg-12">
+                  <div class="col-lg-9">
                     <div class="car__filter__option">
                         <div class="row">
                             <div class="col-lg-6 col-md-6">

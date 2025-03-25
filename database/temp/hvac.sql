@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 18, 2025 at 05:11 PM
+-- Generation Time: Mar 25, 2025 at 02:40 PM
 -- Server version: 8.0.41-0ubuntu0.22.04.1
 -- PHP Version: 8.1.31
 
@@ -349,7 +349,8 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 ('ronakp2912@gmail.com', '$2y$10$3k2luPyXi5Hqm2STe8fUeOECq0PqMyDXiAakym9uRxMI0Rpp4LdEu', '2025-02-19 05:57:08'),
 ('sstark@example.org', '$2y$10$YnGdUpWlLEaQbDWORYm1K.AFCW2Sq0ZKr44SGHL4z0AUTA.fa0mHG', '2025-03-05 01:31:34'),
 ('rp214322@gmail.com', '$2y$10$aja8.q4sNfld.hUzMgIzfexvC2qTXAJ4oc1s2tjdpNhqIBkB9KjS2', '2025-03-05 01:34:35'),
-('rohanf22@gmail.com', '$2y$10$xtjLJnFM/eNaCVa4J5U0RO2ZPSiauQuPySt5v3Ej6khEfPL8UJxWC', '2025-03-07 05:27:32');
+('rohanf22@gmail.com', '$2y$10$xtjLJnFM/eNaCVa4J5U0RO2ZPSiauQuPySt5v3Ej6khEfPL8UJxWC', '2025-03-07 05:27:32'),
+('ritesh.patel@shivlab.com', '$2y$10$YLW8EYT4JZPz0reOwsTUt.lMlNzCgJWwEh7q1PgtMVsYA34ZTUuOW', '2025-03-24 06:32:13');
 
 -- --------------------------------------------------------
 
@@ -496,7 +497,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `phone`, `email`, `email_verified_at`, `password`, `dob`, `country`, `state`, `address`, `image`, `status`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(71, 'admin', 'Admin', NULL, NULL, 'ritesh.patel@shivlab.com', '2025-03-18 01:41:17', '$2y$10$hGIqHXfTgW3Uy.czpGgp1OMW1qOsRLl0mCH4tP1wwOOQ3dUIm1dzu', NULL, NULL, NULL, NULL, NULL, 1, 'BMxalTtx55', NULL, '2025-03-18 01:41:17', '2025-03-18 01:41:17');
+(71, 'admin', 'Admin', NULL, NULL, 'ritesh.patel@shivlab.com', '2025-03-18 01:41:17', '$2y$10$gLW9GIfoLj1QftFCkHIlFOuGOU2x7uSPg4dHeUWboujMF6p4ok/Ia', NULL, NULL, NULL, NULL, NULL, 1, '2hdEVp46pd9fQ3jw5iIwqlyeDqRPu89VLq8TKW8S43sSJKlTSjcqPi49KGMl', NULL, '2025-03-18 01:41:17', '2025-03-24 06:27:29');
 
 -- --------------------------------------------------------
 
@@ -543,7 +544,7 @@ INSERT INTO `vehicals` (`id`, `category_id`, `brand_id`, `model_id`, `title`, `s
 (35, 1, 15, 75, 'fz-s', 'fz-s', 2017, 'petrol', 'black', '45', '55000.00', 0, '2023-04-20 09:33:00', '2025-02-26 02:20:19', '', '', NULL),
 (36, 3, 9, 55, 'SELTOS', 'seltos', 2020, 'petrol', 'black', '35', '650000.00', 0, '2023-04-20 09:37:01', '2023-04-20 09:37:01', '', '', NULL),
 (37, 3, 5, 32, 'FORTUNER', 'fortuner', 2021, 'petrol', 'White', '45', '3500000.00', 0, '2023-04-20 09:40:49', '2025-02-20 23:07:14', '', '', NULL),
-(40, 3, 1, 3, 'test', 'test', 2022, 'petrol+cng', 'Black', '25', '350000.00', 0, '2025-03-13 02:45:50', '2025-03-13 02:54:45', '<ul>\r\n	<li>dgfdg</li>\r\n	<li>fghfh</li>\r\n	<li>ffgfg</li>\r\n	<li>fgfd</li>\r\n	<li>gfdgfdg</li>\r\n</ul>', '<ul>\r\n	<li>dgfd</li>\r\n	<li>fg</li>\r\n	<li>f</li>\r\n	<li>fh</li>\r\n	<li>f</li>\r\n	<li>hd</li>\r\n	<li>fh</li>\r\n</ul>', NULL);
+(40, 3, 1, 3, 'test', 'test', 2022, 'petrol+cng', 'Black', '25', '350000.00', 0, '2025-03-13 02:45:50', '2025-03-25 01:13:48', '<ul>\r\n	<li>dgfdg</li>\r\n	<li>fghfh</li>\r\n	<li>ffgfg</li>\r\n	<li>fgfd</li>\r\n	<li>gfdgfdg</li>\r\n</ul>', '<ul>\r\n	<li>dgfd</li>\r\n	<li>fg</li>\r\n	<li>f</li>\r\n	<li>fh</li>\r\n	<li>f</li>\r\n	<li>hd</li>\r\n	<li>fh</li>\r\n</ul>', '2025-03-25 01:13:48');
 
 -- --------------------------------------------------------
 
@@ -752,7 +753,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `vehicals`
