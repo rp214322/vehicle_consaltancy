@@ -222,7 +222,7 @@
                         <h2>Best Vehicle Offers</h2>
                     </div>
                     <ul class="filter__controls">
-                        <li class="active" data-filter="*">Most Popular</li>
+                        <li class="active" data-filter="*">Most Researched</li>
                         <li data-filter=".sale">Latest on Sale</li>
                     </ul>
                 </div>

@@ -82,7 +82,7 @@
                                 </a>
                             @else
                                 <a href="{{ route('login') }}" class="primary-btn">
-                                    Get Today's Price
+                                    Book Test Drive
                                 </a>
                             @endif
                         </div>

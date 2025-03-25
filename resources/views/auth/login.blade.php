@@ -2,26 +2,29 @@
 
 @section('content')
 
+<!-- Breadcrumb Begin -->
 <div class="breadcrumb-option set-bg" data-setbg="{{ asset('front/img/breadcrumb-bg.jpg') }}">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
-                    <h2>Sign In</h2>
+                    <h2>Login</h2>
                     <div class="breadcrumb__links">
                         <a href="{{ route('home') }}"><i class="fa fa-home"></i> Home</a>
-                        <span>Sign In</span>
+                        <span>Login</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- Breadcrumb End -->
 
+<!-- Login Section Begin -->
 <section class="contact spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 offset-lg-3">
+            <div class="col-lg-6 offset-lg-3">
 
                 <!-- Flash Messages -->
                 @if(session('error'))
@@ -43,41 +46,56 @@
                 @endif
 
                 <div class="contact__form">
+                    <h3 class="text-center mb-5">Login to Your Account</h3>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-                        <label class="form-group"><b><h5>Email</h5></b></label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                            name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
+                            name="email" value="{{ old('email') }}" placeholder="Email" required autocomplete="email" autofocus>
                         @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                         @enderror
 
-                        <label class="form-group"><b><h5>Password</h5></b></label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                            name="password" required autocomplete="current-password">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                            name="password" placeholder="Password" required autocomplete="current-password">
                         @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                         @enderror
 
-                        <button type="submit" class="site-btn">
-                            {{ __('Login') }}
-                        </button>
+                        <div class="text-center mb-3">
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}" 
+                                    style="color: #007bff; text-decoration: none; transition: all 0.3s ease-in-out;"
+                                    onmouseover="this.style.textDecoration='underline'; this.style.color='#ff6600';"
+                                    onmouseout="this.style.textDecoration='none'; this.style.color='#007bff';">
+                                    Forgot your password?
+                                </a>
+                            @endif
+                        </div>
 
-                        @if (Route::has('password.request'))
-                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                            <a class="btn btn-link" href="{{ route('register') }}">Join Us</a>
-                        @endif
+                        <button type="submit" class="site-btn">Login</button>
                     </form>
+
+                    <div class="text-center mt-4">
+                        <p>Don't have an account? 
+                            <a href="{{ route('register') }}" 
+                                style="color: #007bff; text-decoration: none; transition: all 0.3s ease-in-out;" 
+                                onmouseover="this.style.textDecoration='underline'; this.style.color='#ff6600';"
+                                onmouseout="this.style.textDecoration='none'; this.style.color='#007bff';">
+                                Register here
+                            </a>
+                        </p>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </section>
+<!-- Login Section End -->
+
 
 @endsection
