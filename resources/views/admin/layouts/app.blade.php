@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{!! asset('src/plugins/datatables/css/dataTables.bootstrap4.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('src/plugins/datatables/css/responsive.bootstrap4.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('css/style.css') !!}">
-    <link rel="stylesheet" type="text/css" href="{!! asset('vendor/styles/style.css') !!}">
+    <link rel="stylesheet" type="text/css" href="{!! asset('css/dashboard.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('css/dev.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('src/plugins/jquery-steps/jquery.steps.css') !!}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">

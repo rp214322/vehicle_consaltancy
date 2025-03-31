@@ -312,7 +312,7 @@
                             </li>
                             <li><i class="fa fa-check-circle"></i> Curabitur quis ante vitae lacus varius pretium.</li>
                         </ul>
-                        <a href="#" class="primary-btn">About Us</a>
+                        <a href="{{ route('about') }}" class="primary-btn">About Us</a>
                     </div>
                 </div>
             </div>
