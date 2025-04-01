@@ -25,6 +25,7 @@ Route::get('/vehicals', [UsersController::class, 'vehicleDetails']); // Get all 
 Route::get('/vehicals/{identifier}', [UsersController::class, 'showVehicle']); // Get vehicle by ID
 Route::post('/inquiries', [UsersController::class, 'storeInquiry']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/update-profile/{id}', [AuthController::class, 'updateProfile']);
     Route::post('/logout', [AuthController::class, 'logout']);
