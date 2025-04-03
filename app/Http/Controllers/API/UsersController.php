@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Mail\AdminInquiryMail;
-use App\Mail\UserInquiryMail;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Vehical;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class UsersController extends Controller
 {
@@ -101,7 +99,7 @@ class UsersController extends Controller
     }
     public function storeInquiry(Request $request)
     {
-        // Validate request using Validator
+        // Validate request
         $validator = Validator::make($request->all(), [
             'vehical_id' => 'nullable|exists:vehicals,id',
             'type' => 'nullable|in:buy,sell',
@@ -120,19 +118,80 @@ class UsersController extends Controller
             ], 400);
         }
 
-        // Store inquiry in database
+        // Store inquiry in the database
         $inquiry = Inquiry::create($validator->validated());
 
         // Fetch all admin emails
         $adminEmails = User::where('role', 'admin')->pluck('email')->toArray();
 
+        // Prepare email data
+        $mailData = [
+            'name' => $inquiry->name,
+            'email' => $inquiry->email,
+            'phone' => $inquiry->phone,
+            'type' => $inquiry->type,
+            'description' => $inquiry->description ?? 'N/A',
+        ];
+
+        // Send inquiry email to all admins
         if (!empty($adminEmails)) {
-            // Send email to all admins
-            Mail::to($adminEmails)->send(new AdminInquiryMail($inquiry));
+            foreach ($adminEmails as $adminEmail) {
+                $maildata = [
+                    'spy_id' => null, // No spy ID needed for general inquiries
+                    'email_to' => $adminEmail,
+                    'email_to_name' => 'Admin',
+                    'email_from' => config('mail.from.address'),
+                    'email_from_name' => config('mail.from.name'),
+                    'subject' => 'New Inquiry Received',
+                    'text' => 'A new inquiry has been received.',
+                    'tag' => 'Inquiry Notification',
+                    'reply_to' => $inquiry->email,
+                ];
+
+                $view = View::make('emails.admin_inquiry')->with('mailData', $mailData);
+                $maildata['body'] = (string) $view;
+
+                $mailResponse = sendMail(
+                    $maildata['email_to'],
+                    $maildata['email_to_name'],
+                    $maildata['email_from_name'],
+                    $maildata['email_from'],
+                    $maildata['subject'],
+                    $maildata['body'],
+                    $maildata['text'],
+                    $maildata['tag'],
+                    $maildata['reply_to']
+                );
+            }
         }
 
-        // Send email to user
-        Mail::to($request->email)->send(new UserInquiryMail($inquiry));
+        // Send confirmation email to the user
+        $userMailData = [
+            'spy_id' => null,
+            'email_to' => $inquiry->email,
+            'email_to_name' => $inquiry->name,
+            'email_from' => config('mail.from.address'),
+            'email_from_name' => config('mail.from.name'),
+            'subject' => 'Your Inquiry has been Received',
+            'text' => 'Thank you for your inquiry. We will contact you soon.',
+            'tag' => 'User Inquiry Confirmation',
+            'reply_to' => config('mail.from.address'),
+        ];
+
+        $userView = View::make('emails.user_inquiry')->with('mailData', $mailData);
+        $userMailData['body'] = (string) $userView;
+
+        $userMailResponse = sendMail(
+            $userMailData['email_to'],
+            $userMailData['email_to_name'],
+            $userMailData['email_from_name'],
+            $userMailData['email_from'],
+            $userMailData['subject'],
+            $userMailData['body'],
+            $userMailData['text'],
+            $userMailData['tag'],
+            $userMailData['reply_to']
+        );
 
         return response()->json([
             'success' => true,
