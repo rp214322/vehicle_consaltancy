@@ -82,7 +82,7 @@
             <p>{{ $inquiryMessage }}</p>
         </div>
 
-        <a href="mailto:support@example.com" class="button">Contact Support</a>
+        <a href="mailto:hvac1845@gmail.com" class="button">Contact Support</a>
 
         <hr>
         <p class="footer">📩 If you have any urgent concerns, feel free to reply to this email.</p>

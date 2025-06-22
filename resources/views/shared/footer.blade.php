@@ -10,7 +10,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="footer__contact__option">
                         <div class="option__item"><i class="fa fa-phone"></i> (+91) 701 6590 780</div>
-                        <div class="option__item email"><i class="fa fa-envelope-o"></i> info@hvac.com</div>
+                        <div class="option__item email"><i class="fa fa-envelope-o"></i> <a href="mailto:hvac1845@gmail.com" class="email-link">hvac1845@gmail.com</a></div>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdminInquiryMail;
 use App\Mail\UserInquiryMail;
+use Illuminate\Support\Facades\View;
+
 
 class HomeController extends Controller
 {
@@ -52,19 +54,19 @@ class HomeController extends Controller
     public function storeInquiry(Request $request)
     {
         $rules = [
-            'vehical_id' => 'nullable|exists:vehicals,id', // Vehicle ID is optional
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|numeric',
-            'type' => 'nullable|string|in:buy,sell',
+            'vehical_id' => 'nullable|exists:vehicals,id',
+            'name'       => 'required|string|max:255',
+            'email'      => 'required|email',
+            'phone'      => 'required|numeric',
+            'type'       => 'nullable|string|in:buy,sell',
             'description' => 'nullable|string',
         ];
 
         $messages = [
-            'name.required' => 'Please enter your contact name.',
-            'email.required' => 'Please enter your email address.',
-            'email.email' => 'Please enter a valid email address.',
-            'phone.numeric' => 'Please enter only digits in the phone number.',
+            'name.required'     => 'Please enter your contact name.',
+            'email.required'    => 'Please enter your email address.',
+            'email.email'       => 'Please enter a valid email address.',
+            'phone.numeric'     => 'Please enter only digits in the phone number.',
             'vehical_id.exists' => 'The selected vehicle is invalid.',
         ];
 
@@ -77,41 +79,103 @@ class HomeController extends Controller
             ], 422);
         }
 
-        DB::beginTransaction(); // Start Transaction
+        DB::beginTransaction();
 
         try {
-            // Create Inquiry
+            // Save inquiry
             $inquiry = new Inquiry();
-            $inquiry->vehical_id = $request->get('vehical_id', null); // Ensure null if not provided
-            $inquiry->name = $request->get('name');
-            $inquiry->email = $request->get('email');
-            $inquiry->phone = $request->get('phone');
-            $inquiry->type = $request->has('type') ? $request->type : 'buy'; // Default to 'buy' if not provided
-            $inquiry->description = $request->get('description', null);
-            $inquiry->status = 0;
+            $inquiry->vehical_id  = $request->vehical_id;
+            $inquiry->name        = $request->name;
+            $inquiry->email       = $request->email;
+            $inquiry->phone       = $request->phone;
+            $inquiry->type        = $request->type ?? 'buy';
+            $inquiry->description = $request->description ?? null;
+            $inquiry->status      = 0;
             $inquiry->save();
 
-            // Fetch All Admin Emails
+            // Prepare mail data
+            $mailData = [
+                'name'       => $inquiry->name,
+                'email'      => $inquiry->email,
+                'phone'      => $inquiry->phone,
+                'type'       => $inquiry->type,
+                'vehical_id' => $inquiry->vehical_id ?? 'N/A',
+                'description' => $inquiry->description ?? 'N/A',
+            ];
+
+            // Get all admin emails
             $adminEmails = User::where('role', 'admin')->pluck('email')->toArray();
 
-            if (!empty($adminEmails)) {
-                Mail::to($adminEmails)->send(new AdminInquiryMail($inquiry));
+            // Send email to each admin
+            foreach ($adminEmails as $adminEmail) {
+                $adminMailData = [
+                    'spy_id'           => null,
+                    'email_to'         => $adminEmail,
+                    'email_to_name'    => 'Admin',
+                    'email_from'       => config('mail.from.address'),
+                    'email_from_name'  => config('mail.from.name'),
+                    'subject'          => 'New Inquiry Received',
+                    'text'             => 'A new inquiry has been received.',
+                    'tag'              => 'Vehicle Inquiry Notification',
+                    'reply_to'         => $inquiry->email,
+                ];
+
+                $adminView = View::make('emails.admin_inquiry')->with('mailData', $mailData);
+                $adminMailData['body'] = (string) $adminView;
+
+                sendMail(
+                    $adminMailData['email_to'],
+                    $adminMailData['email_to_name'],
+                    $adminMailData['email_from_name'],
+                    $adminMailData['email_from'],
+                    $adminMailData['subject'],
+                    $adminMailData['body'],
+                    $adminMailData['text'],
+                    $adminMailData['tag'],
+                    $adminMailData['reply_to']
+                );
             }
 
-            Mail::to($request->email)->send(new UserInquiryMail($inquiry));
+            // Send confirmation to user
+            $userMailData = [
+                'spy_id'           => null,
+                'email_to'         => $inquiry->email,
+                'email_to_name'    => $inquiry->name,
+                'email_from'       => config('mail.from.address'),
+                'email_from_name'  => config('mail.from.name'),
+                'subject'          => 'Thank You for Your Inquiry',
+                'text'             => 'We have received your inquiry and will get back to you soon.',
+                'tag'              => 'User Inquiry Confirmation',
+                'reply_to'         => config('mail.from.address'),
+            ];
 
-            DB::commit(); // Commit Transaction
+            $userView = View::make('emails.user_inquiry')->with('mailData', $mailData);
+            $userMailData['body'] = (string) $userView;
+
+            sendMail(
+                $userMailData['email_to'],
+                $userMailData['email_to_name'],
+                $userMailData['email_from_name'],
+                $userMailData['email_from'],
+                $userMailData['subject'],
+                $userMailData['body'],
+                $userMailData['text'],
+                $userMailData['tag'],
+                $userMailData['reply_to']
+            );
+
+            DB::commit();
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Thank you for your inquiry. We will get back to you soon.'
             ], 200);
         } catch (\Exception $e) {
-            DB::rollBack(); // Rollback on Error
+            DB::rollBack();
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'An error occurred while processing your request. Please try again later.'
+                'message' => 'Something went wrong. Please try again later.'
             ], 500);
         }
     }
@@ -129,28 +193,74 @@ class HomeController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        // Get admin emails
-        $adminEmails = User::where('role', 'admin')->pluck('email')->toArray();
-
         // Inquiry data
         $inquiryData = [
             'name'           => $request->name,
             'email'          => $request->email,
             'subject'        => $request->subject,
-            'inquiryMessage' => $request->message, // Renamed to avoid conflict
+            'inquiryMessage' => $request->message,
         ];
 
-        // Send email to admin
-        Mail::send('emails.sadmin_inquiry', $inquiryData, function ($message) use ($adminEmails) {
-            $message->to($adminEmails)
-                ->subject('New Inquiry Received');
-        });
+        // Get admin emails
+        $adminEmails = User::where('role', 'admin')->pluck('email')->toArray();
 
-        // Send confirmation email to user
-        Mail::send('emails.suser_inquiry', $inquiryData, function ($message) use ($request) {
-            $message->to($request->email)
-                ->subject('Inquiry Confirmation');
-        });
+        // Send email to admins
+        foreach ($adminEmails as $adminEmail) {
+            $adminMailData = [
+                'spy_id' => null,
+                'email_to' => $adminEmail,
+                'email_to_name' => 'Admin',
+                'email_from' => config('mail.from.address'),
+                'email_from_name' => config('mail.from.name'),
+                'subject' => 'New Inquiry Received',
+                'text' => 'A new inquiry has been received.',
+                'tag' => 'Inquiry Notification',
+                'reply_to' => $request->email,
+            ];
+
+            $adminView = View::make('emails.sadmin_inquiry')->with($inquiryData);
+            $adminMailData['body'] = (string) $adminView;
+
+            sendMail(
+                $adminMailData['email_to'],
+                $adminMailData['email_to_name'],
+                $adminMailData['email_from_name'],
+                $adminMailData['email_from'],
+                $adminMailData['subject'],
+                $adminMailData['body'],
+                $adminMailData['text'],
+                $adminMailData['tag'],
+                $adminMailData['reply_to']
+            );
+        }
+
+        // Send confirmation email to the user
+        $userMailData = [
+            'spy_id' => null,
+            'email_to' => $request->email,
+            'email_to_name' => $request->name,
+            'email_from' => config('mail.from.address'),
+            'email_from_name' => config('mail.from.name'),
+            'subject' => 'Inquiry Confirmation',
+            'text' => 'Thank you for your inquiry. We will contact you soon.',
+            'tag' => 'User Inquiry Confirmation',
+            'reply_to' => config('mail.from.address'),
+        ];
+
+        $userView = View::make('emails.suser_inquiry')->with($inquiryData);
+        $userMailData['body'] = (string) $userView;
+
+        sendMail(
+            $userMailData['email_to'],
+            $userMailData['email_to_name'],
+            $userMailData['email_from_name'],
+            $userMailData['email_from'],
+            $userMailData['subject'],
+            $userMailData['body'],
+            $userMailData['text'],
+            $userMailData['tag'],
+            $userMailData['reply_to']
+        );
 
         return back()->with('success', 'Your inquiry has been sent successfully.');
     }

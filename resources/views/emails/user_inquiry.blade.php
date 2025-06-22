@@ -86,7 +86,7 @@
 
         <p>If you have any additional questions, feel free to reply to this email or contact our support team.</p>
 
-        <a href="mailto:info@yourcompany.com" class="button">📧 Contact Support</a>
+        <a href="mailto:hvac1845@gmail.com" class="button">📧 Contact Support</a>
 
         <hr>
         <p class="footer">Best Regards,</p>

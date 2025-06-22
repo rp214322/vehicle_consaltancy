@@ -1,9 +1,6 @@
 <!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
-    <div class="offcanvas__logo">
-        <a href="{!! route('home') !!}"><img src="{!! asset('front/img/logo.png') !!}" alt=""></a>
-    </div>
     <div class="offcanvas__widget">
         @if (Auth::check())
             <div class="dropdown show">
@@ -22,14 +19,17 @@
             <a href="{!! route('login') !!}" class="primary-btn">Sign In</a>
         @endif
     </div>
+    <div class="offcanvas__logo">
+        <a href="{!! route('home') !!}"><img src="{!! asset('front/img/logo.png') !!}" alt=""></a>
+    </div>
     <div id="mobile-menu-wrap"></div>
     <ul class="offcanvas__widget__add">
-        <li><i class="fa fa-clock-o"></i> Week day: 08:00 am to 18:00 pm</li>
-        <li><i class="fa fa-envelope-o"></i> hvac@gmail.com</li>
+        <li><i class="fa fa-clock-o"></i> Week day: 09:00 am to 07:00 pm</li>
+        <li><i class="fa fa-envelope-o"></i> <a href="mailto:hvac1845@gmail.com" class="email-link">hvac1845@gmail.com</a></li>
     </ul>
     <div class="offcanvas__phone__num">
         <i class="fa fa-phone"></i>
-        <span>(91 + 9157541292)</span>
+        <span>(91 + 7016590780)</span>
     </div>
     <div class="offcanvas__social">
         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -47,15 +47,15 @@
             <div class="row">
                 <div class="col-lg-7">
                     <ul class="header__top__widget">
-                        <li><i class="fa fa-clock-o"></i> Week day: 08:00 am to 18:00 pm</li>
-                        <li><i class="fa fa-envelope-o"></i> HVAC@gmail.com</li>
+                        <li><i class="fa fa-clock-o"></i> Week day: 09:00 am to 07:00 pm</li>
+                        <li><i class="fa fa-envelope-o"></i> <a href="mailto:hvac1845@gmail.com" class="email-link">hvac1845@gmail.com</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-5">
                     <div class="header__top__right">
                         <div class="header__top__phone">
                             <i class="fa fa-phone"></i>
-                            <span>(91+ 9157541292) </span>
+                            <span>(91+ 7016590780) </span>
                         </div>
                         <div class="header__top__social">
                             <a href="#"><i class="fa fa-facebook"></i></a>
