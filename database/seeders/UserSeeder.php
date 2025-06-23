@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         User::create([
             'role' => 'admin',
             'first_name' => 'Admin',
-            'email' => 'ritesh.patel@shivlab.com',
+            'email' => 'hvac1845@gmail.com',
             'password' => bcrypt('admin123'), // Secure password hashing
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),

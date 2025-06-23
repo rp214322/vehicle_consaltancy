@@ -57,7 +57,7 @@ class VehicalsController extends Controller
                         "<br><strong>Mileage:</strong> " . e($vehical->mileage);
                 })
                 ->editColumn('price', function ($vehical) {
-                    return number_format($vehical->price, 2);
+                    return $vehical->price;
                 })
                 ->editColumn('status', function ($vehical) {
                     $status = $vehical->status ? '<span class="badge badge-success">Sold</span>' : '<span class="badge badge-secondary">UnSold</span>';

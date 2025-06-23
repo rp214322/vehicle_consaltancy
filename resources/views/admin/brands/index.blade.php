@@ -58,7 +58,7 @@
                         <table class="data-table table stripe hover nowrap" id="BrandsTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>No</th>
                                     <th>Image</th>
                                     <th>Brand</th>
                                     <th>Action</th>

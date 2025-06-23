@@ -39,7 +39,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input toggle-column" type="checkbox" data-column="0"
                                             checked id="col0">
-                                        <label class="form-check-label" for="col0">ID</label>
+                                        <label class="form-check-label" for="col0">No</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input toggle-column" type="checkbox" data-column="1"
@@ -75,7 +75,7 @@
                         <table class="data-table table stripe hover nowrap" id="UserTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>No</th>
                                     <th>Name</th>
                                     <th>Contact</th>
                                     <th>Email</th>

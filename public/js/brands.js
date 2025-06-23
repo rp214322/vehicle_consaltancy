@@ -40,7 +40,16 @@ var brandsTable = $("#BrandsTable").DataTable({
         },
     ],
     columns: [
-        { data: "id", name: "id", orderable: true, width: "4%" },
+        { 
+            data: null, 
+            name: "no", 
+            orderable: false, 
+            searchable: false, 
+            width: "4%",
+            render: function (data, type, row, meta) {
+                return meta.row + 1;  // Serial No starting from 1
+            }
+        },
         { data: "image", name: "image", orderable: false }, // Ensure this column is included
         { data: "name", name: "name", orderable: true },
         { data: "action", name: "action", orderable: false, width: "10%" },

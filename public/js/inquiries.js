@@ -21,7 +21,16 @@ var inquiryTable = $("#InquiryTable").DataTable({
         },
     },
     columns: [
-        { data: "id", name: "id", orderable: true, width: "4%" },
+        { 
+            data: null, 
+            name: "no", 
+            orderable: false, 
+            searchable: false, 
+            width: "4%",
+            render: function (data, type, row, meta) {
+                return meta.row + 1;  // Serial No starting from 1
+            }
+        },
         { data: "type1", name: "type1", orderable: true },
         { data: "type", name: "type", orderable: true },
         { data: "vehical", name: "vehical.title", orderable: true },

@@ -6,11 +6,11 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>{!! $vehical->title !!}</h2>
+                        <h2>{!! $vehical->brand->name !!} {!! $vehical->vehical_model->name !!} {!! $vehical->title !!}</h2>
                         <div class="breadcrumb__links">
                             <a href="{{ route('home') }}"><i class="fa fa-home"></i> Home</a>
                             <a href="{{ route('vehicals.list') }}">Vehicals</a>
-                            <span>{!! $vehical->title !!}</span>
+                            <span>{!! $vehical->brand->name !!} {!! $vehical->vehical_model->name !!} {!! $vehical->title !!}</span>
                         </div>
                     </div>
                 </div>
@@ -48,20 +48,54 @@
                         </ul>
                     
                         <div class="tab-content">
-                            <!-- Technical Information Tab -->
-                            <div class="tab-pane active" id="tabs-2" role="tabpanel">
-                                <div class="car__details__tab__info">
+                        <!-- Technical Tab -->
+                        <div class="tab-pane active" id="tabs-2" role="tabpanel">
+                            <div class="car__details__tab__info">
+                                @if (strip_tags($vehical->technical) != $vehical->technical)
+                                    {{-- Render raw HTML if content has tags --}}
                                     {!! $vehical->technical !!}
-                                </div>
-                            </div>
-                    
-                            <!-- Features & Options Tab -->
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
-                                <div class="car__details__tab__info">
-                                    {!! $vehical->feature_option !!}
-                                </div>
+                                @else
+                                    {{-- Plain text fallback --}}
+                                    <p>{{ $vehical->technical }}</p>
+                                @endif
                             </div>
                         </div>
+
+                        <!-- Features & Options Tab -->
+                        <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            <div class="car__details__tab__info">
+                                @if (stripos($vehical->feature_option, '<ul') !== false)
+                                    {{-- Render as grid list if it contains <ul> --}}
+                                    <div class="row">
+                                        @php
+                                            // Extract <li> elements as array using DOM
+                                            $dom = new DOMDocument();
+                                            libxml_use_internal_errors(true);
+                                            $dom->loadHTML('<html><body>' . $vehical->feature_option . '</body></html>');
+                                            $lis = $dom->getElementsByTagName('li');
+                                            $items = [];
+                                            foreach ($lis as $li) {
+                                                $items[] = $li->nodeValue;
+                                            }
+                                        @endphp
+
+                                        @foreach(array_chunk($items, ceil(count($items)/2)) as $column)
+                                            <div class="col-md-6">
+                                                <ul class="custom-feature-list">
+                                                    @foreach($column as $item)
+                                                        <li>{{ $item }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    {{-- Just show paragraph --}}
+                                    <p>{{ $vehical->feature_option }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                     </div>                    
                 </div>
                 <div class="col-lg-3">
@@ -74,11 +108,14 @@
                                 <li>Color <span>{!! $vehical->color !!}</span></li>
                                 <li>Fuel Type <span>{!! App\Models\Vehical::$fules[$vehical->fuel] !!}</span></li>
                                 <li>Mileage <span>{!! $vehical->mileage !!} / KM</span></li>
-                                <li>Price <span>₹{!! $vehical->price !!}</span></li>
+                                <li>Price <span>{!! $vehical->price !!}</span></li>
                             </ul>
+                            <a href="#" class="primary-btn">
+                                Make an Offer
+                            </a>
                             @if(Auth::check())
                                 <a href="#InquiryModel" data-toggle="modal" data-target="#InquiryModel" class="primary-btn">
-                                    Get Today's Price
+                                    Express Purchase
                                 </a>
                             @else
                                 <a href="{{ route('login') }}" class="primary-btn">

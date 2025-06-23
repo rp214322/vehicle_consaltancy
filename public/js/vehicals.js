@@ -22,7 +22,16 @@ var vehicalsTable = $("#VehicalsTable").DataTable({
         { extend: "print", text: "Print", className: "btn btn-primary" },
     ],
     columns: [
-        { data: "id", name: "id", orderable: true, width: "4%" },
+        { 
+            data: null, 
+            name: "no", 
+            orderable: false, 
+            searchable: false, 
+            width: "4%",
+            render: function (data, type, row, meta) {
+                return meta.row + 1;  // Serial No starting from 1
+            }
+        },
         { data: "category", name: "category.name", orderable: true },
         { data: "brand", name: "brand.name", orderable: true },
         { data: "title", name: "title", orderable: true },

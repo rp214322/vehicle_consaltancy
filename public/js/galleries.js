@@ -36,7 +36,16 @@ var galleryTable = $("#GalleryTable").DataTable({
     ],
 
     columns: [
-        { data: "id", name: "id", orderable: true, width: "4%" },
+        { 
+            data: null, 
+            name: "no", 
+            orderable: false, 
+            searchable: false, 
+            width: "4%",
+            render: function (data, type, row, meta) {
+                return meta.row + 1;  // Serial No starting from 1
+            }
+        },
         { data: "file", name: "file", orderable: true },
         { data: "file_type", name: "file_type", orderable: true },
         { data: "is_featured", name: "is_featured", orderable: true },

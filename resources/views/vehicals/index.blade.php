@@ -111,7 +111,7 @@
                                     <div class="car__item__text">
                                         <div class="car__item__text__inner">
                                             <div class="label-date">{!! $vehical->year !!}</div>
-                                            <h5><a href="{!! route('vehical.show',$vehical->slug) !!}">{!! $vehical->title !!}</a></h5>
+                                            <h5><a href="{!! route('vehical.show',$vehical->slug) !!}">{!! $vehical->brand->name !!} {!! $vehical->vehical_model->name !!} {!! $vehical->title !!}</a></h5>
                                             <ul>
                                                 <li><span>{!! $vehical->color !!}</span></li>
                                                 <li>{!! App\Models\Vehical::$fules[$vehical->fuel] !!}</li>

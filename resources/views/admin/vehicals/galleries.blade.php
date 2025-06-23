@@ -26,7 +26,7 @@
                                     <div class="dropdown-menu p-3" aria-labelledby="columnToggleDropdown">
                                         <div class="form-check">
                                             <input class="form-check-input toggle-column" type="checkbox" data-column="0" checked id="col0">
-                                            <label class="form-check-label" for="col0">ID</label>
+                                            <label class="form-check-label" for="col0">No</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input toggle-column" type="checkbox" data-column="1" checked id="col1">

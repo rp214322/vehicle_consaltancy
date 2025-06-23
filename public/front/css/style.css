@@ -1152,7 +1152,7 @@ ol {
 	color: #db2d2e;
 	font-weight: 700;
 	border-top: 1px solid #ebebeb;
-	padding-left: 120px;
+	padding-left: 105px;
 	padding-top: 14px;
 	padding-bottom: 11px;
 }
@@ -2191,6 +2191,7 @@ ol {
 	text-align: center;
 	border-radius: 0;
 	padding: 12px 0 10px;
+	margin-bottom: 10px;
 }
 
 .car__details__sidebar__model .primary-btn i {

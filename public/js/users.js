@@ -35,7 +35,16 @@ var userTable = $("#UserTable").DataTable({
         },
     ],
     columns: [
-        { data: "id", name: "id", orderable: true, width: "4%" },
+        { 
+            data: null, 
+            name: "no", 
+            orderable: false, 
+            searchable: false, 
+            width: "4%",
+            render: function (data, type, row, meta) {
+                return meta.row + 1;  // Serial No starting from 1
+            }
+        },
         { data: "full_name", name: "full_name", orderable: true },
         { data: "phone", name: "phone", orderable: true },
         { data: "email", name: "email", orderable: true },
